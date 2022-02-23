@@ -1,0 +1,26 @@
+.container {
+  width: min(90vw, 1120px);
+  margin: 2.2rem auto 0;
+  text-align: center;
+
+  .switchPerfil {
+    margin-top: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3rem;
+
+    section {
+      padding: 1rem;
+      background: white;
+      box-shadow: var(--sombra);
+      border-radius: 4px;
+      transition: all 0.3s linear;
+      cursor: pointer;
+
+      &:hover {
+        margin-top: -2rem;
+      }
+    }
+  }
+}

@@ -1,0 +1,50 @@
+.container {
+  width: min(90vw, 1120px);
+  margin: 0 auto;
+  margin-top: 2rem;
+  position: relative;
+
+  .content {
+    margin-top: 2rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    // align-items: center;
+    gap: 4rem;
+    background: white;
+    padding: 3rem 2rem 4rem;
+    box-shadow: var(--sombra);
+
+    div {
+      width: 100%;
+    }
+
+    button {
+      margin-top: 2.5rem;
+      height: 3rem;
+      width: 100%;
+      border: none;
+      border-radius: 4px;
+      background: var(--blue-700);
+      color: white;
+      font-weight: bold;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      transition: all 0.3s linear;
+
+      &:hover {
+        background: var(--blue-500);
+      }
+    }
+  }
+
+  img {
+    position: absolute;
+    left: 0;
+    bottom: -40%;
+    width: 20rem;
+  }
+}

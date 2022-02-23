@@ -1,0 +1,43 @@
+.container {
+  height: 3.5rem;
+  border-bottom: 1px solid var(--gray-100);
+
+  .content {
+    width: min(90vw, 1120px);
+    margin: 0 auto;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    h1 {
+      font-weight: 700 !important;
+      background: -webkit-linear-gradient(
+        -0.2turn,
+        var(--blue-700),
+        var(--purple-700)
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .areaUser {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      a {
+        font-size: 0.9rem;
+        cursor: pointer;
+      }
+
+      img {
+        width: 2.2rem;
+        height: 2.2rem;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+    }
+  }
+}

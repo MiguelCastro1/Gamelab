@@ -1,0 +1,26 @@
+.container {
+  width: min(90vw, 1450px);
+  margin: 0 auto;
+
+  .content {
+    margin-top: 2rem;
+    display: grid;
+    max-width: 100%;
+    grid-template-columns: 2fr 1fr;
+    grid-column-gap: 1rem;
+
+    .feed {
+      background: lightblue;
+      height: 14rem;
+
+      h1 {
+        font-weight: normal;
+      }
+    }
+
+    .sideBarRight {
+      background: lightblue;
+      height: 14rem;
+    }
+  }
+}

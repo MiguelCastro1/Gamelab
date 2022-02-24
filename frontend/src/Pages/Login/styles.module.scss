@@ -13,6 +13,7 @@
   .title {
     display: flex;
     justify-content: space-between;
+    align-items: baseline;
 
     h1 {
       background-image: linear-gradient(2turn, #005c97, #363795 90%);

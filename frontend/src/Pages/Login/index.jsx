@@ -1,8 +1,15 @@
+import { Formik, Form } from "formik";
+import * as Yup from "yup";
 import Header from "../../components/Header";
 import gamelabLogin from "../../assets/image-gamelab.svg";
 import styles from "./styles.module.scss";
 import Input from "../../components/Input";
 import { useNavigate } from "react-router-dom";
+
+const formSchema = Yup.object().shape({
+  email: Yup.string().required("Campo obrigatório"),
+  senha: Yup.string().required("Campo obrigatório"),
+});
 
 export default function Login() {
   let navigate = useNavigate();
@@ -18,10 +25,28 @@ export default function Login() {
         <div className={styles.content}>
           <div className={styles.boxForm}>
             <h3>Bem-vindo</h3>
-            <Input label={"E-mail"} required />
-            <Input label={"Senha"} required />
-            <a href="#">Esqueceu a senha?</a>
-            <button onClick={() => navigate("/")}>Entrar</button>
+            <Formik
+              initialValues={{
+                email: "",
+                senha: "",
+              }}
+              onSubmit={(values) => console.log(values)}
+              validationSchema={formSchema}
+            >
+              {(props) => (
+                <Form>
+                  <Input name="email" label={"E-mail"} type="text" />
+                  <Input name="senha" label={"Senha"} type="password" />
+                  <a href="#">Esqueceu a senha?</a>
+                  <button
+                    // onClick={() => navigate("/")}
+                    type="submit"
+                  >
+                    Entrar
+                  </button>
+                </Form>
+              )}
+            </Formik>
           </div>
           <img src={gamelabLogin} alt="gamelab login" />
         </div>

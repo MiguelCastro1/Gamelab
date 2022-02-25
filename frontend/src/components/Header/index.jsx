@@ -5,7 +5,7 @@ function Header() {
   return (
     <header className={styles.container}>
       <div className={styles.content}>
-        <span>Sobre nós</span>
+        <a>Sobre nós</a>
         <Link to="/cadastrar">
           <button>Criar conta</button>
         </Link>

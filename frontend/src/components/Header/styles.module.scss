@@ -12,12 +12,29 @@
     justify-content: flex-end;
     gap: 10px;
 
-    span {
+    a:first-child {
       font-size: 0.85rem;
-      cursor: pointer;
+      position: relative;
+      transition: all 0.3s linear;
 
+      &::after {
+        content: "";
+        height: 1px;
+        width: 100%;
+        position: absolute;
+        bottom: -4px;
+        left: 0px;
+        background: var(--gradiente-color);
+        transform: translatex(-10%);
+        opacity: 0;
+        transition: transform 0.3s ease-in-out, opacity 0.3s linear;
+      }
       &:hover {
-        text-decoration: underline;
+        &::after {
+          transform: translatex(0);
+          // transform: scalex(1);k
+          opacity: 1;
+        }
       }
     }
 

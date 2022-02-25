@@ -30,20 +30,28 @@ export default function Login() {
                 email: "",
                 senha: "",
               }}
-              onSubmit={(values) => console.log(values)}
+              onSubmit={(values) => {
+                console.log(values);
+                navigate("/");
+              }}
               validationSchema={formSchema}
             >
-              {(props) => (
+              {({ handleChange, ...props }) => (
                 <Form>
-                  <Input name="email" label={"E-mail"} type="text" />
-                  <Input name="senha" label={"Senha"} type="password" />
+                  <Input
+                    name="email"
+                    label={"E-mail"}
+                    type="text"
+                    onChange={handleChange}
+                  />
+                  <Input
+                    name="senha"
+                    label={"Senha"}
+                    type="password"
+                    onChange={handleChange}
+                  />
                   <a href="#">Esqueceu a senha?</a>
-                  <button
-                    // onClick={() => navigate("/")}
-                    type="submit"
-                  >
-                    Entrar
-                  </button>
+                  <button type="submit">Entrar</button>
                 </Form>
               )}
             </Formik>

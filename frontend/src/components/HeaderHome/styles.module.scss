@@ -3,7 +3,7 @@
   border-bottom: 1px solid var(--gray-100);
 
   .content {
-    width: min(90vw, 1120px);
+    width: min(95vw, 1120px);
     margin: 0 auto;
     height: 100%;
 
@@ -30,6 +30,31 @@
       a {
         font-size: 0.9rem;
         cursor: pointer;
+      }
+
+      a:first-child {
+        position: relative;
+        transition: all 0.3s linear;
+
+        &::after {
+          content: "";
+          height: 1px;
+          width: 100%;
+          position: absolute;
+          bottom: -4px;
+          left: 0px;
+          background: var(--gradiente-color);
+          transform: translatex(-10%);
+          opacity: 0;
+          transition: transform 0.3s ease-in-out, opacity 0.3s linear;
+        }
+        &:hover {
+          &::after {
+            transform: translatex(0);
+            // transform: scalex(1);k
+            opacity: 1;
+          }
+        }
       }
 
       img {

@@ -8,8 +8,11 @@
 
 :root {
   --sombra: 0px 8px 24px rgba(149, 157, 165, 0.2);
-  --bg-color: #f5f8ff;
+  // --bg-color: #f5f8ff;
+  --bg-color: #ecf0f5;
+  --bg-color1: #f6f7fd;
   --gray-100: #dadce0;
+  --gray-300: #c7c7c7;
 
   --blue-500: #0856cc;
   --blue-700: #0747a6;
@@ -19,7 +22,7 @@
 }
 
 body {
-  background: var(--bg-color);
+  background: var(--bg-color1);
   font-family: Poppins, sans-serif;
 }
 

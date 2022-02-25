@@ -7,7 +7,6 @@ function HeaderHome() {
       <div className={styles.content}>
         <h1>GameLab</h1>
         <div className={styles.areaUser}>
-          <a href="#">Meu Kanban</a>
           <a href="#">Matheus Matos</a>
           <img src={imgUser} alt="usuário" />
         </div>

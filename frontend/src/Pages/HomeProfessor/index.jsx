@@ -1,17 +1,108 @@
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { BiSearch } from "react-icons/bi";
 import HeaderHome from "../../components/HeaderHome";
+import BoxTurma from "../../components/BoxTurma";
 import Calendar from "react-calendar";
 import styles from "./styles.module.scss";
 
 function HomeProfessor() {
+  const [date, setDate] = useState(new Date());
+
   return (
     <>
       <HeaderHome />
       <div className={styles.container}>
         <div className={styles.content}>
-          <div className={styles.feed}>
-            <h1>Meus cursos</h1>
+          <div className={styles.sideBarLeft}>
+            <ul>
+              <li>Meu Kanban</li>
+              <li>Criar turma</li>
+              <li>
+                <input placeholder="Pesquisar turma" />
+                <BiSearch
+                  style={{
+                    position: "absolute",
+                    right: "5px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    zIndex: "10",
+                  }}
+                />
+              </li>
+            </ul>
           </div>
-          <div className={styles.sideBarRight}></div>
+          <div className={styles.feed}>
+            <header>
+              <h1>Minhas turmas</h1>
+              <div>
+                <button>Criar turma</button>
+                <button>Meu Kanbam</button>
+              </div>
+            </header>
+            <section className={styles.areaSearch}>
+              <input placeholder="Pesquisar turma" />
+              <BiSearch
+                style={{
+                  position: "absolute",
+                  right: "5px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  zIndex: "10",
+                }}
+              />
+            </section>
+            <Link to="login">
+              <BoxTurma
+                nomeTurma="Redes de computadores"
+                professor="Matheus Matos"
+                descricao="Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
+              />
+            </Link>
+            <Link to="login">
+              <BoxTurma
+                nomeTurma="Redes de computadores"
+                professor="Matheus Matos"
+                descricao="Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
+              />
+            </Link>
+            <Link to="login">
+              <BoxTurma
+                nomeTurma="Redes de computadores"
+                professor="Matheus Matos"
+                descricao="Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
+              />
+            </Link>
+            <Link to="login">
+              <BoxTurma
+                nomeTurma="Redes de computadores"
+                professor="Matheus Matos"
+                descricao="Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
+              />
+            </Link>
+            <Link to="login">
+              <BoxTurma
+                nomeTurma="Redes de computadores"
+                professor="Matheus Matos"
+                descricao="Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
+              />
+            </Link>
+          </div>
+          <div className={styles.sideBarRight}>
+            <ul>
+              <h3>Calendário</h3>
+              <li>
+                <Calendar
+                  className={styles.reactCalendar}
+                  onChange={setDate}
+                  value={date}
+                />
+              </li>
+              <li className={styles.avisos}>
+                <p>Nenhuma entrega para hoje.</p>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </>

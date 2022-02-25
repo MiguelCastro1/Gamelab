@@ -1,26 +1,187 @@
 .container {
-  width: min(90vw, 1450px);
+  width: min(95vw, 1390px);
   margin: 0 auto;
 
   .content {
     margin-top: 2rem;
     display: grid;
     max-width: 100%;
-    grid-template-columns: 2fr 1fr;
+    // grid-template-columns: 0.4fr minmax(400px, 2fr) 0.8fr;
+    grid-template-columns: 0.45fr 1.6fr 0.8fr;
     grid-column-gap: 1rem;
 
     .feed {
-      background: lightblue;
-      height: 14rem;
+      // box-shadow: var(--sombra);
+      border: 1px solid var(--gray-100);
+      background: white;
+      max-height: 87vh;
+      border-radius: 4px;
+      padding: 1rem 1rem 1rem 1.2rem;
+      overflow: auto;
 
-      h1 {
-        font-weight: normal;
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+
+        h1 {
+          font-weight: normal;
+          font-size: 2rem;
+          line-height: 2rem;
+          color: #111;
+        }
+
+        div {
+          display: none;
+          button {
+            border: none;
+            border-radius: 4px;
+            padding: 0.6rem;
+          }
+        }
+      }
+
+      .areaSearch {
+        display: none;
+        width: 100%;
+        position: relative;
+      }
+
+      &::-webkit-scrollbar {
+        width: 7px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background-color: #ecebeb;
+        border-radius: 5px;
       }
     }
 
     .sideBarRight {
-      background: lightblue;
-      height: 14rem;
+      display: flex;
+      justify-content: center;
+      padding-top: 1rem;
+      border: 1px solid var(--gray-100);
+      background: white;
+      border-radius: 4px;
+
+      ul {
+        list-style: none;
+        color: var(--blue-700);
+        h3 {
+          text-align: center;
+          font-weight: normal;
+          margin-bottom: 1rem;
+        }
+
+        .avisos {
+          margin-top: 1rem;
+          padding-top: 0.7rem;
+          border-top: 1px solid var(--gray-300);
+          p {
+            text-align: center;
+            color: #111;
+            font-size: 0.8rem;
+          }
+        }
+      }
+    }
+  }
+  .sideBarLeft {
+    display: flex;
+    justify-content: center;
+    padding: 0.8rem;
+    border: 1px solid var(--gray-100);
+    background: white;
+    border-radius: 4px;
+    height: 11rem;
+
+    ul {
+      list-style: none;
+      // color: var(--blue-700);
+      width: 100%;
+
+      li {
+        // background: var(--gray-300);
+        width: 100%;
+        text-align: center;
+        margin-bottom: 0.4rem;
+        padding: 0.5rem;
+        border: 1px solid var(--gray-300);
+        border-radius: 4px;
+        cursor: pointer;
+        transition: margin-bottom 0.1s ease-in-out;
+
+        &:hover {
+          margin-bottom: 0.8rem;
+        }
+
+        &:last-child {
+          position: relative;
+          padding: 0;
+          border: none;
+
+          input {
+            padding: 0.5rem;
+            border: 1px solid var(--gray-300);
+            border-radius: 8px;
+            padding-left: 10px;
+
+            &:focus {
+              border: 1px solid var(--blue-700);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.reactCalendar {
+  border-radius: 6px;
+  max-width: 300px !important;
+  max-height: 280px !important;
+  background: white;
+  border: 1px solid var(--gray-100) !important;
+  box-shadow: var(--sombra);
+  line-height: 1.125em;
+  font-size: 13.5px;
+}
+
+@media (max-width: 1200px) {
+  .container {
+    .content {
+      grid-template-columns: minmax(400px, 2fr) 1.3fr;
+
+      .feed {
+        header {
+          margin-bottom: 0.9rem;
+          div {
+            display: flex;
+            gap: 1rem;
+          }
+        }
+
+        .areaSearch {
+          display: block;
+          margin-bottom: 1rem;
+
+          input {
+            width: 100%;
+            padding: 0.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--gray-300);
+
+            &:focus {
+              border: 1px solid var(--blue-700);
+            }
+          }
+        }
+      }
+    }
+    .sideBarLeft {
+      display: none;
     }
   }
 }

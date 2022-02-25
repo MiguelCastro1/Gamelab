@@ -9,14 +9,9 @@ function EscolherPerfil() {
   let navigate = useNavigate();
   const { setPerfil } = useTypePerfil();
 
-  const setProfessor = () => {
-    setPerfil("professor");
-    navigate("/cadastrar-form");
-  };
-
-  const setAluno = () => {
-    setPerfil("aluno");
-    navigate("/cadastrar-form");
+  const setPerfilUsuario = (perfil) => {
+    setPerfil(perfil);
+    navigate("/cadastrar-perfil");
   };
 
   return (
@@ -25,11 +20,11 @@ function EscolherPerfil() {
       <div className={styles.container}>
         <p>Você é aluno ou professor?</p>
         <div className={styles.switchPerfil}>
-          <section onClick={setAluno}>
+          <section onClick={() => setPerfilUsuario("aluno")}>
             <img src={aluno} alt="aluno" />
             <p>Aluno</p>
           </section>
-          <section onClick={setProfessor}>
+          <section onClick={() => setPerfilUsuario("professor")}>
             <img src={professor} alt="professor" />
             <p>Professor</p>
           </section>

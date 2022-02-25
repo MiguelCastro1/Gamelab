@@ -1,9 +1,25 @@
+import { AiOutlineStar, AiFillStar } from "react-icons/ai";
 import styles from "./styles.module.scss";
 
-function BoxTurma() {
+function BoxTurma({ nomeTurma, professor, descricao, ...props }) {
   return (
     <div className={styles.container}>
-      <div className={styles.content}>oi</div>
+      <div className={styles.content}>
+        <section>
+          <h3>{nomeTurma}</h3>
+          {/* <AiOutlineStar
+            style={{ cursor: "pointer", color: "var(--blue-700)" }}
+          /> */}
+        </section>
+        <section>
+          <p>
+            <span>professor:</span> {professor}
+          </p>
+          <p>
+            <span>Descrição:</span> {descricao}
+          </p>
+        </section>
+      </div>
     </div>
   );
 }

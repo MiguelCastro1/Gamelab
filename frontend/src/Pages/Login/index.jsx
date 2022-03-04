@@ -43,11 +43,13 @@ export default function Login() {
                     label={"E-mail"}
                     type="text"
                     onChange={handleChange}
+                    placeholder=" "
                   />
                   <Input
                     name="senha"
                     label={"Senha"}
                     type="password"
+                    placeholder=" "
                     onChange={handleChange}
                   />
                   <div>

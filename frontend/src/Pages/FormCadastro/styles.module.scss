@@ -1,11 +1,22 @@
 .container {
   width: min(90vw, 1120px);
   margin: 0 auto;
-  margin-top: 2rem;
+  // margin-top: 2rem;
   position: relative;
 
+  section {
+    padding-top: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    img {
+      width: 5rem;
+    }
+  }
+
   .content {
-    margin-top: 2rem;
+    margin-top: 1rem;
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -20,7 +31,7 @@
     }
 
     button {
-      margin-top: 2.5rem;
+      margin-top: 2.7rem;
       height: 3rem;
       width: 100%;
       border: none;
@@ -39,12 +50,5 @@
         background: var(--blue-500);
       }
     }
-  }
-
-  img {
-    position: absolute;
-    left: 0;
-    bottom: -40%;
-    width: 20rem;
   }
 }

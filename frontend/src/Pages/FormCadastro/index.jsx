@@ -27,7 +27,13 @@ function FormCadastro() {
     <>
       <HeaderAuth />
       <div className={styles.container}>
-        <p>Sou {perfil === "aluno" ? "aluno" : "professor"}</p>
+        <section>
+          <p>Sou {perfil === "aluno" ? "aluno" : "professor"}</p>
+          <img
+            src={perfil === "aluno" ? aluno : professor}
+            alt={perfil === "aluno" ? "aluno" : "professor"}
+          />
+        </section>
         <Formik
           initialValues={{
             email: "",
@@ -85,10 +91,6 @@ function FormCadastro() {
             </Form>
           )}
         </Formik>
-        <img
-          src={perfil === "aluno" ? aluno : professor}
-          alt={perfil === "aluno" ? "aluno" : "professor"}
-        />
       </div>
     </>
   );

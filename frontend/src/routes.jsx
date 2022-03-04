@@ -4,6 +4,7 @@ import EscolherPerfil from "./Pages/EscolherPerfil";
 import FormCadastro from "./Pages/FormCadastro";
 import HomeProfessor from "./Pages/HomeProfessor";
 import Login from "./Pages/Login";
+import DetalheTurma from "./Pages/DetalheTurma";
 
 export default function Rotas() {
   return (
@@ -13,7 +14,8 @@ export default function Rotas() {
         <Route path="/cadastrar" element={<EscolherPerfil />} />
         <Route path="/cadastrar-perfil" element={<FormCadastro />} />
         <Route path="/email" element={<EmailEnviado />} />
-        <Route path="/" element={<HomeProfessor />} />
+        <Route path="/" element={<DetalheTurma />} />
+        <Route path="/home" element={<HomeProfessor />} />
       </Routes>
     </BrowserRouter>
   );

@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { BiSearch } from "react-icons/bi";
+import { BsKanban } from "react-icons/bs";
+import { IoSchoolOutline } from "react-icons/io5";
 import HeaderHome from "../../components/HeaderHome";
 import BoxTurma from "../../components/BoxTurma";
 import Calendar from "react-calendar";
@@ -16,8 +18,6 @@ function HomeProfessor() {
         <div className={styles.content}>
           <div className={styles.sideBarLeft}>
             <ul>
-              <li>Meu Kanban</li>
-              <li>Criar turma</li>
               <li>
                 <input placeholder="Pesquisar turma" />
                 <BiSearch
@@ -29,6 +29,12 @@ function HomeProfessor() {
                     zIndex: "10",
                   }}
                 />
+              </li>
+              <li>
+                Meu Kanban <BsKanban />
+              </li>
+              <li>
+                Criar turma <IoSchoolOutline />{" "}
               </li>
             </ul>
           </div>
@@ -52,6 +58,27 @@ function HomeProfessor() {
                 }}
               />
             </section>
+            <Link to="login">
+              <BoxTurma
+                nomeTurma="Redes de computadores"
+                professor="Matheus Matos"
+                descricao="Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
+              />
+            </Link>
+            <Link to="login">
+              <BoxTurma
+                nomeTurma="Redes de computadores"
+                professor="Matheus Matos"
+                descricao="Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
+              />
+            </Link>
+            <Link to="login">
+              <BoxTurma
+                nomeTurma="Redes de computadores"
+                professor="Matheus Matos"
+                descricao="Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
+              />
+            </Link>
             <Link to="login">
               <BoxTurma
                 nomeTurma="Redes de computadores"

@@ -50,7 +50,9 @@ export default function Login() {
                     type="password"
                     onChange={handleChange}
                   />
-                  <a href="#">Esqueceu a senha?</a>
+                  <div>
+                    <a href="#">Esqueceu a senha?</a>
+                  </div>
                   <button type="submit">Entrar</button>
                 </Form>
               )}

@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Formik, Form } from "formik";
+import * as Yup from "yup";
 import HeaderAuth from "../../components/HeaderAuth";
 import Input from "../../components/Input";
 import { useTypePerfil } from "../../Context/PerfilContext";
@@ -7,6 +8,15 @@ import styles from "./styles.module.scss";
 
 import aluno from "../../assets/aluno.svg";
 import professor from "../../assets/professor.svg";
+
+const formSchema = Yup.object().shape({
+  email: Yup.string().required("Campo obrigatório"),
+  senha: Yup.string().required("Campo obrigatório"),
+  usuario: Yup.string().required("Campo obrigatório"),
+  matricula: Yup.string().required("Campo obrigatório"),
+  instituicao: Yup.string().required("Campo obrigatório"),
+  confirmacao_senha: Yup.string().required("Campo obrigatório"),
+});
 
 function FormCadastro() {
   let navigate = useNavigate();
@@ -29,8 +39,8 @@ function FormCadastro() {
           }}
           onSubmit={(values) => {
             console.log(values);
-            // navigate("/");
           }}
+          validationSchema={formSchema}
         >
           {({ handleChange, ...props }) => (
             <Form>

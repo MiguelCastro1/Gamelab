@@ -33,7 +33,7 @@
 
     .boxForm {
       max-height: 22rem;
-      width: 360px;
+      width: 24rem;
       background: white;
       padding: 1rem;
       box-shadow: var(--sombra);
@@ -46,12 +46,13 @@
         border-left: 2px solid var(--purple-700);
       }
 
+      div {
+        text-align: end;
+      }
+
       a {
-        display: inline-block;
         margin-top: 0.5rem;
         font-size: 0.8rem;
-        margin-left: auto;
-        // background: lightblue;
         color: blue;
       }
 

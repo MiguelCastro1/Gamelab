@@ -1,6 +1,6 @@
 let courses
 
-export default class CousesDao {
+export default class CoursesDao {
     static async injectDB( conn){
         if( courses){
             //if is aload

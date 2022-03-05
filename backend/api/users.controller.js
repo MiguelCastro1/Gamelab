@@ -23,17 +23,15 @@ export default class UsersCtrl{
     }
     static async apiGetUser( req, res, next){
         //gets a user
-        const userId = parseInt( req.param('id'))
+        const userId = req.params.id
         var userInfo = {}
         try{
-            if (userId){
+            if ( userId){
                 //has valid filters
-                    
-                const userInfo = await User.findById( userId)
-            }
-            let response = {
-                userInfo: userInfo
-            }
+            }    
+            const userInfo = await User.findById( userId)
+            console.log( userInfo)
+            let response = userInfo
             res.json( response)
         }catch( e){
             console.error( e)

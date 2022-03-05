@@ -14,5 +14,4 @@ app.use(express.json())
 app.use("/api/v1/users", users)
 app.use("/api/v1/courses", courses)
 
-
 export default app

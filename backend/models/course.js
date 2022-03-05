@@ -9,10 +9,7 @@ const courseSchema = new Schema({
         required: true
     },
     password: {
-        type: String,
-        lowercase: true,
-        unique: true,
-        trim: true,
+        type: String
     },
     status: {
         type: String,

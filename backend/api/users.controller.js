@@ -2,11 +2,12 @@ import {User} from "../models/user.js"
 
 export default class UsersCtrl{
     
-    static async apiPostUser( req, res, next){
-        //creates a new User
+    static async apiCreateUser( req, res, next){
+        //create a new User
         try{
-                
+            
             const user = new User({
+                userId: req.query.userId,
                 name: req.query.name,
                 typeOfUser: req.query.typeOfUser,
                 email: req.query.email,
@@ -22,15 +23,16 @@ export default class UsersCtrl{
         }
     }
     static async apiGetUser( req, res, next){
-        //gets a user
+        //get a user by  identifier for a user
         const userId = req.params.id
         var userInfo = {}
         try{
+            let filters = {}
             if ( userId){
-                //has valid filters
-            }    
-            const userInfo = await User.findById( userId)
-            console.log( userInfo)
+                //has a identifier
+                filters.email = userId
+            }
+            const userInfo = await User.find(filters)
             let response = userInfo
             res.json( response)
         }catch( e){
@@ -48,11 +50,11 @@ export default class UsersCtrl{
                 filters.name = req.query.name
             }
             //...
-            const userList = await User.find( )
+            const userList = await User.find(filters)
             let response = {
                 users: userList,
-                page: page,
-
+                usersPerPage: usersPerPage,
+                page: page
             }
             res.json( response)
         }catch( e){

@@ -3,11 +3,10 @@ import {mongoose} from "mongoose"
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-
     typeOfUser: {
         type: String,
         enum: ['professor', 'aluno'],
-        default: 'aluno'
+        required: true
     },
     name: {
         type: String,
@@ -17,7 +16,7 @@ const userSchema = new Schema({
         type: String,
         lowercase: true,
         unique: true,
-        trim: true,
+        required: true,
     },
     institution: {
         type: String,

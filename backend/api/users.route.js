@@ -8,6 +8,6 @@ router.route("/:id").get( UsersCtrl.apiGetUser)
 
 //only query params
 router.route("").get( UsersCtrl.apiGetUsers)
-router.route("").post( UsersCtrl.apiPostUser)
+router.route("").post( UsersCtrl.apiCreateUser)
 
 export default router

@@ -126,7 +126,7 @@ function HomeProfessor() {
                 />
               </li>
               <li className={styles.avisos}>
-                <p>Nenhuma entrega para hoje.</p>
+                <h3>Avisos</h3>
               </li>
             </ul>
           </div>

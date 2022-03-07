@@ -8,20 +8,38 @@ import styles from "./styles.module.scss";
 
 import aluno from "../../assets/aluno.svg";
 import professor from "../../assets/professor.svg";
+import { useState } from "react";
+import api from "../../services/axios";
 
 const formSchema = Yup.object().shape({
   email: Yup.string().required("Campo obrigatório"),
   senha: Yup.string().required("Campo obrigatório"),
-  usuario: Yup.string().required("Campo obrigatório"),
+  nome: Yup.string().required("Campo obrigatório"),
   matricula: Yup.string().required("Campo obrigatório"),
   instituicao: Yup.string().required("Campo obrigatório"),
-  confirmacao_senha: Yup.string().required("Campo obrigatório"),
+  confirmacao_senha: Yup.string()
+    .required("Campo obrigatório")
+    .oneOf([Yup.ref("senha"), null], "A senhas não são iguais"),
 });
 
 function FormCadastro() {
   let navigate = useNavigate();
   const { perfil } = useTypePerfil();
-  console.log("render");
+
+  const [erro, setErro] = useState(false);
+
+  const handleSubmit = async (values, actions) => {
+    let object = { ...values, tipoUsuario: perfil };
+    console.log(perfil);
+    try {
+      const { data } = await api.post("/usuarios", object);
+      console.log(data);
+      navigate("/login");
+    } catch (error) {
+      // setStatus(400);
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -36,23 +54,21 @@ function FormCadastro() {
         </section>
         <Formik
           initialValues={{
+            nome: "",
             email: "",
             senha: "",
-            usuario: "",
             matricula: "",
             instituicao: "",
             confirmacao_senha: "",
           }}
-          onSubmit={(values) => {
-            console.log(values);
-          }}
+          onSubmit={handleSubmit}
           validationSchema={formSchema}
         >
           {({ handleChange, ...props }) => (
             <Form>
               <main className={styles.content}>
                 <div>
-                  <Input label="Nome de usuário" name="usuario" type="text" />
+                  <Input label="Nome de usuário" name="nome" type="text" />
                   <Input
                     label="Número de Matrícula"
                     name="matricula"
@@ -76,15 +92,16 @@ function FormCadastro() {
                   <Input
                     label="Senha"
                     name="senha"
-                    type="text"
+                    type="password"
                     onChange={handleChange}
                   />
                   <Input
                     label="Confirmação de senha"
                     name="confirmacao_senha"
-                    type="text"
+                    type="password"
                     onChange={handleChange}
                   />
+                  {erro && <div> 'Campos Inválidos' </div>}
                   <button type="submit">Cadastrar</button>
                 </div>
               </main>

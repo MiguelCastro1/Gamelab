@@ -5,6 +5,8 @@ import gamelabLogin from "../../assets/image-gamelab.svg";
 import styles from "./styles.module.scss";
 import Input from "../../components/Input";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import api from "../../services/axios";
 
 const formSchema = Yup.object().shape({
   email: Yup.string().required("Campo obrigatório"),
@@ -13,6 +15,19 @@ const formSchema = Yup.object().shape({
 
 export default function Login() {
   let navigate = useNavigate();
+
+  const [erro, setErro] = useState(false);
+
+  const handleSubmit = async (values, actions) => {
+    try {
+      const { data } = await api.post("/login", values);
+      localStorage.setItem("gamelab", data.token);
+      navigate("/");
+    } catch (error) {
+      // setStatus(400);
+      console.log(error);
+    }
+  };
 
   return (
     <div className={styles.containerWrapper}>
@@ -30,10 +45,7 @@ export default function Login() {
                 email: "",
                 senha: "",
               }}
-              onSubmit={(values) => {
-                console.log(values);
-                navigate("/");
-              }}
+              onSubmit={handleSubmit}
               validationSchema={formSchema}
             >
               {({ handleChange, ...props }) => (
@@ -55,6 +67,7 @@ export default function Login() {
                   <div>
                     <a href="#">Esqueceu a senha?</a>
                   </div>
+                  <div>{erro && <div> 'Email ou senha incorretos' </div>}</div>
                   <button type="submit">Entrar</button>
                 </Form>
               )}

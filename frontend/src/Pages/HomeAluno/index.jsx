@@ -7,8 +7,7 @@ import HeaderHome from "../../components/HeaderHome";
 import BoxTurma from "../../components/BoxTurma";
 import Calendar from "react-calendar";
 import styles from "./styles.module.scss";
-import imageAluno from "../../assets/Aluno_Personagem.png";
-
+import imageAluno from "../../assets/Aluno_Personagem2.png";
 
 function HomeAluno() {
   const [date, setDate] = useState(new Date());
@@ -28,7 +27,7 @@ function HomeAluno() {
                 <BiSearch
                   style={{
                     position: "absolute",
-                    right: "5px",
+                    right: "10px",
                     top: "50%",
                     transform: "translateY(-50%)",
                     zIndex: "10",
@@ -39,7 +38,7 @@ function HomeAluno() {
                 Meu Kanban <BsKanban />
               </li>
               <li>
-               Matricular-se em turma <IoSchoolOutline />{" "}
+               Matricular-se em turma<IoSchoolOutline className={styles.iconS} size={35}/>{" "}
               </li>
             </ul>
           </div>
@@ -70,60 +69,11 @@ function HomeAluno() {
                 descricao="Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
               />
             </Link>
-            <Link to="login">
-              <BoxTurma
-                nomeTurma="Redes de computadores"
-                professor="Matheus Matos"
-                descricao="Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
-              />
-            </Link>
-            <Link to="login">
-              <BoxTurma
-                nomeTurma="Redes de computadores"
-                professor="Matheus Matos"
-                descricao="Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
-              />
-            </Link>
-            <Link to="login">
-              <BoxTurma
-                nomeTurma="Redes de computadores"
-                professor="Matheus Matos"
-                descricao="Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
-              />
-            </Link>
-            <Link to="login">
-              <BoxTurma
-                nomeTurma="Redes de computadores"
-                professor="Matheus Matos"
-                descricao="Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
-              />
-            </Link>
-            <Link to="login">
-              <BoxTurma
-                nomeTurma="Redes de computadores"
-                professor="Matheus Matos"
-                descricao="Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
-              />
-            </Link>
-            <Link to="login">
-              <BoxTurma
-                nomeTurma="Redes de computadores"
-                professor="Matheus Matos"
-                descricao="Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
-              />
-            </Link>
-            <Link to="login">
-              <BoxTurma
-                nomeTurma="Redes de computadores"
-                professor="Matheus Matos"
-                descricao="Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
-              />
-            </Link>
           </div>
           <div className={styles.sideBarRight}>
             <ul>
               <li className={styles.avisos}>
-              <h3> Pérfil </h3>
+              <h3> Perfil </h3>
               <img src={imageAluno} alt="Nada"  width={350} height={250}/>
               </li>
               <li>
@@ -136,6 +86,7 @@ function HomeAluno() {
               </li>
               <li className={styles.avisos}>
                 <h3>Avisos</h3>
+                <h4>Sem avisos</h4>
               </li>
             </ul>
           </div>

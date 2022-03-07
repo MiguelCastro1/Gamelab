@@ -80,6 +80,7 @@ function HomeProfessor() {
             <header>
               <h1>Minhas turmas</h1>
             </header>
+<<<<<<< HEAD
             <div>
             {res.map(turma =>   
                <Link key={turma.Id} to={turma.Id}>
@@ -89,6 +90,42 @@ function HomeProfessor() {
                 descricao={turma.descricao}/>
               </Link>)}
             </div>
+=======
+            <section className={styles.areaSearch}>
+              <input placeholder="Pesquisar turma" />
+              <BiSearch
+                style={{
+                  position: "absolute",
+                  right: "5px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  zIndex: "10",
+                }}
+              />
+            </section>
+            <Link to="login">
+              <BoxTurma
+                nomeTurma="Redes de computadores"
+                professor="Matheus Matos"
+                descricao="Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
+              />
+            </Link>
+            <Link to="login">
+              <BoxTurma
+                nomeTurma="Redes de computadores"
+                professor="Matheus Matos"
+                descricao="Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
+              />
+            </Link>
+            <Link to="login">
+              <BoxTurma
+                nomeTurma="Redes de computadores"
+                professor="Matheus Matos"
+                descricao="Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
+              />
+            </Link>
+
+>>>>>>> cde659d438faf6e9067c4b3cea3e8dcf22e07e67
           </div>
          
           <div className={styles.sideBarRight}>
@@ -101,9 +138,7 @@ function HomeProfessor() {
                   value={date}
                 />
               </li>
-              <li className={styles.avisos}>
-                <h3>Avisos</h3>
-              </li>
+
             </ul>
           </div>
         </div>

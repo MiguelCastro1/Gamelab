@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { useField } from "formik";
 // import styles from "./styles.scss";
 import styles from "./styles.module.scss";
@@ -36,6 +37,8 @@ function Input({ label, placeholder, width, isForm, ...props }) {
 
 export default Input;
 =======
+=======
+>>>>>>> 6e8b9e8b23edc3f39918767f1fef958330ad467a
 import { useField } from "formik";
 // import styles from "./styles.scss";
 import styles from "./styles.module.scss";
@@ -61,4 +64,7 @@ function Input({label,  ...props }) {
 }
 
 export default Input;
+<<<<<<< HEAD
+>>>>>>> 6e8b9e8b23edc3f39918767f1fef958330ad467a
+=======
 >>>>>>> 6e8b9e8b23edc3f39918767f1fef958330ad467a

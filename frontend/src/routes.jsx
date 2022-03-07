@@ -13,6 +13,7 @@ import HomeAluno from "./Pages/HomeAluno";
 import Login from "./Pages/Login";
 import DetalheTurma from "./Pages/DetalheTurma";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { isAuthenticated } from "./services/auth";
 
 const RotasPrivadas = () => {
@@ -20,6 +21,8 @@ const RotasPrivadas = () => {
   return isAuth ? <Outlet /> : <Navigate to="/login" />;
 };
 =======
+=======
+>>>>>>> 6e8b9e8b23edc3f39918767f1fef958330ad467a
 //import { isAuthenticated } from "./services/auth";
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
@@ -35,6 +38,9 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
   />
 );
 import HomeAluno from "./Pages/HomeAluno";
+<<<<<<< HEAD
+>>>>>>> 6e8b9e8b23edc3f39918767f1fef958330ad467a
+=======
 >>>>>>> 6e8b9e8b23edc3f39918767f1fef958330ad467a
 
 export default function Rotas() {
@@ -56,6 +62,9 @@ export default function Rotas() {
         <Route path="/home" element={<HomeProfessor />} />
         <Route path='*' element={<h1>Not Found</h1>} />
         <Route path="/home2" element={<HomeAluno />} />
+<<<<<<< HEAD
+>>>>>>> 6e8b9e8b23edc3f39918767f1fef958330ad467a
+=======
 >>>>>>> 6e8b9e8b23edc3f39918767f1fef958330ad467a
       </Routes>
     </BrowserRouter>

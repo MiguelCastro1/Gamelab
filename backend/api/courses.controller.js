@@ -1,5 +1,6 @@
 
 import {Course} from "../models/course.js"
+import {mongoose} from "mongoose"
 
 class coursesDao{
     static async getCourses({
@@ -38,7 +39,7 @@ class coursesDao{
     }
 }
 export default class CoursesCtrl{
-    static async apiGetCourses( req, res, next){
+    static async apiSearchCourses( req, res, next){
         const coursesPerPage = req.query.coursesPerPage ? parseInt( req.query.coursesPerPage, 10) : 10
         const page = req.query.page ? parseInt( req.query.page, 10) : 0
 
@@ -63,6 +64,24 @@ export default class CoursesCtrl{
         }
         res.json( response)
     }
+    static async apiGetCourses( req, res, next){
+        //get a course by a course._id, course.owner or a course.participant
+        let filters = {}
+
+        if (req.query.id){
+            filters._id = new mongoose.Types.ObjectId( req.query.id)
+        }else if(req.query.owner){
+            filters.owner = new mongoose.Types.ObjectId( req.query.owner)
+        }else if(req.query.partitipant){
+            filters.partitipants = new mongoose.Types.ObjectId( req.query.partitipant)
+        }
+        const coursesList= await Course.find(filters)
+        let response = {
+
+            courses: coursesList
+        }
+        res.json( response)
+    }
     static async apiCreateCourse( req, res, next){
         //create a active new course 
         try{
@@ -70,7 +89,8 @@ export default class CoursesCtrl{
             const course = new Course({
                 name: req.query.name,
                 password: req.query.password,
-                status: 'ativo'
+                status: 'ativo',
+                owner: new mongoose.Types.ObjectId( req.query.owner)
             })
 
             const response = await course.save()

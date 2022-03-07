@@ -36,18 +36,24 @@ function HomeProfessor() {
 
   const [date, setDate] = useState(new Date());
   const [searchString, setSearchString ] = useState('');
-  const [res, setRes] = useState([]);
+  const [resultados, setResultados] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
 
   useEffect(() => {
+    //ao carregar página carrega todas as turmas
     let turmas = []
     turmas.push(turma1)
     turmas.push(turma2)
     turmas.push(turma3)
     turmas.push(turma4)
 
-    setRes(turmas)
+    setResultados(turmas)
   }, [])
 
+  useEffect(()=>{
+    //ao mudar string de busca, altera as turmas na home
+    setSearchResults(resultados.filter(turma => turma.nomeTurma.toLowerCase().includes(searchString.toLowerCase())));
+  }, [searchString])
   return (
     <>
       <HeaderHome />
@@ -56,7 +62,7 @@ function HomeProfessor() {
           <div className={styles.sideBarLeft}>
             <ul>
               <li>
-                <input placeholder="Pesquisar turma" />
+                <input onChange={(e) => setSearchString(e.target.value)} value={searchString} />
                 <BiSearch
                   style={{
                     position: "absolute",
@@ -80,52 +86,25 @@ function HomeProfessor() {
             <header>
               <h1>Minhas turmas</h1>
             </header>
-<<<<<<< HEAD
             <div>
-            {res.map(turma =>   
+            {searchString == '' ? 
+              resultados.map(turma =>   
                <Link key={turma.Id} to={turma.Id}>
                 <BoxTurma
                 nomeTurma={turma.nomeTurma}
                 professor={turma.professor}
                 descricao={turma.descricao}/>
-              </Link>)}
+              </Link>)
+              :
+              searchResults.map(turma =>   
+                <Link key={turma.Id} to={turma.Id}>
+                <BoxTurma
+                nomeTurma={turma.nomeTurma}
+                professor={turma.professor}
+                descricao={turma.descricao}/>
+              </Link>)
+            }
             </div>
-=======
-            <section className={styles.areaSearch}>
-              <input placeholder="Pesquisar turma" />
-              <BiSearch
-                style={{
-                  position: "absolute",
-                  right: "5px",
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                  zIndex: "10",
-                }}
-              />
-            </section>
-            <Link to="login">
-              <BoxTurma
-                nomeTurma="Redes de computadores"
-                professor="Matheus Matos"
-                descricao="Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
-              />
-            </Link>
-            <Link to="login">
-              <BoxTurma
-                nomeTurma="Redes de computadores"
-                professor="Matheus Matos"
-                descricao="Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
-              />
-            </Link>
-            <Link to="login">
-              <BoxTurma
-                nomeTurma="Redes de computadores"
-                professor="Matheus Matos"
-                descricao="Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
-              />
-            </Link>
-
->>>>>>> cde659d438faf6e9067c4b3cea3e8dcf22e07e67
           </div>
          
           <div className={styles.sideBarRight}>
@@ -138,7 +117,9 @@ function HomeProfessor() {
                   value={date}
                 />
               </li>
-
+              <li className={styles.avisos}>
+                <h3>Avisos</h3>
+              </li>
             </ul>
           </div>
         </div>

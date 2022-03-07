@@ -19,6 +19,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
     }
   />
 );
+import HomeAluno from "./Pages/HomeAluno";
 
 export default function Rotas() {
   return (
@@ -31,6 +32,7 @@ export default function Rotas() {
         <Route path="/" element={<DetalheTurma />} />
         <Route path="/home" element={<HomeProfessor />} />
         <Route path='*' element={<h1>Not Found</h1>} />
+        <Route path="/home2" element={<HomeAluno />} />
       </Routes>
     </BrowserRouter>
   );

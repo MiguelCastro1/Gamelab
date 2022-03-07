@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { BiSearch } from "react-icons/bi";
 import { BsKanban } from "react-icons/bs";
@@ -9,8 +9,55 @@ import Calendar from "react-calendar";
 import styles from "./styles.module.scss";
 
 function HomeProfessor() {
-  const [date, setDate] = useState(new Date());
 
+  const [date, setDate] = useState(new Date());
+  const [searchString, setSearchString ] = useState('');
+  const [resultados, setResultados] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
+
+
+  // Exemplos
+  const turma1 = {
+    Id: '1',
+    nomeTurma:"Redes de computadores",
+    professor:"Matheus Matos",
+    descricao:"Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
+  }
+  const turma2 = {
+    Id: '2',
+    nomeTurma:"Prática em Engenharia de Software",
+    professor:"Ana Oran",
+    descricao:"Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
+  }
+  const turma3 = {
+    Id: '3',
+    nomeTurma:"Programação Web",
+    professor:"Davi Fernandex",
+    descricao:"Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
+  }
+  const turma4 = {
+    Id: '4',
+    nomeTurma:"Banco 2",
+    professor:"Altigran Silva",
+    descricao:"Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
+  }
+
+  useEffect(() => {
+    //ao carregar página carrega todas as turmas
+    let turmas = []
+    turmas.push(turma1)
+    turmas.push(turma2)
+    turmas.push(turma3)
+    turmas.push(turma4)
+
+    setResultados(turmas)
+  }, [])
+
+  useEffect(()=>{
+    //ao mudar string de busca, altera as turmas na home
+    setSearchResults(resultados.filter(turma => turma.nomeTurma.toLowerCase().includes(searchString.toLowerCase())));
+  }, [searchString])
+  
   return (
     <>
       <HeaderHome />
@@ -19,7 +66,7 @@ function HomeProfessor() {
           <div className={styles.sideBarLeft}>
             <ul>
               <li>
-                <input placeholder="Pesquisar turma" />
+                <input onChange={(e) => setSearchString(e.target.value)} value={searchString} />
                 <BiSearch
                   style={{
                     position: "absolute",
@@ -38,95 +85,42 @@ function HomeProfessor() {
               </li>
             </ul>
           </div>
+          
           <div className={styles.feed}>
             <header>
               <h1>Minhas turmas</h1>
-              <div>
-                <button>Criar turma</button>
-                <button>Meu Kanbam</button>
-              </div>
             </header>
-            <section className={styles.areaSearch}>
-              <input placeholder="Pesquisar turma" />
-              <BiSearch
-                style={{
-                  position: "absolute",
-                  right: "5px",
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                  zIndex: "10",
-                }}
-              />
-            </section>
-            <Link to="login">
-              <BoxTurma
-                nomeTurma="Redes de computadores"
-                professor="Matheus Matos"
-                descricao="Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
-              />
-            </Link>
-            <Link to="login">
-              <BoxTurma
-                nomeTurma="Redes de computadores"
-                professor="Matheus Matos"
-                descricao="Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
-              />
-            </Link>
-            <Link to="login">
-              <BoxTurma
-                nomeTurma="Redes de computadores"
-                professor="Matheus Matos"
-                descricao="Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
-              />
-            </Link>
-            <Link to="login">
-              <BoxTurma
-                nomeTurma="Redes de computadores"
-                professor="Matheus Matos"
-                descricao="Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
-              />
-            </Link>
-            <Link to="login">
-              <BoxTurma
-                nomeTurma="Redes de computadores"
-                professor="Matheus Matos"
-                descricao="Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
-              />
-            </Link>
-            <Link to="login">
-              <BoxTurma
-                nomeTurma="Redes de computadores"
-                professor="Matheus Matos"
-                descricao="Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
-              />
-            </Link>
-            <Link to="login">
-              <BoxTurma
-                nomeTurma="Redes de computadores"
-                professor="Matheus Matos"
-                descricao="Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
-              />
-            </Link>
-            <Link to="login">
-              <BoxTurma
-                nomeTurma="Redes de computadores"
-                professor="Matheus Matos"
-                descricao="Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
-              />
-            </Link>
+            <div>
+
+            {searchString == '' ?  //If
+              resultados.map(turma =>   
+               <Link key={turma.Id} to={turma.Id}>
+                <BoxTurma
+                nomeTurma={turma.nomeTurma}
+                professor={turma.professor}
+                descricao={turma.descricao}/>
+              </Link>)
+              : // Else
+              searchResults.map(turma =>   
+                <Link key={turma.Id} to={turma.Id}>
+                <BoxTurma
+                nomeTurma={turma.nomeTurma}
+                professor={turma.professor}
+                descricao={turma.descricao}/>
+              </Link>)
+            }
+            </div>
           </div>
+         
           <div className={styles.sideBarRight}>
             <ul>
-              <h3>Calendário</h3>
               <li>
+              <h3>Calendário</h3>
                 <Calendar
                   className={styles.reactCalendar}
                   onChange={setDate}
                   value={date}
                 />
-              </li>
-              <li className={styles.avisos}>
-                <p>Nenhuma entrega para hoje.</p>
               </li>
             </ul>
           </div>

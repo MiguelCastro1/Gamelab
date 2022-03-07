@@ -8,6 +8,7 @@ import styles from "./styles.module.scss";
 
 import aluno from "../../assets/aluno.svg";
 import professor from "../../assets/professor.svg";
+import { useState} from "react";
 
 const formSchema = Yup.object().shape({
   email: Yup.string().required("Campo obrigatório"),
@@ -21,6 +22,8 @@ const formSchema = Yup.object().shape({
 function FormCadastro() {
   let navigate = useNavigate();
   const { perfil } = useTypePerfil();
+
+  const [erro,setErro] = useState(false)
   console.log("render");
 
   return (
@@ -38,7 +41,29 @@ function FormCadastro() {
             confirmacao_senha: "",
           }}
           onSubmit={(values) => {
-            console.log(values);
+             // Without Backend
+             console.log(values);
+             navigate('/home')
+
+             // With Backend
+            /* fetch(`http://localhost:5000/cadastro`, {
+               credentials : 'include',
+               method: 'POST',
+               headers:  {'Content-Type': 'application/json'},
+               body: JSON.stringify(values)
+             })
+             .then(resp => {
+               console.log(resp)
+               if(resp.status == 401)
+                 setErro(true)
+               return resp.json()
+             })
+             .then(json => {
+               console.log(json)
+               if(erro === false)
+                 navigate('/home')
+             })
+             */
           }}
           validationSchema={formSchema}
         >
@@ -79,6 +104,7 @@ function FormCadastro() {
                     type="text"
                     onChange={handleChange}
                   />
+                   {erro ? <div> 'Campos Inválidos' </div> : <div> '' </div> }
                   <button type="submit">Cadastrar</button>
                 </div>
               </main>

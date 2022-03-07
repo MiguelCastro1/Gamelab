@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { BiSearch } from "react-icons/bi";
 import { BsKanban } from "react-icons/bs";
@@ -9,7 +9,44 @@ import Calendar from "react-calendar";
 import styles from "./styles.module.scss";
 
 function HomeProfessor() {
+  const turma1 = {
+    Id: '1',
+    nomeTurma:"Redes de computadores",
+    professor:"Matheus Matos",
+    descricao:"Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
+  }
+  const turma2 = {
+    Id: '2',
+    nomeTurma:"Prática em Engenharia de Softwewa",
+    professor:"Ana Oran",
+    descricao:"Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
+  }
+  const turma3 = {
+    Id: '3',
+    nomeTurma:"Programação Web",
+    professor:"Davi Fernandex",
+    descricao:"Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
+  }
+  const turma4 = {
+    Id: '4',
+    nomeTurma:"Banco 2",
+    professor:"Altigran Silva",
+    descricao:"Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
+  }
+
   const [date, setDate] = useState(new Date());
+  const [searchString, setSearchString ] = useState('');
+  const [res, setRes] = useState([]);
+
+  useEffect(() => {
+    let turmas = []
+    turmas.push(turma1)
+    turmas.push(turma2)
+    turmas.push(turma3)
+    turmas.push(turma4)
+
+    setRes(turmas)
+  }, [])
 
   return (
     <>
@@ -38,83 +75,22 @@ function HomeProfessor() {
               </li>
             </ul>
           </div>
+          
           <div className={styles.feed}>
             <header>
               <h1>Minhas turmas</h1>
-              <div>
-                <button>Criar turma</button>
-                <button>Meu Kanbam</button>
-              </div>
             </header>
-            <section className={styles.areaSearch}>
-              <input placeholder="Pesquisar turma" />
-              <BiSearch
-                style={{
-                  position: "absolute",
-                  right: "5px",
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                  zIndex: "10",
-                }}
-              />
-            </section>
-            <Link to="login">
-              <BoxTurma
-                nomeTurma="Redes de computadores"
-                professor="Matheus Matos"
-                descricao="Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
-              />
-            </Link>
-            <Link to="login">
-              <BoxTurma
-                nomeTurma="Redes de computadores"
-                professor="Matheus Matos"
-                descricao="Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
-              />
-            </Link>
-            <Link to="login">
-              <BoxTurma
-                nomeTurma="Redes de computadores"
-                professor="Matheus Matos"
-                descricao="Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
-              />
-            </Link>
-            <Link to="login">
-              <BoxTurma
-                nomeTurma="Redes de computadores"
-                professor="Matheus Matos"
-                descricao="Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
-              />
-            </Link>
-            <Link to="login">
-              <BoxTurma
-                nomeTurma="Redes de computadores"
-                professor="Matheus Matos"
-                descricao="Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
-              />
-            </Link>
-            <Link to="login">
-              <BoxTurma
-                nomeTurma="Redes de computadores"
-                professor="Matheus Matos"
-                descricao="Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
-              />
-            </Link>
-            <Link to="login">
-              <BoxTurma
-                nomeTurma="Redes de computadores"
-                professor="Matheus Matos"
-                descricao="Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
-              />
-            </Link>
-            <Link to="login">
-              <BoxTurma
-                nomeTurma="Redes de computadores"
-                professor="Matheus Matos"
-                descricao="Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
-              />
-            </Link>
+            <div>
+            {res.map(turma =>   
+               <Link key={turma.Id} to={turma.Id}>
+                <BoxTurma
+                nomeTurma={turma.nomeTurma}
+                professor={turma.professor}
+                descricao={turma.descricao}/>
+              </Link>)}
+            </div>
           </div>
+         
           <div className={styles.sideBarRight}>
             <ul>
               <h3>Calendário</h3>

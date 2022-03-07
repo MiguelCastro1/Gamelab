@@ -8,9 +8,14 @@ import BoxTurma from "../../components/BoxTurma";
 import Calendar from "react-calendar";
 import styles from "./styles.module.scss";
 import imageAluno from "../../assets/Aluno_Personagem.png";
+
+
 function HomeAluno() {
   const [date, setDate] = useState(new Date());
+  const [searchString, setSearchString ] = useState('');
+  const [results, setResults] = useState('');
 
+  
   return (
     <>
       <HeaderHome />

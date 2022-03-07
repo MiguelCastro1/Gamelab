@@ -5,6 +5,7 @@ import gamelabLogin from "../../assets/image-gamelab.svg";
 import styles from "./styles.module.scss";
 import Input from "../../components/Input";
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 const formSchema = Yup.object().shape({
   email: Yup.string().required("Campo obrigatório"),
@@ -13,6 +14,9 @@ const formSchema = Yup.object().shape({
 
 export default function Login() {
   let navigate = useNavigate();
+
+  const [email,setEmail] = useState('');
+  const [senha,setSenha] = useState('');
 
   return (
     <div className={styles.containerWrapper}>

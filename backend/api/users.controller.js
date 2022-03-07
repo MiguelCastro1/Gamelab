@@ -14,9 +14,8 @@ export default class UsersCtrl{
                 institution: req.query.institution,
                 enroll: req.query.enroll
             })
-
             const response = await user.save()
-                
+            
             res.json(response)
         }catch( e){
             console.error( e)
@@ -39,6 +38,7 @@ export default class UsersCtrl{
             console.error( e)
         }
     }
+
     static async apiGetUsers( req, res, next){
         //get a users by filters in pages
         const usersPerPage = req.query.usersPerPage ? parseInt( req.query.usersPerPage, 10) : 10

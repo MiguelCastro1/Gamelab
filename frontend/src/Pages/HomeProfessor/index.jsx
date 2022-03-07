@@ -9,6 +9,14 @@ import Calendar from "react-calendar";
 import styles from "./styles.module.scss";
 
 function HomeProfessor() {
+
+  const [date, setDate] = useState(new Date());
+  const [searchString, setSearchString ] = useState('');
+  const [resultados, setResultados] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
+
+
+  // Exemplos
   const turma1 = {
     Id: '1',
     nomeTurma:"Redes de computadores",
@@ -17,7 +25,7 @@ function HomeProfessor() {
   }
   const turma2 = {
     Id: '2',
-    nomeTurma:"Prática em Engenharia de Softwewa",
+    nomeTurma:"Prática em Engenharia de Software",
     professor:"Ana Oran",
     descricao:"Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
   }
@@ -34,11 +42,6 @@ function HomeProfessor() {
     descricao:"Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
   }
 
-  const [date, setDate] = useState(new Date());
-  const [searchString, setSearchString ] = useState('');
-  const [resultados, setResultados] = useState([]);
-  const [searchResults, setSearchResults] = useState([]);
-
   useEffect(() => {
     //ao carregar página carrega todas as turmas
     let turmas = []
@@ -54,6 +57,7 @@ function HomeProfessor() {
     //ao mudar string de busca, altera as turmas na home
     setSearchResults(resultados.filter(turma => turma.nomeTurma.toLowerCase().includes(searchString.toLowerCase())));
   }, [searchString])
+  
   return (
     <>
       <HeaderHome />
@@ -87,7 +91,8 @@ function HomeProfessor() {
               <h1>Minhas turmas</h1>
             </header>
             <div>
-            {searchString == '' ? 
+
+            {searchString == '' ?  //If
               resultados.map(turma =>   
                <Link key={turma.Id} to={turma.Id}>
                 <BoxTurma
@@ -95,7 +100,7 @@ function HomeProfessor() {
                 professor={turma.professor}
                 descricao={turma.descricao}/>
               </Link>)
-              :
+              : // Else
               searchResults.map(turma =>   
                 <Link key={turma.Id} to={turma.Id}>
                 <BoxTurma
@@ -109,16 +114,13 @@ function HomeProfessor() {
          
           <div className={styles.sideBarRight}>
             <ul>
-              <h3>Calendário</h3>
               <li>
+              <h3>Calendário</h3>
                 <Calendar
                   className={styles.reactCalendar}
                   onChange={setDate}
                   value={date}
                 />
-              </li>
-              <li className={styles.avisos}>
-                <h3>Avisos</h3>
               </li>
             </ul>
           </div>

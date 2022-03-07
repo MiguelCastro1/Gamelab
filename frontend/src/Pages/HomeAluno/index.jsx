@@ -11,6 +11,12 @@ import Calendar from "react-calendar";
 import styles from "./styles.module.scss";
 
 function HomeAluno() {
+  
+  const [date, setDate] = useState(new Date());
+  const [searchString, setSearchString ] = useState('');
+  const [resultados, setResultados] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
+
   const turma1 = {
     Id: '1',
     nomeTurma:"Redes de computadores",
@@ -19,7 +25,7 @@ function HomeAluno() {
   }
   const turma2 = {
     Id: '2',
-    nomeTurma:"Prática em Engenharia de Softwewa",
+    nomeTurma:"Prática em Engenharia de Software",
     professor:"Ana Oran",
     descricao:"Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
   }
@@ -36,10 +42,6 @@ function HomeAluno() {
     descricao:"Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
   }
 
-  const [date, setDate] = useState(new Date());
-  const [searchString, setSearchString ] = useState('');
-  const [resultados, setResultados] = useState([]);
-  const [searchResults, setSearchResults] = useState([]);
 
   useEffect(() => {
     //ao carregar página carrega todas as turmas
@@ -79,7 +81,7 @@ function HomeAluno() {
                 Meu Kanban <BsKanban />
               </li>
               <li>
-                Criar turma <IoSchoolOutline />{" "}
+                Inscrever-se em turma <IoSchoolOutline size={50} />{" "}
               </li>
             </ul>
           </div>
@@ -89,7 +91,8 @@ function HomeAluno() {
               <h1>Minhas turmas</h1>
             </header>
             <div>
-            {searchString == '' ? 
+
+            {searchString == '' ? //If
               resultados.map(turma =>   
                <Link key={turma.Id} to={turma.Id}>
                 <BoxTurma
@@ -97,7 +100,7 @@ function HomeAluno() {
                 professor={turma.professor}
                 descricao={turma.descricao}/>
               </Link>)
-              :
+              : //Else
               searchResults.map(turma =>   
                 <Link key={turma.Id} to={turma.Id}>
                 <BoxTurma

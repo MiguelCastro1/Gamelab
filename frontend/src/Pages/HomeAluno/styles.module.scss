@@ -18,6 +18,7 @@
         border-radius: 4px;
         padding: 1rem 1rem 1rem 1.2rem;
         overflow: auto;
+        height: auto;
   
         header {
           display: flex;
@@ -63,9 +64,11 @@
         justify-content: center;
         padding-top: 1rem;
         border: 1px solid var(--gray-100);
-        background: white;
+        background: rgb(255, 254, 254);
         border-radius: 4px;
-        max-height: 87vh;
+        max-height: auto;
+        margin-block-end: 20px;
+        
   
         ul {
           list-style: none;
@@ -80,11 +83,24 @@
             margin-top: 1rem;
             padding-top: 0.7rem;
             border-top: 1px solid var(--gray-300);
+            margin-block-end: 5px;
+            
+            
             p {
               text-align: center;
               color: #111;
               font-size: 0.8rem;
             }
+            h4{
+              text-align: center;
+              color:rgb(163, 71, 71)
+            }
+          }
+          li{
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+  
           }
         }
       }
@@ -96,13 +112,12 @@
         border: 1px solid var(--gray-100);
         background: white;
         border-radius: 4px;
-        height: 11rem;
+        height: 13rem;
   
         ul {
           list-style: none;
           // color: var(--blue-700);
           width: 100%;
-  
           li {
             display: flex;
             align-items: center;
@@ -117,7 +132,8 @@
             border-radius: 4px;
             cursor: pointer;
             transition: margin-bottom 0.1s ease-in-out;
-  
+        
+
             &:hover {
               margin-bottom: 0.8rem;
             }
@@ -141,6 +157,7 @@
             }
           }
         }
+
       }
     }
   }
@@ -149,11 +166,14 @@
     border-radius: 6px;
     max-width: 300px !important;
     max-height: 280px !important;
-    background: white;
+    background: rgb(163, 71, 71);
     border: 1px solid var(--gray-100) !important;
     box-shadow: var(--sombra);
     line-height: 1.125em;
     font-size: 13.5px;
+    align-content: center;
+    margin-left: 25px;
+    
   }
   
   @media (max-width: 1200px) {

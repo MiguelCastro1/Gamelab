@@ -79,41 +79,7 @@ function HomeProfessor() {
                 descricao="Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
               />
             </Link>
-            <Link to="login">
-              <BoxTurma
-                nomeTurma="Redes de computadores"
-                professor="Matheus Matos"
-                descricao="Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
-              />
-            </Link>
-            <Link to="login">
-              <BoxTurma
-                nomeTurma="Redes de computadores"
-                professor="Matheus Matos"
-                descricao="Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
-              />
-            </Link>
-            <Link to="login">
-              <BoxTurma
-                nomeTurma="Redes de computadores"
-                professor="Matheus Matos"
-                descricao="Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
-              />
-            </Link>
-            <Link to="login">
-              <BoxTurma
-                nomeTurma="Redes de computadores"
-                professor="Matheus Matos"
-                descricao="Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
-              />
-            </Link>
-            <Link to="login">
-              <BoxTurma
-                nomeTurma="Redes de computadores"
-                professor="Matheus Matos"
-                descricao="Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex."
-              />
-            </Link>
+
           </div>
           <div className={styles.sideBarRight}>
             <ul>
@@ -125,9 +91,7 @@ function HomeProfessor() {
                   value={date}
                 />
               </li>
-              <li className={styles.avisos}>
-                <h3>Avisos</h3>
-              </li>
+
             </ul>
           </div>
         </div>

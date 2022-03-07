@@ -15,21 +15,18 @@ class coursesDao{
                 }
             }
         }
-        let cursor
+        let coursesList
 
         try {
-            cursor = await Course.find( query)
+            coursesList = await Course.find( filters).limit(coursesPerPage).skip( page * coursesPerPage)
 
         }catch( e){
             console.error(`Unable to issue find command, ${e}`)
             return { coursesList: [], numCourses: 0}
         }
-        //get courses for specific page
-        const displayCursor = cursor.limit(coursesPerPage).skip( page * coursesPerPage)
-
+        console.log( coursesList) 
         try{
-            const coursesList = await displayCursor.toArray()
-            const numCourses = await courses.countDocuments( query)
+            const numCourses = coursesList.length
             
             return { coursesList, numCourses}
         }catch ( e){

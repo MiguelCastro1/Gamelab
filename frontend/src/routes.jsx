@@ -6,7 +6,8 @@ import FormCadastro from "./Pages/FormCadastro";
 import HomeProfessor from "./Pages/HomeProfessor";
 import Login from "./Pages/Login";
 import DetalheTurma from "./Pages/DetalheTurma";
-import { isAuthenticated } from "./services/auth";
+//import { isAuthenticated } from "./services/auth";
+
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}

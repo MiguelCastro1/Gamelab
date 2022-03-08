@@ -17,6 +17,7 @@ exports.createCourse = async (req, res) => {
 exports.listCourse = async (req, res) => {
   let token = req.headers.authorization.split(" ")[1];
   let autor = parseJwt(token).email;
+  console.log(autor);
   try {
     var busca = req.query.pesquisa;
     const doc = await Course.find({
@@ -24,12 +25,14 @@ exports.listCourse = async (req, res) => {
         { nomeCurso: { $regex: "(?i).*" + busca + ".*(?i)" } },
         { descricao: { $regex: "(?i).*" + busca + ".*(?i)" } },
       ],
+      // para o professor enxergar apenas os cursos criados por ele
+      autorEmail: autor,
     });
     let encontrados = Object.keys(doc).length;
-    let newDoc = doc.filter(({ autorEmail }) => autorEmail === autor);
+    // let newDoc = doc.filter(({ autorEmail }) => autorEmail === autor);
     res.status(200).json({
       message: `Foram encontrados ${encontrados} resultados.`,
-      newDoc,
+      doc,
     });
   } catch (err) {
     res.status(500).json({

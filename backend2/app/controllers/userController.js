@@ -10,7 +10,9 @@ exports.createUser = async (req, res) => {
   };
   console.log(entrada);
   try {
+    console.log('enviando')
     let document = await User.create(entrada);
+    console.log('enviado')
     res.status(200).json({
       document,
       message: `${req.body.tipoUsuario} cadastrado com sucesso`,
@@ -46,5 +48,14 @@ exports.login = async (req, res) => {
     }
   } catch (error) {
     res.status(500).send("email e/ou senha inválidos");
+  }
+};
+
+exports.list = async (req, res) => {
+  try {
+    const doc = await User.find({});
+    res.status(200).json({ doc });
+  } catch (error) {
+    console.error(error);
   }
 };

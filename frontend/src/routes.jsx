@@ -12,18 +12,13 @@ import HomeProfessor from "./Pages/HomeProfessor";
 import HomeAluno from "./Pages/HomeAluno";
 import Login from "./Pages/Login";
 import DetalheTurma from "./Pages/DetalheTurma";
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 import { isAuthenticated } from "./services/auth";
 
 const RotasPrivadas = () => {
   const isAuth = isAuthenticated();
   return isAuth ? <Outlet /> : <Navigate to="/login" />;
 };
-=======
-=======
->>>>>>> 6e8b9e8b23edc3f39918767f1fef958330ad467a
-//import { isAuthenticated } from "./services/auth";
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -37,11 +32,6 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
     }
   />
 );
-import HomeAluno from "./Pages/HomeAluno";
-<<<<<<< HEAD
->>>>>>> 6e8b9e8b23edc3f39918767f1fef958330ad467a
-=======
->>>>>>> 6e8b9e8b23edc3f39918767f1fef958330ad467a
 
 export default function Rotas() {
   return (
@@ -51,21 +41,14 @@ export default function Rotas() {
         <Route path="/cadastrar" element={<EscolherPerfil />} />
         <Route path="/cadastrar-perfil" element={<FormCadastro />} />
         <Route path="/email" element={<EmailEnviado />} />
-<<<<<<< HEAD
+        <Route path='*' element={<h1>Not Found</h1>} />
+
         <Route element={<RotasPrivadas />}>
           <Route path="/" element={<HomeProfessor />} />
           <Route path="/detalhes" element={<DetalheTurma />} />
           <Route path="/home2" element={<HomeAluno />} />
         </Route>
-=======
-        <Route path="/" element={<DetalheTurma />} />
-        <Route path="/home" element={<HomeProfessor />} />
-        <Route path='*' element={<h1>Not Found</h1>} />
-        <Route path="/home2" element={<HomeAluno />} />
-<<<<<<< HEAD
->>>>>>> 6e8b9e8b23edc3f39918767f1fef958330ad467a
-=======
->>>>>>> 6e8b9e8b23edc3f39918767f1fef958330ad467a
+
       </Routes>
     </BrowserRouter>
   );

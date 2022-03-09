@@ -20,8 +20,10 @@ export default function Login() {
 
   const handleSubmit = async (values, actions) => {
     try {
+      console.log('send')
       const { data } = await api.post("/login", values);
       localStorage.setItem("gamelab", data.token);
+      console.log('done')
       navigate("/");
     } catch (error) {
       // setStatus(400);

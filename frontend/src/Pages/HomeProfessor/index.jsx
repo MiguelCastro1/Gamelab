@@ -43,6 +43,34 @@ function HomeProfessor() {
     descricao:
       "Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex.",
   };
+  const turma5 = {
+    Id: "5",
+    nomeTurma: "Redes de computadores",
+    professor: "Matheus Matos",
+    descricao:
+      "Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex.",
+  };
+  const turma6 = {
+    Id: "6",
+    nomeTurma: "Prática em Engenharia de Software",
+    professor: "Ana Oran",
+    descricao:
+      "Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex.",
+  };
+  const turma7 = {
+    Id: "7",
+    nomeTurma: "Programação Web",
+    professor: "Davi Fernandex",
+    descricao:
+      "Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex.",
+  };
+  const turma8 = {
+    Id: "8",
+    nomeTurma: "Banco 2",
+    professor: "Altigran Silva",
+    descricao:
+      "Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex.",
+  };
 
   useEffect(() => {
     //ao carregar página carrega todas as turmas
@@ -51,6 +79,10 @@ function HomeProfessor() {
     turmas.push(turma2);
     turmas.push(turma3);
     turmas.push(turma4);
+    turmas.push(turma5);
+    turmas.push(turma6);
+    turmas.push(turma7);
+    turmas.push(turma8);
 
     setResultados(turmas);
   }, []);
@@ -75,6 +107,7 @@ function HomeProfessor() {
                 <input
                   onChange={(e) => setSearchString(e.target.value)}
                   value={searchString}
+                  placeholder="Buscar turma"
                 />
                 <BiSearch
                   style={{

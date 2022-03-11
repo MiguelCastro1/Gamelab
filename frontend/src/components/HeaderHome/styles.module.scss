@@ -1,7 +1,10 @@
 .container {
   height: 3.5rem;
   border-bottom: 1px solid var(--gray-100);
-  
+  // transition: background 0.1s linear;
+  background: white;
+  position: sticky;
+  top: 0;
 
   .content {
     width: min(95vw, 1390px);
@@ -11,21 +14,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-   
 
-  
-    .b_sair{
-      border-radius: 5px;
-      background-color: rgb(180, 91, 91);
-      width: 50px;
-    }
-
-    .b_perfil{
-      border-radius: 5px;
-      background-color: rgb(218, 255, 244);
-      width: 80px;
-
-    }
     h1 {
       font-weight: 700 !important;
       background: -webkit-linear-gradient(
@@ -42,33 +31,32 @@
       align-items: center;
       gap: 10px;
 
-      a {
-        font-size: 0.9rem;
+      p {
         cursor: pointer;
       }
 
-      a:first-child {
-        position: relative;
-        transition: all 0.3s linear;
+      & > p {
+        font-size: 0.9rem;
 
-        &::after {
-          content: "";
-          height: 1px;
-          width: 100%;
-          position: absolute;
-          bottom: -4px;
-          left: 0px;
-          background: var(--gradiente-color);
-          transform: translatex(-10%);
-          opacity: 0;
-          transition: transform 0.3s ease-in-out, opacity 0.3s linear;
-        }
+        transition: text-decoration 0.3s linear;
+
         &:hover {
-          &::after {
-            transform: translatex(0);
-            // transform: scalex(1);k
-            opacity: 1;
-          }
+          text-decoration: underline;
+        }
+      }
+
+      li > p {
+        padding: 4px 7px;
+        display: flex;
+        align-items: center;
+        gap: 7px;
+
+        & + p {
+          border-top: 1px solid #d3d3d3;
+        }
+
+        &:hover {
+          background: rgb(240, 239, 239);
         }
       }
 

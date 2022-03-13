@@ -10,9 +10,7 @@ exports.createUser = async (req, res) => {
   };
   console.log(entrada);
   try {
-    console.log('enviando')
     let document = await User.create(entrada);
-    console.log('enviado')
     res.status(200).json({
       document,
       message: `${req.body.tipoUsuario} cadastrado com sucesso`,
@@ -35,13 +33,17 @@ exports.login = async (req, res) => {
       let pass = compare(senha, usuario.senha);
       if (pass) {
         let payload = {
+          id: usuario._id,
+          perfil: usuario.tipoUsuario,
           nome: usuario.nome,
           email: usuario.email,
         };
-        res.status(200).send({
-          email: usuario.email,
+        res.status(200).json({
+          user: payload,  
           token: jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: "7d" }),
         });
+      }else{
+        res.status(401).send("email e/ou senha inválidos");
       }
     } else {
       res.status(401).send("email e/ou senha inválidos");
@@ -51,7 +53,15 @@ exports.login = async (req, res) => {
   }
 };
 
-exports.list = async (req, res) => {
+exports.update = async (req,res) => {
+
+};
+
+exports.user = async (req,res) => {
+
+};
+
+exports.listAll = async (req, res) => {
   try {
     const doc = await User.find({});
     res.status(200).json({ doc });

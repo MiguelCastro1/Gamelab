@@ -14,9 +14,11 @@ exports.createCourse = async (req, res) => {
   }
 };
 
+//listar cursos - pesquisa pode ser: usuario, string de busca, ativo, ano.
 exports.listCourse = async (req, res) => {
   let token = req.headers.authorization.split(" ")[1];
-  let autor = parseJwt(token).email;
+  console.log(token)
+  let autor = parseJwt(token).user.email;
   console.log(autor);
   try {
     var busca = req.query.pesquisa;
@@ -41,7 +43,12 @@ exports.listCourse = async (req, res) => {
   }
 };
 
-exports.list = async (req, res) => {
+//matricular aluno
+exports.matricular = async (req,res) => {
+
+}
+
+exports.listAll = async (req, res) => {
   try {
     const doc = await Course.find({});
     res.status(200).json({ doc });

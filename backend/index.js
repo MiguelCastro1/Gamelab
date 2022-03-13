@@ -1,26 +1,34 @@
-import app from "./server.js"
-import dotenv from "dotenv"
+const express = require("express");
+const cors = require("cors");
+const mongoose = require("mongoose");
+const app = express();
 
-import {mongoose} from "mongoose"
+require("dotenv/config");
 
-dotenv.config()
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-const port = process.env.Port || 8000
+mongoose.connect(process.env.ATLAS_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
-mongoose.connect(
-    process.env.ATLAS_URI,
-    {
-        maxPoolSize: 3,
-        wtimeoutMS: 2500,
-        useNewUrlParser: true,
-        useUnifiedTopology: true}
-    ).catch(err => {
-        console.error(err.stack)
-        process.exit(1)
-    })
-    .then( async client =>{
-        //await CoursesDao.injectDB(client)
-        app.listen(port, () => {
-            console.log(`listening on port ${port}`)
-        })
-    })
+mongoose.connection.once("open", (_) => {
+  console.log("Conectado ao banco de dados GameLab");
+});
+
+mongoose.connection.on("error", (err) => {
+  console.error(`❌ Erro na conexão ao banco de dados: ${err.message}`);
+});
+
+require("./app/models/user");
+require("./app/models/course");
+
+const routes = require("./app/routes/routes");
+
+app.use("/", routes);
+
+app.listen(process.env.PORT, () => {
+  console.log(`Servidor rodando porta: ${process.env.PORT}`);
+});

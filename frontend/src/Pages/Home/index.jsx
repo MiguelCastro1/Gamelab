@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { BiSearch } from "react-icons/bi";
 import { BsKanban } from "react-icons/bs";
@@ -7,14 +7,18 @@ import HeaderHome from "../../components/HeaderHome";
 import BoxTurma from "../../components/BoxTurma";
 import Calendar from "react-calendar";
 import styles from "./styles.module.scss";
+import imageAluno from "../../assets/Aluno_Personagem2.png";
+import api from "../../services/axios";
+import { useTypePerfil } from "../../Context/PerfilContext";
 
-function HomeProfessor() {
+function Home() {
   const [date, setDate] = useState(new Date());
   const [searchString, setSearchString] = useState("");
   const [resultados, setResultados] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
+  const {perfil, setPerfil }  = useTypePerfil();
 
-  // Exemplos
+  // Exemplos **Retirar quando Back tiver com daddo
   const turma1 = {
     Id: "1",
     nomeTurma: "Redes de computadores",
@@ -32,7 +36,7 @@ function HomeProfessor() {
   const turma3 = {
     Id: "3",
     nomeTurma: "Programação Web",
-    professor: "Davi Fernandex",
+    professor: "Davi Fernandes",
     descricao:
       "Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex.",
   };
@@ -43,47 +47,30 @@ function HomeProfessor() {
     descricao:
       "Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex.",
   };
-  const turma5 = {
-    Id: "5",
-    nomeTurma: "Redes de computadores",
-    professor: "Matheus Matos",
-    descricao:
-      "Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex.",
-  };
-  const turma6 = {
-    Id: "6",
-    nomeTurma: "Prática em Engenharia de Software",
-    professor: "Ana Oran",
-    descricao:
-      "Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex.",
-  };
-  const turma7 = {
-    Id: "7",
-    nomeTurma: "Programação Web",
-    professor: "Davi Fernandex",
-    descricao:
-      "Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex.",
-  };
-  const turma8 = {
-    Id: "8",
-    nomeTurma: "Banco 2",
-    professor: "Altigran Silva",
-    descricao:
-      "Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex.",
-  };
 
+  //Carregar turmas do backend (quando tiver com exemplos)
+ /* useEffect(() => {
+    try {
+      api.get("/cursos", perfil)
+      .then((data) => {
+        setResultados(data);
+        console.log('done')
+      })
+      .catch(err => console.log(err))
+    }catch (error) {
+      console.log(error);
+    }
+  }, []);*/
+
+  //retirar depois
   useEffect(() => {
-    //ao carregar página carrega todas as turmas
+    //ao carregar página carrega todas as turmas 
+    console.log(perfil);
     let turmas = [];
     turmas.push(turma1);
     turmas.push(turma2);
     turmas.push(turma3);
     turmas.push(turma4);
-    turmas.push(turma5);
-    turmas.push(turma6);
-    turmas.push(turma7);
-    turmas.push(turma8);
-
     setResultados(turmas);
   }, []);
 
@@ -120,10 +107,10 @@ function HomeProfessor() {
                 />
               </li>
               <li>
-                Meu Kanban <BsKanban />
+              <Link to='/kanban'>  Meu Kanban <BsKanban size={20}/> </Link>
               </li>
               <li>
-                Criar turma <IoSchoolOutline />{" "}
+               <Link to='/criar-curso'> {perfil.perfil === "aluno" ? 'Procurar Turma':'Criar Turma'} <IoSchoolOutline size={20}/>{" "} </Link>
               </li>
             </ul>
           </div>
@@ -135,7 +122,7 @@ function HomeProfessor() {
             <div>
               {searchString == "" //If
                 ? resultados.map((turma) => (
-                    <Link key={turma.Id} to={turma.Id}>
+                    <Link key={turma.Id} to='/curso'>
                       <BoxTurma
                         nomeTurma={turma.nomeTurma}
                         professor={turma.professor}
@@ -145,7 +132,7 @@ function HomeProfessor() {
                   ))
                 : // Else
                   searchResults.map((turma) => (
-                    <Link key={turma.Id} to={turma.Id}>
+                    <Link key={turma.Id} to='/curso'>
                       <BoxTurma
                         nomeTurma={turma.nomeTurma}
                         professor={turma.professor}
@@ -158,6 +145,12 @@ function HomeProfessor() {
 
           <div className={styles.sideBarRight}>
             <ul>
+             {perfil.perfil === "aluno" && 
+             <li  className={styles.avisos}>
+              <h3 > Perfil </h3>
+              <img src={imageAluno} alt="Nada"  width={350} height={250}/>
+              </li> 
+              }
               <li>
                 <h3>Calendário</h3>
                 <Calendar
@@ -165,7 +158,13 @@ function HomeProfessor() {
                   onChange={setDate}
                   value={date}
                 />
+                </li>
+              {perfil.perfil === "aluno" &&
+              <li className={styles.avisos}>
+                <h3>Avisos</h3>
+                <h4>Sem avisos</h4>
               </li>
+              }
             </ul>
           </div>
         </div>
@@ -174,4 +173,4 @@ function HomeProfessor() {
   );
 }
 
-export default HomeProfessor;
+export default Home;

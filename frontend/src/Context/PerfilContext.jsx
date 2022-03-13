@@ -3,13 +3,13 @@ import { createContext, useContext, useState } from "react";
 const PerfilContext = createContext();
 
 export default function PerfilProvider({ children }) {
-  const [perfil, setPerfil] = useState("");
+  const [perfil, setPerfil] = useState({});
 
   return (
     <PerfilContext.Provider
       value={{
         perfil,
-        setPerfil,
+        setPerfil
       }}
     >
       {children}
@@ -18,7 +18,6 @@ export default function PerfilProvider({ children }) {
 }
 
 export function useTypePerfil() {
-  const context = useContext(PerfilContext);
-  const { perfil, setPerfil } = context;
+  const { perfil, setPerfil }= useContext(PerfilContext);
   return { perfil, setPerfil };
 }

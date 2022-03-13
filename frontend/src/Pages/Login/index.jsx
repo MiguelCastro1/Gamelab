@@ -5,11 +5,13 @@ import gamelabLogin from "../../assets/image-gamelab.svg";
 import styles from "./styles.module.scss";
 import Input from "../../components/Input";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 import api from "../../services/axios";
+import { useTypePerfil } from "../../Context/PerfilContext";
+import { useState, useContext, useEffect} from "react";
+
 
 const formSchema = Yup.object().shape({
-  email: Yup.string().required("Campo obrigatório"),
+  email: Yup.string().email('Email Invalido').required("Campo obrigatório"),
   senha: Yup.string().required("Campo obrigatório"),
 });
 
@@ -17,16 +19,29 @@ export default function Login() {
   let navigate = useNavigate();
 
   const [erro, setErro] = useState(false);
+  const {perfil, setPerfil} = useTypePerfil();
 
-  const handleSubmit = async (values, actions) => {
+  useEffect(() => {
+    console.log(perfil);  
+  },[perfil]);
+
+  const handleSubmit = (values, actions) => {
     try {
-      console.log('send')
-      const { data } = await api.post("/login", values);
-      localStorage.setItem("gamelab", data.token);
-      console.log('done')
-      navigate("/");
+      api.post("/login", values)
+      .then((user) => {
+        const payload   = {
+          id: user.data.user.id,
+          perfil: user.data.user.perfil,
+          nome: user.data.user.nome,
+          email: user.data.user.email 
+        }
+        localStorage.setItem("gamelab",user.data.token);
+        setPerfil(payload);
+        navigate('/');
+      })
+      .catch(erro => setErro(true))
     } catch (error) {
-      // setStatus(400);
+      setErro(true)
       console.log(error);
     }
   };
@@ -69,7 +84,7 @@ export default function Login() {
                   <div>
                     <a href="#">Esqueceu a senha?</a>
                   </div>
-                  <div>{erro && <div> 'Email ou senha incorretos' </div>}</div>
+                  <div>{erro && <div className={styles.erro}> Email ou senha incorretos </div>}</div>
                   <button type="submit">Entrar</button>
                 </Form>
               )}

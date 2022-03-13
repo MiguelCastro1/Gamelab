@@ -12,13 +12,12 @@ import { useState } from "react";
 import api from "../../services/axios";
 
 const formSchema = Yup.object().shape({
-  email: Yup.string().required("Campo obrigatório"),
-  senha: Yup.string().required("Campo obrigatório"),
-  nome: Yup.string().required("Campo obrigatório"),
-  matricula: Yup.string().required("Campo obrigatório"),
-  instituicao: Yup.string().required("Campo obrigatório"),
-  confirmacao_senha: Yup.string()
-    .required("Campo obrigatório")
+  email: Yup.string().email('Email Invalido').required("Campo obrigatório"),
+  senha: Yup.string().min(8,'Senha precisa de mais de 8 letras').required("Campo obrigatório"),
+  nome: Yup.string().max(100,'Limite atingido').required("Campo obrigatório"),
+  matricula: Yup.number('Matricula invalida').required("Campo obrigatório"),
+  instituicao: Yup.string().max(100,'Limite atingido').required("Campo obrigatório"),
+  confirmacao_senha: Yup.string().required("Campo obrigatório")
     .oneOf([Yup.ref("senha"), null], "A senhas não são iguais"),
 });
 
@@ -26,17 +25,21 @@ function FormCadastro() {
   let navigate = useNavigate();
   const { perfil } = useTypePerfil();
 
-  const [erro, setErro] = useState(false);
+  const [erro, setErro] = useState('');
 
-  const handleSubmit = async (values, actions) => {
+  const handleSubmit = (values, actions) => {
+    delete values['confirmacao_senha'];
     let object = { ...values, tipoUsuario: perfil };
     console.log(perfil);
     try {
-      const { data } = await api.post("/usuarios", object);
-      console.log(data);
+      api.post("/usuarios", object)
+      .then((data) => {
+        console.log(data);
       navigate("/login");
+      })
+      .catch(erro => setErro('Email já cadastrado'))
     } catch (error) {
-      // setStatus(400);
+      setErro('Campos Inválidos')
       console.log(error);
     }
   };
@@ -46,7 +49,7 @@ function FormCadastro() {
       <HeaderAuth />
       <div className={styles.container}>
         <section>
-          <p>Sou {perfil === "aluno" ? "aluno" : "professor"}</p>
+          <h3>Sou {perfil === "aluno" ? "aluno" : "professor"}</h3>
           <img
             src={perfil === "aluno" ? aluno : professor}
             alt={perfil === "aluno" ? "aluno" : "professor"}
@@ -101,7 +104,7 @@ function FormCadastro() {
                     type="password"
                     onChange={handleChange}
                   />
-                  {erro && <div> 'Campos Inválidos' </div>}
+                  {erro && <div className={styles.erro}> {erro} </div>}
                   <button type="submit">Cadastrar</button>
                 </div>
               </main>

@@ -26,6 +26,13 @@
     padding: 3rem 2rem 4rem;
     box-shadow: var(--sombra);
 
+    .erro{
+      margin-top: 0.5rem;
+      font-size: 0.8rem;
+      margin-right:  1rem;
+      color: red;
+    }
+    
     div {
       width: 100%;
     }

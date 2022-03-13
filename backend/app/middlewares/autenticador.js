@@ -11,6 +11,7 @@ auth = (req, res, next) => {
       if (err) {
         return res.status(401).send("Acesso negado!");
       }
+     // req.userId = jwt.decode._id;
       next();
     });
   } else {

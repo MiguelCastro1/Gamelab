@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import styles from "./styles.module.scss";
 import imgUser from "../../assets/foto_prof.svg";
 import { FiUser, FiLogOut } from "react-icons/fi";
 import { BiLogOut } from "react-icons/bi";
+import {VscBellDot} from "react-icons/vsc"
 
 function HeaderHome() {
   let navigate = useNavigate();
@@ -22,7 +23,7 @@ function HeaderHome() {
   return (
     <header className={styles.container}>
       <div className={styles.content}>
-        <h1>GameLab</h1>
+      <Link to='/'> <h1>GameLab</h1> </Link>
         <div className={styles.areaUser}>
           <p
             // className="dropdown-toggle"
@@ -39,12 +40,16 @@ function HeaderHome() {
             style={{ boxShadow: "var(--sombra" }}
           >
             <li>
-              <p>
+              <p
+              onClick={() => {
+                  navigate("/perfil");
+                }}
+              >
                 <FiUser size=".9rem" /> Perfil
               </p>
               <p
                 onClick={() => {
-                  localStorage.removeItem("auth-axes-streaming");
+                  localStorage.removeItem("gamelab");
                   navigate("/login");
                 }}
               >
@@ -52,6 +57,7 @@ function HeaderHome() {
               </p>
             </li>
           </ul>
+          <p><Link to='/avisos'> Avisos  <VscBellDot size={20} /> </Link></p>
         </div>
       </div>
     </header>

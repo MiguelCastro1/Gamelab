@@ -5,10 +5,12 @@ import imgUser from "../../assets/foto_prof.svg";
 import { FiUser, FiLogOut } from "react-icons/fi";
 import { BiLogOut } from "react-icons/bi";
 import {VscBellDot} from "react-icons/vsc"
+import { useTypePerfil } from "../../Context/PerfilContext";
 
 function HeaderHome() {
   let navigate = useNavigate();
   const [scrollY, setScrollY] = useState(false);
+  const {perfil,setPerfil} = useTypePerfil();
 
   // useEffect(() => {
   //   const scrollListener = () => {
@@ -31,7 +33,7 @@ function HeaderHome() {
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            Matheus Matos
+            {perfil.nome}
           </p>
           <img src={imgUser} alt="usuário" />
           <ul
@@ -50,6 +52,7 @@ function HeaderHome() {
               <p
                 onClick={() => {
                   localStorage.removeItem("gamelab");
+                  setPerfil({})
                   navigate("/login");
                 }}
               >
@@ -57,7 +60,9 @@ function HeaderHome() {
               </p>
             </li>
           </ul>
-          <p><Link to='/avisos'> Avisos  <VscBellDot size={20} /> </Link></p>
+          {perfil.perfil === "aluno" &&  
+           <p><Link to='/avisos'> Avisos  <VscBellDot size={20} /> </Link></p>
+          }
         </div>
       </div>
     </header>

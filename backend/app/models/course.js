@@ -21,6 +21,10 @@ const courseSchema = new Schema(
       required: true,
       lowercase: true,
     },
+    Alunos: [{
+      userId: { type: Schema.Types.ObjectId, ref: "User"},
+      notas: { type: Array}
+    }]
   },
   {
     timestamps: true,

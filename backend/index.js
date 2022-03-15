@@ -24,7 +24,6 @@ mongoose.connection.on("error", (err) => {
 
 require("./app/models/user");
 require("./app/models/course");
-require("./app/models/participant");
 
 const routes = require("./app/routes/routes");
 

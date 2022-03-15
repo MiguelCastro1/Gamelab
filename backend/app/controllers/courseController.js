@@ -46,11 +46,6 @@ exports.courses = async (req,res) => {
 
 }
 
-//matricular aluno
-exports.matricular = async (req,res) => {
-
-}
-
 exports.update = async (req,res) => {
 
 }

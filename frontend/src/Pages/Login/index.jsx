@@ -1,3 +1,4 @@
+import { useState, useContext, useEffect } from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import Header from "../../components/Header";
@@ -6,12 +7,10 @@ import styles from "./styles.module.scss";
 import Input from "../../components/Input";
 import { useNavigate } from "react-router-dom";
 import api from "../../services/axios";
-import { useTypePerfil } from "../../Context/PerfilContext";
-import { useState, useContext, useEffect} from "react";
-
+import ErrorNotificationLogin from "../../components/ErrorNotificationLogin";
 
 const formSchema = Yup.object().shape({
-  email: Yup.string().email('Email Invalido').required("Campo obrigatório"),
+  email: Yup.string().email("Email Invalido").required("Campo obrigatório"),
   senha: Yup.string().required("Campo obrigatório"),
 });
 
@@ -19,29 +18,26 @@ export default function Login() {
   let navigate = useNavigate();
 
   const [erro, setErro] = useState(false);
-  const {perfil, setPerfil} = useTypePerfil();
 
-  useEffect(() => {
-    console.log(perfil);  
-  },[perfil]);
-
-  const handleSubmit = (values, actions) => {
+  const handleSubmit = async (values, actions) => {
     try {
-      api.post("/login", values)
-      .then((user) => {
-        const payload   = {
-          id: user.data.user.id,
-          perfil: user.data.user.perfil,
-          nome: user.data.user.nome,
-          email: user.data.user.email 
-        }
-        localStorage.setItem("gamelab",user.data.token);
-        setPerfil(payload);
-        navigate('/');
-      })
-      .catch(erro => setErro(true))
+      let {
+        data: {
+          user: { perfil, nome, email },
+          token,
+        },
+      } = await api.post("/login", values);
+      let dados = {
+        perfil,
+        nome,
+        email,
+        token,
+      };
+      console.log(dados);
+      localStorage.setItem("gamelab", JSON.stringify(dados));
+      navigate("/");
     } catch (error) {
-      setErro(true)
+      setErro(true);
       console.log(error);
     }
   };
@@ -54,9 +50,15 @@ export default function Login() {
           <h1>GameLab</h1>
           <p>Crie sua turma e faça seus alunos se divertirem.</p>
         </section>
-        <div className={styles.content}>
+        <div
+          style={{ height: erro ? "23.8rem" : "22rem" }}
+          className={styles.content}
+        >
           <div className={styles.boxForm}>
-            <h3>Bem-vindo</h3>
+            <h3 style={{ marginBottom: erro ? "1rem" : "2.2rem" }}>
+              Bem-vindo
+            </h3>
+            {erro && <ErrorNotificationLogin />}
             <Formik
               initialValues={{
                 email: "",
@@ -84,7 +86,7 @@ export default function Login() {
                   <div>
                     <a href="#">Esqueceu a senha?</a>
                   </div>
-                  <div>{erro && <div className={styles.erro}> Email ou senha incorretos </div>}</div>
+                  {/* <div>{erro && <div className={styles.erro}> Email ou senha incorretos </div>}</div> */}
                   <button type="submit">Entrar</button>
                 </Form>
               )}

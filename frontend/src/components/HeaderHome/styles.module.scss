@@ -31,24 +31,30 @@
       align-items: center;
       gap: 10px;
 
+      a {
+        color: inherit;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
       p {
         cursor: pointer;
+        display: flex;
+        align-items: center;
       }
 
       & > p {
         font-size: 0.9rem;
-
         transition: text-decoration 0.3s linear;
+        color: var(--gray-500);
 
-        &:hover {
+        &:hover:not(:last-child) {
           text-decoration: underline;
         }
       }
 
       li > p {
         padding: 4px 7px;
-        display: flex;
-        align-items: center;
         gap: 7px;
 
         & + p {

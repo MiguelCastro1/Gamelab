@@ -3,7 +3,6 @@ import Rotas from "./routes";
 import "react-calendar/dist/Calendar.css";
 
 function App() {
-  localStorage.removeItem("gamelab")
   return (
     <>
       <PerfilProvider>

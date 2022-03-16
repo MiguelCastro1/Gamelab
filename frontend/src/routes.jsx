@@ -27,19 +27,6 @@ const RotasPrivadas = () => {
   return isAuth ? <Outlet /> : <Navigate to="/login" />;
 };
 
-const PrivateRoute = ({ component: Component, ...rest }) => (
-  <Route
-    {...rest}
-    render={props =>
-      isAuthenticated() ? (
-        <Component {...props} />
-      ) : (
-        <navigateTo to={{ pathname: "/", state: { from: props.location } }} />
-      )
-    }
-  />
-);
-
 export default function Rotas() {
   return (
     <BrowserRouter>
@@ -49,7 +36,7 @@ export default function Rotas() {
         <Route path="/cadastrar-perfil" element={<FormCadastro />} />
         <Route path="/email" element={<EmailEnviado />} />
         <Route path="/sobre" element={<Sobre />} />
-        <Route path='*' element={<h1>Not Found</h1>} />
+        <Route path="*" element={<h1>Not Found</h1>} />
 
         <Route element={<RotasPrivadas />}>
           <Route path="/" element={<Home />} />
@@ -61,7 +48,6 @@ export default function Rotas() {
           <Route path="/perfil" element={<Perfil />} />
           <Route path="/procurar-curso" element={<Procurar />} />
         </Route>
-
       </Routes>
     </BrowserRouter>
   );

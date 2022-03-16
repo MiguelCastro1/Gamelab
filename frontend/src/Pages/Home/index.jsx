@@ -7,9 +7,11 @@ import HeaderHome from "../../components/HeaderHome";
 import BoxTurma from "../../components/BoxTurma";
 import Calendar from "react-calendar";
 import styles from "./styles.module.scss";
-import imageAluno from "../../assets/Aluno_Personagem2.png";
+// import imageAluno from "../../assets/Aluno_Personagem2.png";
+import imageAluno from "../../assets/animacao_megaman_-running.gif";
 import api from "../../services/axios";
 import { useTypePerfil } from "../../Context/PerfilContext";
+import ProgressBar from "../../components/ProgressBar";
 
 function Home() {
   const [date, setDate] = useState(new Date());
@@ -33,7 +35,7 @@ function Home() {
 
   //retirar depois
   useEffect(() => {
-    //ao carregar página carrega todas as turmas 
+    //ao carregar página carrega todas as turmas
     console.log(perfil);
     let turmas = [];
     turmas.push(turma1);
@@ -76,7 +78,10 @@ function Home() {
                 />
               </li>
               <li>
-              <Link to='/kanban'>  Meu Kanban <BsKanban size={20}/> </Link>
+                <Link to="/kanban">
+                  {" "}
+                  Meu Kanban <BsKanban size={20} />{" "}
+                </Link>
               </li>
               <li>
                <Link to= {perfil.perfil === "aluno" ? '/procurar-curso' : '/criar-curso'} >
@@ -112,30 +117,46 @@ function Home() {
                     </Link>
                   ))}
             </div>
+            {}
           </div>
 
           <div className={styles.sideBarRight}>
             <ul>
-             {perfil.perfil === "aluno" && 
-             <li  className={styles.avisos}>
-              <h3 > Perfil </h3>
-              <img src={imageAluno} alt="Nada"  width={350} height={250}/>
-              </li> 
-              }
-              <li>
+              {perfil === "aluno" && (
+                <li>
+                  <h3> Perfil </h3>
+                  <section className={styles.userName}>
+                    <span>rodrigotaveiraa</span>
+                  </section>
+                  <div className={styles.gamificacao}>
+                    <img
+                      src={imageAluno}
+                      alt="Personagem"
+                      width={350}
+                      height={250}
+                    />
+                    <div>
+                      <span>Level: </span>
+                      <span>2</span>
+                    </div>
+                  </div>
+                  <ProgressBar progressBar={23} />
+                </li>
+              )}
+              <li className={styles.avisos}>
                 <h3>Calendário</h3>
                 <Calendar
                   className={styles.reactCalendar}
                   onChange={setDate}
                   value={date}
                 />
-                </li>
-              {perfil.perfil === "aluno" &&
-              <li className={styles.avisos}>
-                <h3>Avisos</h3>
-                <h4>Sem avisos</h4>
               </li>
-              }
+              {perfil === "aluno" && (
+                <li className={styles.avisos}>
+                  <h3>Avisos</h3>
+                  <h4>Sem avisos</h4>
+                </li>
+              )}
             </ul>
           </div>
         </div>

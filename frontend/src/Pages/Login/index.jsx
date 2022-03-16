@@ -1,6 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
 import Header from "../../components/Header";
 import gamelabLogin from "../../assets/image-gamelab.svg";
 import styles from "./styles.module.scss";
@@ -33,7 +34,6 @@ export default function Login() {
         email,
         token,
       };
-      console.log(dados);
       localStorage.setItem("gamelab", JSON.stringify(dados));
       navigate("/");
     } catch (error) {

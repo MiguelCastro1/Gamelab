@@ -46,7 +46,7 @@
       & > p {
         font-size: 0.9rem;
         transition: text-decoration 0.3s linear;
-        color: var(--gray-500);
+        color: var(--preto);
 
         &:hover:not(:last-child) {
           text-decoration: underline;

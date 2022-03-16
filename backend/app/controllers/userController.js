@@ -39,10 +39,10 @@ exports.login = async (req, res) => {
           email: usuario.email,
         };
         res.status(200).json({
-          user: payload,  
+          user: payload,
           token: jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: "7d" }),
         });
-      }else{
+      } else {
         res.status(401).send("email e/ou senha inválidos");
       }
     } else {
@@ -53,19 +53,16 @@ exports.login = async (req, res) => {
   }
 };
 
-exports.update = async (req,res) => {
+exports.update = async (req, res) => {};
 
-};
-
-exports.user = async (req,res) => {
-  try{ 
+exports.user = async (req, res) => {
+  try {
     let userId = req.params.id;
-    let doc = await User.findById( userId);
+    let doc = await User.findById(userId);
     res.status(200).json({ doc });
   } catch (error) {
     console.error(error);
   }
-  
 };
 
 exports.listAll = async (req, res) => {

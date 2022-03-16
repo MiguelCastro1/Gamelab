@@ -15,7 +15,7 @@ function BoxTurma({ nomeTurma, professor, descricao, ...props }) {
           <p>
             <span>professor:</span> {professor}
           </p>
-          <p>
+          <p className={styles.descricao}>
             <span>Descrição:</span> {descricao}
           </p>
         </section>

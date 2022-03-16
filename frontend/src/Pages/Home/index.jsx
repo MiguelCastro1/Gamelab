@@ -7,88 +7,27 @@ import HeaderHome from "../../components/HeaderHome";
 import BoxTurma from "../../components/BoxTurma";
 import Calendar from "react-calendar";
 import styles from "./styles.module.scss";
-// import imageAluno from "../../assets/Aluno_Personagem2.png";
 import imageAluno from "../../assets/animacao_megaman_-running.gif";
 import api from "../../services/axios";
 import { useTypePerfil } from "../../Context/PerfilContext";
 import ProgressBar from "../../components/ProgressBar";
+import { getToken } from "../../services/auth";
 
 function Home() {
   const [date, setDate] = useState(new Date());
   const [searchString, setSearchString] = useState("");
-  const [resultados, setResultados] = useState([]);
-  const [searchResults, setSearchResults] = useState([]);
-  let perfil = localStorage.getItem("gamelab")
-    ? JSON.parse(localStorage.getItem("gamelab")).perfil
-    : null;
-  // Exemplos **Retirar quando Back tiver com daddo
-  const turma1 = {
-    Id: "1",
-    nomeTurma: "Redes de computadores",
-    professor: "Matheus Matos",
-    descricao:
-      "Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex.",
-  };
-  const turma2 = {
-    Id: "2",
-    nomeTurma: "Prática em Engenharia de Software",
-    professor: "Ana Oran",
-    descricao:
-      "Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex.",
-  };
-  const turma3 = {
-    Id: "3",
-    nomeTurma: "Programação Web",
-    professor: "Davi Fernandes",
-    descricao:
-      "Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex.",
-  };
-  const turma4 = {
-    Id: "4",
-    nomeTurma: "Banco 2",
-    professor: "Altigran Silva",
-    descricao:
-      "Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex.",
-  };
+  const [turmas, setTurmas] = useState([]);
+  let { perfil } = getToken() ? JSON.parse(getToken()) : null;
 
-  //Carregar turmas do backend (quando tiver com exemplos)
-  /* useEffect(() => {
-    try {
-      api.get("/cursos", perfil)
-      .then((data) => {
-        setResultados(data);
-        console.log('done')
-      })
-      .catch(err => console.log(err))
-    }catch (error) {
-      console.log(error);
+  useEffect(() => {
+    async function fetchTurma() {
+      let { data } =
+        perfil === "professor"
+          ? await api.get(`/meuscursos?pesquisa=${searchString}`)
+          : await api.get(`/cursos?pesquisa=${searchString}`);
+      setTurmas([...data.doc]);
     }
-  }, []);*/
-  // useEffect(() => {
-  //   async function fetchTurma() {
-  //     let { data } = await api.get('')
-  //   }
-  // })
-
-  //retirar depois
-  useEffect(() => {
-    //ao carregar página carrega todas as turmas
-    console.log(perfil);
-    let turmas = [];
-    turmas.push(turma1);
-    turmas.push(turma2);
-    turmas.push(turma3);
-    turmas.push(turma4);
-    setResultados(turmas);
-  }, []);
-
-  useEffect(() => {
-    //ao mudar string de busca, altera as turmas na home
-    setSearchResults(
-      resultados.filter((turma) =>
-        turma.nomeTurma.toLowerCase().includes(searchString.toLowerCase())
-      )
-    );
+    fetchTurma();
   }, [searchString]);
 
   return (
@@ -122,10 +61,7 @@ function Home() {
               </li>
               <li>
                 <Link to="/criar-curso">
-                  {" "}
-                  {perfil.perfil === "aluno"
-                    ? "Procurar Turma"
-                    : "Criar Turma"}{" "}
+                  {perfil.perfil === "aluno" ? "Procurar Turma" : "Criar Turma"}{" "}
                   <IoSchoolOutline size={20} />{" "}
                 </Link>
               </li>
@@ -137,68 +73,53 @@ function Home() {
               <h1>Minhas turmas</h1>
             </header>
             <div>
-              {searchString == "" //If
-                ? resultados.map((turma) => (
-                    <Link key={turma.Id} to="/curso">
-                      <BoxTurma
-                        nomeTurma={turma.nomeTurma}
-                        professor={turma.professor}
-                        descricao={turma.descricao}
-                      />
-                    </Link>
-                  ))
-                : // Else
-                  searchResults.map((turma) => (
-                    <Link key={turma.Id} to="/curso">
-                      <BoxTurma
-                        nomeTurma={turma.nomeTurma}
-                        professor={turma.professor}
-                        descricao={turma.descricao}
-                      />
-                    </Link>
-                  ))}
+              {turmas.map(({ _id, autorEmail, descricao, materia }) => (
+                <BoxTurma
+                  nomeTurma={materia}
+                  professor={autorEmail}
+                  descricao={descricao}
+                  key={_id}
+                />
+              ))}
             </div>
-            {}
           </div>
 
           <div className={styles.sideBarRight}>
-            <ul>
-              {perfil === "aluno" && (
-                <li>
-                  <h3> Perfil </h3>
-                  <section className={styles.userName}>
-                    <span>rodrigotaveiraa</span>
-                  </section>
-                  <div className={styles.gamificacao}>
-                    <img
-                      src={imageAluno}
-                      alt="Personagem"
-                      width={350}
-                      height={250}
-                    />
-                    <div>
-                      <span>Level: </span>
-                      <span>2</span>
-                    </div>
+            {perfil === "aluno" && (
+              <div className={styles.perfil}>
+                <h3> Perfil </h3>
+                <section className={styles.userName}>
+                  <span>rodrigotaveiraa</span>
+                </section>
+                <div className={styles.gamificacao}>
+                  <img
+                    src={imageAluno}
+                    alt="Personagem"
+                    width={350}
+                    height={250}
+                  />
+                  <div>
+                    <span>Level: </span>
+                    <span>2</span>
                   </div>
-                  <ProgressBar progressBar={23} />
-                </li>
-              )}
-              <li className={styles.avisos}>
-                <h3>Calendário</h3>
-                <Calendar
-                  className={styles.reactCalendar}
-                  onChange={setDate}
-                  value={date}
-                />
-              </li>
-              {perfil === "aluno" && (
-                <li className={styles.avisos}>
+                </div>
+                <ProgressBar progressBar={23} />
+              </div>
+            )}
+            <div className={styles.calendario}>
+              <h3>Calendário</h3>
+              <Calendar
+                className={styles.reactCalendar}
+                onChange={setDate}
+                value={date}
+              />
+              {/* {perfil === "aluno" && (
+                <div>
                   <h3>Avisos</h3>
                   <h4>Sem avisos</h4>
-                </li>
-              )}
-            </ul>
+                </div>
+              )} */}
+            </div>
           </div>
         </div>
       </div>

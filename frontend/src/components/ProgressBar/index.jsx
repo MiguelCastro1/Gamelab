@@ -4,12 +4,12 @@ export default function ProgressBar({ progressBar }) {
   return (
     <div className={styles.container}>
       <p>17xp</p>
-      <p className={styles.baseProgress}>
-        <p
+      <div className={styles.baseProgress}>
+        <div
           style={{ width: `${progressBar}%` }}
           className={styles.progressBar}
-        ></p>
-      </p>
+        ></div>
+      </div>
       <p>35xp</p>
     </div>
   );

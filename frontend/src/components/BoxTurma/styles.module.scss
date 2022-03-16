@@ -29,6 +29,16 @@
     span {
       color: var(--blue-700);
     }
+
+    .descricao {
+      max-height: 100px;
+      -webkit-line-clamp: 4; /** número de linhas que você quer exibir */
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      word-break: break-word;
+      display: -webkit-box;
+    }
   }
 
   &:hover {

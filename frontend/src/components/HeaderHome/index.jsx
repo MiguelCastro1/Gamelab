@@ -6,13 +6,12 @@ import { FiUser, FiLogOut } from "react-icons/fi";
 import { BiLogOut } from "react-icons/bi";
 import { VscBellDot } from "react-icons/vsc";
 import { useTypePerfil } from "../../Context/PerfilContext";
+import { getToken } from "../../services/auth";
 
 function HeaderHome() {
   let navigate = useNavigate();
   // const { perfil, setPerfil } = useTypePerfil();
-  let { nome, perfil } = localStorage.getItem("gamelab")
-    ? JSON.parse(localStorage.getItem("gamelab"))
-    : null;
+  let { nome, perfil } = getToken() ? JSON.parse(getToken()) : null;
 
   return (
     <header className={styles.container}>

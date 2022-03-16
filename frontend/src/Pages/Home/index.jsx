@@ -18,38 +18,7 @@ function Home() {
   const [searchResults, setSearchResults] = useState([]);
   const {perfil, setPerfil }  = useTypePerfil();
 
-  // Exemplos **Retirar quando Back tiver com daddo
-  const turma1 = {
-    Id: "1",
-    nomeTurma: "Redes de computadores",
-    professor: "Matheus Matos",
-    descricao:
-      "Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex.",
-  };
-  const turma2 = {
-    Id: "2",
-    nomeTurma: "Prática em Engenharia de Software",
-    professor: "Ana Oran",
-    descricao:
-      "Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex.",
-  };
-  const turma3 = {
-    Id: "3",
-    nomeTurma: "Programação Web",
-    professor: "Davi Fernandes",
-    descricao:
-      "Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex.",
-  };
-  const turma4 = {
-    Id: "4",
-    nomeTurma: "Banco 2",
-    professor: "Altigran Silva",
-    descricao:
-      "Vivamus vulputate, velit pulvinar accumsan mattis, massa eros rhoncus mi, eu fermentum sapien dui vitae tellus. Curabitur in sagittis ante, ut molestie ex.",
-  };
-
-  //Carregar turmas do backend (quando tiver com exemplos)
- /* useEffect(() => {
+  useEffect(() => {
     try {
       api.get("/cursos", perfil)
       .then((data) => {
@@ -60,7 +29,7 @@ function Home() {
     }catch (error) {
       console.log(error);
     }
-  }, []);*/
+  }, []);
 
   //retirar depois
   useEffect(() => {
@@ -110,7 +79,9 @@ function Home() {
               <Link to='/kanban'>  Meu Kanban <BsKanban size={20}/> </Link>
               </li>
               <li>
-               <Link to='/criar-curso'> {perfil.perfil === "aluno" ? 'Procurar Turma':'Criar Turma'} <IoSchoolOutline size={20}/>{" "} </Link>
+               <Link to= {perfil.perfil === "aluno" ? '/procurar-curso' : '/criar-curso'} >
+                {perfil.perfil === "aluno" ? 'Procurar Turma':'Criar Turma'} 
+                <IoSchoolOutline size={20}/>{" "} </Link>
               </li>
             </ul>
           </div>
@@ -122,7 +93,7 @@ function Home() {
             <div>
               {searchString == "" //If
                 ? resultados.map((turma) => (
-                    <Link key={turma.Id} to='/curso'>
+                    <Link key={turma.Id} to={`/curso/${turma.id}`}>
                       <BoxTurma
                         nomeTurma={turma.nomeTurma}
                         professor={turma.professor}
@@ -132,7 +103,7 @@ function Home() {
                   ))
                 : // Else
                   searchResults.map((turma) => (
-                    <Link key={turma.Id} to='/curso'>
+                    <Link key={turma.Id} to={`/curso/${turma.id}`}>
                       <BoxTurma
                         nomeTurma={turma.nomeTurma}
                         professor={turma.professor}

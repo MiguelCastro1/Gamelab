@@ -18,6 +18,7 @@ import Kanban from "./Pages/Kanban";
 import Avisos from "./Pages/Avisos";
 import Curso from "./Pages/Curso";
 import Perfil from "./Pages/Perfil";
+import Procurar from "./Pages/Procurar";
 
 import { isAuthenticated } from "./services/auth";
 
@@ -56,8 +57,9 @@ export default function Rotas() {
           <Route path="/kanban" element={<Kanban />} />
           <Route path="/criar-curso" element={<CriarCurso />} />
           <Route path="/avisos" element={<Avisos />} />
-          <Route path="/curso" element={<Curso />} />
+          <Route path="/curso/:id" element={<Curso />} />
           <Route path="/perfil" element={<Perfil />} />
+          <Route path="/procurar-curso" element={<Procurar />} />
         </Route>
 
       </Routes>

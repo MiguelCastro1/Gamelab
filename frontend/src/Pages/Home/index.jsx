@@ -33,18 +33,6 @@ function Home() {
     }
   }, []);
 
-  //retirar depois
-  useEffect(() => {
-    //ao carregar página carrega todas as turmas
-    console.log(perfil);
-    let turmas = [];
-    turmas.push(turma1);
-    turmas.push(turma2);
-    turmas.push(turma3);
-    turmas.push(turma4);
-    setResultados(turmas);
-  }, []);
-
   useEffect(() => {
     //ao mudar string de busca, altera as turmas na home
     setSearchResults(
@@ -96,22 +84,22 @@ function Home() {
               <h1>Minhas turmas</h1>
             </header>
             <div>
-              {searchString == "" //If
+            {searchString == "" //If
                 ? resultados.map((turma) => (
-                    <Link key={turma.Id} to={`/curso/${turma.id}`}>
+                    <Link key={turma._id} to = {`/curso/${turma._id}`}>
                       <BoxTurma
-                        nomeTurma={turma.nomeTurma}
-                        professor={turma.professor}
+                        nomeTurma={turma.nomeCurso}
+                        professor={turma.autorEmail}
                         descricao={turma.descricao}
                       />
                     </Link>
                   ))
                 : // Else
                   searchResults.map((turma) => (
-                    <Link key={turma.Id} to={`/curso/${turma.id}`}>
+                    <Link key={turma._id} to={`/curso/${turma._id}`}>
                       <BoxTurma
                         nomeTurma={turma.nomeTurma}
-                        professor={turma.professor}
+                        professor={turma.autorEmail}
                         descricao={turma.descricao}
                       />
                     </Link>

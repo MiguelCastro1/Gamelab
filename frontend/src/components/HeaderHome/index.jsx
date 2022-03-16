@@ -4,36 +4,37 @@ import styles from "./styles.module.scss";
 import imgUser from "../../assets/foto_prof.svg";
 import { FiUser, FiLogOut } from "react-icons/fi";
 import { BiLogOut } from "react-icons/bi";
-import {VscBellDot} from "react-icons/vsc"
+import { VscBellDot } from "react-icons/vsc";
 import { useTypePerfil } from "../../Context/PerfilContext";
 
 function HeaderHome() {
   let navigate = useNavigate();
-  const [scrollY, setScrollY] = useState(false);
-  const {perfil,setPerfil} = useTypePerfil();
-
-  // useEffect(() => {
-  //   const scrollListener = () => {
-  //     setScrollY(window.scrollY > 10 ? true : false);
-  //   };
-
-  //   window.addEventListener("scroll", scrollListener);
-
-  //   return () => window.removeEventListener("scroll", scrollListener);
-  // }, []);
+  // const { perfil, setPerfil } = useTypePerfil();
+  let { nome, perfil } = localStorage.getItem("gamelab")
+    ? JSON.parse(localStorage.getItem("gamelab"))
+    : null;
 
   return (
     <header className={styles.container}>
       <div className={styles.content}>
-      <Link to='/'> <h1>GameLab</h1> </Link>
+        <Link to="/">
+          <h1>GameLab</h1>
+        </Link>
         <div className={styles.areaUser}>
+          {perfil === "aluno" && (
+            <p style={{ marginRight: ".7rem" }}>
+              <Link to="/avisos">
+                Avisos <VscBellDot size={18} />
+              </Link>
+            </p>
+          )}
           <p
             // className="dropdown-toggle"
             id="dropdownMenuButton1"
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            {perfil.nome}
+            {nome}
           </p>
           <img src={imgUser} alt="usuário" />
           <ul
@@ -43,7 +44,7 @@ function HeaderHome() {
           >
             <li>
               <p
-              onClick={() => {
+                onClick={() => {
                   navigate("/perfil");
                 }}
               >
@@ -52,7 +53,7 @@ function HeaderHome() {
               <p
                 onClick={() => {
                   localStorage.removeItem("gamelab");
-                  setPerfil({})
+                  // setPerfil({});
                   navigate("/login");
                 }}
               >
@@ -60,9 +61,6 @@ function HeaderHome() {
               </p>
             </li>
           </ul>
-          {perfil.perfil === "aluno" &&  
-           <p><Link to='/avisos'> Avisos  <VscBellDot size={20} /> </Link></p>
-          }
         </div>
       </div>
     </header>

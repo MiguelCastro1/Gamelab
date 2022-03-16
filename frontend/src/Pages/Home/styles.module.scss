@@ -67,8 +67,6 @@
       background: rgb(255, 254, 254);
       border-radius: 4px;
       max-height: auto;
-      margin-block-end: 20px;
-      
 
       ul {
         list-style: none;
@@ -84,23 +82,60 @@
           padding-top: 0.7rem;
           border-top: 1px solid var(--gray-300);
           margin-block-end: 5px;
-          
-          
+
           p {
             text-align: center;
             color: #111;
             font-size: 0.8rem;
           }
-          h4{
+          h4 {
             text-align: center;
-            color:rgb(163, 71, 71)
+            color: rgb(163, 71, 71);
           }
         }
-        li{
+        li {
           align-items: center;
           justify-content: center;
           width: 100%;
+        }
+      }
 
+      .userName {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        span {
+          padding: 0.4rem 0.6rem;
+          font-weight: bold;
+          // background: var(--gray-100);
+          border-radius: 8px;
+          color: var(--gray-500);
+        }
+      }
+
+      .gamificacao {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        img {
+          max-width: 150px;
+          max-height: 130px;
+          object-fit: contain;
+          margin-bottom: 0.5rem;
+        }
+
+        div {
+          background: var(--gray-100);
+          padding: 0.5rem;
+          border-radius: 8px;
+          display: flex;
+          gap: 10px;
+
+          span:last-child {
+            font-weight: bold;
+          }
         }
       }
     }
@@ -112,7 +147,7 @@
       border: 1px solid var(--gray-100);
       background: white;
       border-radius: 4px;
-      height: 13rem;
+      height: 11rem;
 
       ul {
         list-style: none;
@@ -132,7 +167,6 @@
           border-radius: 4px;
           cursor: pointer;
           transition: margin-bottom 0.1s ease-in-out;
-      
 
           &:hover {
             margin-bottom: 0.8rem;
@@ -157,7 +191,6 @@
           }
         }
       }
-
     }
   }
 }
@@ -172,8 +205,6 @@
   line-height: 1.125em;
   font-size: 13.5px;
   align-content: center;
-  margin-left: 25px;
-  
 }
 
 @media (max-width: 1200px) {

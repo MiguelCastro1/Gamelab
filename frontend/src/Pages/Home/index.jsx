@@ -55,14 +55,13 @@ function Home() {
               </li>
               <li>
                 <Link to="/kanban">
-                  {" "}
-                  Meu Kanban <BsKanban size={20} />{" "}
+                  Meu Kanban <BsKanban size={20} />
                 </Link>
               </li>
               <li>
                 <Link to="/criar-curso">
-                  {perfil.perfil === "aluno" ? "Procurar Turma" : "Criar Turma"}{" "}
-                  <IoSchoolOutline size={20} />{" "}
+                  {perfil.perfil === "aluno" ? "Procurar Turma" : "Criar Turma"}
+                  <IoSchoolOutline size={20} />
                 </Link>
               </li>
             </ul>

@@ -1,5 +1,137 @@
 .container {
-    width: min(90vw, 1120px);
-    margin: 2.2rem auto 0;
-    text-align: center;
+  width: min(95vw, 890px);
+  margin: 2.2rem auto;
+  //   text-align: center;
+
+  .content {
+    margin-top: 1rem;
+    width: 100%;
+    background: white;
+    // justify-content: space-between;
+    // align-items: center;
+    padding: 0.8rem 2rem;
+    box-shadow: var(--sombra);
+
+    header {
+      margin-bottom: 3rem;
+      display: flex;
+      justify-content: space-between;
+
+      .icons {
+        height: 2rem;
+        width: 2rem;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: hover 0.3s linear;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &:hover {
+          background: var(--gray-100);
+        }
+      }
+    }
+
+    section {
+      display: flex;
+      gap: 1rem;
+      width: 100%;
+    }
+
+    div {
+      width: 100%;
+    }
+
+    footer {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.9rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .lineForm {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2.7rem;
+    }
+
+    .formContent {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      img {
+        height: 10rem;
+        width: 10rem;
+        border-radius: 8px;
+        object-fit: cover;
+      }
+    }
+
+    .submitImage {
+      margin-top: 1rem;
+      display: inline;
+      width: auto;
+      position: relative;
+      width: 60%;
+
+      &:hover {
+        cursor: pointer;
+      }
+
+      p {
+        width: 100%;
+        text-align: center;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        cursor: pointer;
+      }
+
+      input {
+        cursor: pointer;
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+
+    button {
+      margin-top: 2.7rem;
+      height: 3rem;
+      width: 10%;
+      border: none;
+      border-radius: 4px;
+      font-weight: bold;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      transition: hover 0.3s linear;
+    }
+
+    .cancelar {
+      color: var(--gray-300);
+      &:hover {
+        color: var(--preto);
+      }
+    }
+
+    .salvar {
+      background: var(--blue-700);
+      color: white;
+      &:hover {
+        background: var(--blue-500);
+      }
+    }
+  }
 }

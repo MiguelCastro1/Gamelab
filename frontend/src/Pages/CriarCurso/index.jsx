@@ -1,15 +1,21 @@
 import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
+import { BiSearch} from "react-icons/bi";
 import { BsChevronCompactLeft, BsKanban, BsFilter, BsCalendarCheck} from "react-icons/bs";
 import {FiHome} from "react-icons/fi"
+import {FaDoorOpen} from "react-icons/fa"
 import HeaderHome from "../../components/HeaderHome";
+import BoxTurmaEnroll from "../../components/BoxTurmaEnroll";
 import Calendar from "react-calendar";
 import styles from "./styles.module.scss";
+import imageAluno from "../../assets/animacao_megaman_-running.gif";
 import api from "../../services/axios";
 import ProgressBar from "../../components/ProgressBar";
 
-function Procurar() {
+function CriarCurso() {
   const [date, setDate] = useState(new Date());
+  const [searchString, setSearchString] = useState("");
+
   let {id} = localStorage.getItem("gamelab")
     ? JSON.parse(localStorage.getItem("gamelab"))
     : null;
@@ -40,18 +46,23 @@ function Procurar() {
 
           <div className={styles.feed}>
             <header>
-              <h1>Cadastrar Turma</h1>
-                </header>
-                <input
+              <h1>Criar Turma</h1>
+            </header>
+            <input
                   onChange={(e) => setSearchString(e.target.value)}
                   value={searchString}
                   placeholder="Nome ou Código da turma"
                 />
-            <div/>
-           
+            <div>
+    
+            </div>
+            {}
+          </div>
 
-            <div className={styles.sideBarRight}>
+
+          <div className={styles.sideBarRight}>
             <ul>
+               
               <li className={styles.avisos}>
                 <h3>Calendário</h3>
                 <Calendar
@@ -59,14 +70,14 @@ function Procurar() {
                   onChange={setDate}
                   value={date}
                 />
-             </li>
+              </li>
+                
             </ul>
-            </div>
-            </div>
+          </div>
+        </div>
       </div>
-    </div>
     </>
   );
 }
 
-export default Procurar;
+export default CriarCurso;

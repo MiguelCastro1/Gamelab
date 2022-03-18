@@ -8,10 +8,10 @@ const api = axios.create({
 });
 
 api.interceptors.request.use(async (config) => {
-  const {token} = localStorage.getItem("gamelab")
-  ? JSON.parse(localStorage.getItem("gamelab"))
-  : null;
+  console.log("in")
+  let token = JSON.parse(getToken()) ? JSON.parse(getToken()).token : null;
   
+  console.log(token)
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }

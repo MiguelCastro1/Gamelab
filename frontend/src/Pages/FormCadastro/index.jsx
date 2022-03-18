@@ -28,14 +28,14 @@ function FormCadastro() {
   const [erro, setErro] = useState('');
 
   const handleSubmit = (values, actions) => {
-    delete values['confirmacao_senha'];
-    let object = { ...values, tipoUsuario: perfil };
+   // delete values['confirmacao_senha'];
+   // let object = { ...values, tipoUsuario: perfil };
     console.log(perfil);
     try {
       api.post("/usuarios", object)
       .then((data) => {
         console.log(data);
-      navigate("/login");
+        navigate("/login");
       })
       .catch(erro => setErro('Email já cadastrado'))
     } catch (error) {

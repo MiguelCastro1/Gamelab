@@ -3,8 +3,8 @@ import { getToken } from "./auth";
 
 const api = axios.create({
   baseURL: "http://localhost:5000",
-  // withCredentials: true,
-  // credentials: "include",
+  //withCredentials: true,
+  //credentials: "include",
 });
 
 api.interceptors.request.use(async (config) => {

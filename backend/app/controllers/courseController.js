@@ -103,6 +103,17 @@ exports.listCourseParticipants = async (req, res) => {
   }
 };
 
+exports.listCoursesEnroll = async (req, res) => {
+  try{  
+    let id = req.params.id;
+    const doc = await Course.find().populate("User").select('nome');
+    //carregar cursos que aluno nao esteja matriculado
+    const result = doc.Aluno.filter((alunos) => id !== alunos.userId)
+    res.status(200).json({ doc });
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 exports.listAll = async (req, res) => {
   try {
@@ -112,3 +123,5 @@ exports.listAll = async (req, res) => {
     console.error(error);
   }
 };
+
+

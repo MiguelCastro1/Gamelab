@@ -33,7 +33,7 @@ function Home() {
   useEffect(() => {
     try {
       
-      api.get("/cursos", id)
+      api.get("/cursos")
       .then((data) => {
         setResultados(data.data.doc);
         console.log('done')

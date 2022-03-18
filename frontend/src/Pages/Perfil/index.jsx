@@ -7,7 +7,7 @@ import imgUser from "../../assets/foto_prof.svg";
 import Input from "../../components/Input";
 import styles from "./styles.module.scss";
 import { FiEdit2, FiArrowLeft } from "react-icons/fi";
-import { parseJwt } from "../../services/decodedToken";
+//import { parseJwt } from "../../services/decodedToken";
 import { getToken } from "../../services/auth";
 import api from "../../services/axios";
 import TextArea from "../../components/TextArea";
@@ -46,9 +46,7 @@ function Perfil() {
   const [flagReset, setFlagReset] = useState(false);
   const [isEdit, setIsEdit] = useState(true);
 
-  let id = getToken()
-    ? parseJwt(JSON.parse(localStorage.getItem("gamelab")).token).id
-    : null;
+  const {id} = localStorage.getItem("gamelab")? JSON.parse(localStorage.getItem("gamelab")): null;
 
   const handleCancel = () => {
     setFlagReset(!flagReset);

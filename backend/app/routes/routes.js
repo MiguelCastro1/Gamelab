@@ -15,8 +15,9 @@ router.patch("/usuarios/:id", auth, Usuario.update);
 //Cursos
 router.post("/cursos", auth, Curso.createCourse);
 router.post("/cursos/:id/matricula", auth, Curso.enroll);
-router.get("/cursos", auth, Curso.listCourseForStudents);
-router.get("/meuscursos", auth, Curso.listCourseFromTeacher);
+//router.get("/cursos/:pesquisa", auth, Curso.courses);
+router.get("/cursos", auth,  Curso.listAll);
+router.get("/cursos/procurar", auth,  Curso.listCoursesEnroll);
 router.put("/cursos/:id", auth, Curso.update);
 router.get("/cursos/:id/participantes", auth, Curso.listCourseParticipants);
 

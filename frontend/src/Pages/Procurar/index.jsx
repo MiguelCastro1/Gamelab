@@ -159,7 +159,7 @@ function Procurar() {
                 ?  (resultados.map((turma) => (
                   <div key={turma._id}>
                        <BoxTurmaEnroll 
-                        id = {turma._id}
+                        course_id = {turma._id}
                         nomeTurma={turma.nomeCurso}
                         professor={turma.autorEmail}
                         descricao={turma.descricao}
@@ -171,7 +171,7 @@ function Procurar() {
                   searchResults.map((turma) => (
                     <div key={turma._id}>
                       <BoxTurmaEnroll 
-                      id = {turma._id}
+                      course_id = {turma._id}
                       nomeTurma={turma.nomeCurso}
                       professor={turma.autorEmail}
                       descricao={turma.descricao}

@@ -6,16 +6,16 @@ import { useState,  } from "react";
 import user_padrao from "../../assets/user_padrao.png"
 import api from "../../services/axios";
 
-function BoxTurmaEnroll({ id, nomeTurma, professor, descricao, senha_curso, ...props }) {
+function BoxTurmaEnroll({ course_id, nomeTurma, professor, descricao, senha_curso, ...props }) {
   const [senha,setSenha] = useState("")
   let navigate = useNavigate()
-  const {user_id} = localStorage.getItem("gamelab")? JSON.parse(localStorage.getItem("gamelab")): null;
+  const {id} = localStorage.getItem("gamelab")? JSON.parse(localStorage.getItem("gamelab")): null;
 
   const enroll =  () =>{
     if(senha_curso === undefined){
       console.log('in')
       try {
-        api.post(`/cursos/${id}/matricula`, user_id)
+        api.post(`/cursos/${course_id}/matricula`, id)
         .then((data) => {
           console.log('done')
           navigate('/')
@@ -30,7 +30,7 @@ function BoxTurmaEnroll({ id, nomeTurma, professor, descricao, senha_curso, ...p
       if(senha === senha_curso){
         console.log('in')
         try {
-          api.post(`/cursos/${id}/matricula`,id)
+          api.post(`/cursos/${course_id}/matricula`,id)
           .then((data) => {
             console.log('done')
             navigate('/')
@@ -42,7 +42,7 @@ function BoxTurmaEnroll({ id, nomeTurma, professor, descricao, senha_curso, ...p
       }
     }
   }
-  
+
   return (
     <div className={styles.container}>
       <div className={styles.content}>

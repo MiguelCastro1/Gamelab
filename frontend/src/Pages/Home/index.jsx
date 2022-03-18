@@ -48,7 +48,7 @@ function Home() {
     //ao mudar string de busca, altera as turmas na home
     setSearchResults(
       resultados.filter((turma) =>
-        turma.nomeTurma.toLowerCase().includes(searchString.toLowerCase())
+        turma.nomeCurso.toLowerCase().includes(searchString.toLowerCase())
       )
     );
   }, [searchString]);
@@ -109,7 +109,7 @@ function Home() {
                   searchResults.map((turma) => (
                     <Link key={turma._id} to={`/curso/${turma._id}`}>
                       <BoxTurma
-                        nomeTurma={turma.nomeTurma}
+                        nomeTurma={turma.nomeCurso}
                         professor={turma.autorEmail}
                         descricao={turma.descricao}
                       />

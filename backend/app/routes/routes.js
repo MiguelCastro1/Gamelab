@@ -20,6 +20,5 @@ router.get("/cursos", auth,  Curso.listAll);
 router.get("/cursos/procurar", auth,  Curso.listCoursesEnroll);
 router.put("/cursos/:id", auth, Curso.update);
 router.get("/cursos/:id/participantes", auth, Curso.listCourseParticipants);
-router.get("/cursos/:id/participantes", auth, Curso.listCourseParticipants);
 
 module.exports = router;

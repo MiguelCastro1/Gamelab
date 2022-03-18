@@ -15,7 +15,7 @@ exports.createCourse = async (req, res) => {
 };
 
 //listar cursos - pesquisa pode ser: usuario, string de busca, ativo, ano.
-exports.listCourseFromTeacher = async (req, res) => {
+exports.listCoursesFromTeacher = async (req, res) => {
   let token = req.headers.authorization.split(" ")[1];
   let autor = parseJwt(token).email;
   try {
@@ -41,7 +41,7 @@ exports.listCourseFromTeacher = async (req, res) => {
   }
 };
 
-exports.listCourseForStudents = async (req, res) => {
+exports.listCoursesForStudents = async (req, res) => {
   try {
     let busca = req.query.pesquisa || "";
     const doc = await Course.find({

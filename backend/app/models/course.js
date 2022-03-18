@@ -21,10 +21,18 @@ const courseSchema = new Schema(
       required: true,
       lowercase: true,
     },
+    autorId: {
+      type: Schema.Types.ObjectId,
+      required: true,
+    },
     Alunos: [{
       userId: { type: Schema.Types.ObjectId, ref: "User"},
       notas: { type: Array}
-    }]
+    }],
+    Ativo: {
+      type: Boolean,
+      default: true
+    }
   },
   {
     timestamps: true,

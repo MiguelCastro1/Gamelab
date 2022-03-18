@@ -53,7 +53,15 @@ exports.login = async (req, res) => {
   }
 };
 
-exports.update = async (req, res) => {};
+exports.update = async (req, res) => {
+  let userId = req.params.id;
+  try {
+    let doc = await User.findOneAndUpdate({ id: userId }, req.body);
+    res.status(200).json({ doc });
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 exports.user = async (req, res) => {
   try {

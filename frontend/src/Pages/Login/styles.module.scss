@@ -22,7 +22,7 @@
       -webkit-text-fill-color: transparent;
       font-size: 4rem;
       font-weight: 700;
-      animation: slideInX 0.6s linear;
+      animation: slideInX 0.6s ease-in-out;
       padding-top: 2rem;
     }
   }
@@ -98,7 +98,7 @@
 
   @keyframes slideInX {
     from {
-      margin-left: -3rem;
+      margin-left: -2rem;
       opacity: 0;
     }
     to {

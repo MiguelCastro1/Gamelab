@@ -5,6 +5,7 @@
   background: white;
   position: sticky;
   top: 0;
+  z-index: 1;
 
   .content {
     width: min(95vw, 1390px);

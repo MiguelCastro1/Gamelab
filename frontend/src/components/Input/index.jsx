@@ -1,8 +1,7 @@
 import { useField } from "formik";
-// import styles from "./styles.scss";
 import styles from "./styles.module.scss";
 
-function Input({ label, placeholder, estilo, disabled, ...props }) {
+function Input({ label, placeholder, estilo, disabled, tipo, ...props }) {
   const [field, meta] = useField(props);
 
   return (
@@ -14,7 +13,6 @@ function Input({ label, placeholder, estilo, disabled, ...props }) {
           placeholder={placeholder ? placeholder : ""}
           style={{
             border: meta.touched && meta.error && "1px solid red",
-            borderColor: disabled ? "#c3c3c3" : null,
             background: disabled ? "#E9ECEF" : null,
           }}
           disabled={disabled}

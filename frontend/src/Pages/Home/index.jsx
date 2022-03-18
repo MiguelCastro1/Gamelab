@@ -9,7 +9,6 @@ import Calendar from "react-calendar";
 import styles from "./styles.module.scss";
 import imageAluno from "../../assets/animacao_megaman_-running.gif";
 import api from "../../services/axios";
-import { useTypePerfil } from "../../Context/PerfilContext";
 import ProgressBar from "../../components/ProgressBar";
 import { getToken } from "../../services/auth";
 

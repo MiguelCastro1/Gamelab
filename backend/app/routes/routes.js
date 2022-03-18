@@ -10,7 +10,7 @@ router.post("/login", Usuario.login);
 router.post("/usuarios", Usuario.createUser);
 router.get("/usuarios", Usuario.listAll);
 router.get("/usuarios/:id", Usuario.user);
-router.put("/usuarios/:id", auth, Usuario.update);
+router.patch("/usuarios/:id", auth, Usuario.update);
 
 //Cursos
 router.post("/cursos", auth, Curso.createCourse);

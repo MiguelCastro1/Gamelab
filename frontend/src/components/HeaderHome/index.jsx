@@ -5,7 +5,6 @@ import imgUser from "../../assets/foto_prof.svg";
 import { FiUser, FiLogOut } from "react-icons/fi";
 import { BiLogOut } from "react-icons/bi";
 import { VscBellDot } from "react-icons/vsc";
-import { useTypePerfil } from "../../Context/PerfilContext";
 
 function HeaderHome() {
   let navigate = useNavigate();

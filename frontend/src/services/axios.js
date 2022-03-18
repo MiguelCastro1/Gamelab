@@ -3,12 +3,15 @@ import { getToken } from "./auth";
 
 const api = axios.create({
   baseURL: "http://localhost:5000",
-  // withCredentials: true,
-  // credentials: "include",
+  //withCredentials: true,
+  //credentials: "include",
 });
 
 api.interceptors.request.use(async (config) => {
-  const token = getToken();
+  const {token} = localStorage.getItem("gamelab")
+  ? JSON.parse(localStorage.getItem("gamelab"))
+  : null;
+  
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }

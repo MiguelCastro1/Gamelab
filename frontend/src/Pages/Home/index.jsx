@@ -1,16 +1,14 @@
 import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { BiSearch } from "react-icons/bi";
-import { BsKanban } from "react-icons/bs";
+import { BsChevronCompactLeft, BsKanban } from "react-icons/bs";
 import { IoSchoolOutline } from "react-icons/io5";
 import HeaderHome from "../../components/HeaderHome";
 import BoxTurma from "../../components/BoxTurma";
 import Calendar from "react-calendar";
 import styles from "./styles.module.scss";
-// import imageAluno from "../../assets/Aluno_Personagem2.png";
 import imageAluno from "../../assets/animacao_megaman_-running.gif";
 import api from "../../services/axios";
-import { useTypePerfil } from "../../Context/PerfilContext";
 import ProgressBar from "../../components/ProgressBar";
 
 function Home() {
@@ -18,13 +16,16 @@ function Home() {
   const [searchString, setSearchString] = useState("");
   const [resultados, setResultados] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
-  const {perfil, setPerfil }  = useTypePerfil();
+  const {id, perfil} = localStorage.getItem("gamelab")
+    ? JSON.parse(localStorage.getItem("gamelab"))
+    : null;
+  
 
   useEffect(() => {
     try {
-      api.get("/cursos", perfil)
+      api.get("/cursos", id)
       .then((data) => {
-        setResultados(data);
+        setResultados(data.data.doc);
         console.log('done')
       })
       .catch(err => console.log(err))
@@ -72,8 +73,8 @@ function Home() {
                 </Link>
               </li>
               <li>
-               <Link to= {perfil.perfil === "aluno" ? '/procurar-curso' : '/criar-curso'} >
-                {perfil.perfil === "aluno" ? 'Procurar Turma':'Criar Turma'} 
+               <Link to= {perfil === "aluno" ? '/procurar-curso' : '/criar-curso'} >
+                {perfil === "aluno" ? 'Procurar Turma':'Criar Turma'} 
                 <IoSchoolOutline size={20}/>{" "} </Link>
               </li>
             </ul>
@@ -84,6 +85,7 @@ function Home() {
               <h1>Minhas turmas</h1>
             </header>
             <div>
+            </div>
             {searchString == "" //If
                 ? resultados.map((turma) => (
                     <Link key={turma._id} to = {`/curso/${turma._id}`}>
@@ -104,8 +106,6 @@ function Home() {
                       />
                     </Link>
                   ))}
-            </div>
-            {}
           </div>
 
           <div className={styles.sideBarRight}>

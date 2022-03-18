@@ -87,6 +87,18 @@ exports.listCourseParticipants = async (req, res) => {
   }
 };
 
+exports.listCoursesEnroll  = async (req, res) => {
+  try {
+    const {id} = req.body;
+    console.log(id)
+    const doc = await Course.find({}).pupulate("User").select('nome');
+    doc = doc.Alunos.filter((aluno) => id !== aluno.userId)
+    res.status(200).json({ doc });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 exports.listAll = async (req, res) => {
   try {
     const doc = await Course.find({});

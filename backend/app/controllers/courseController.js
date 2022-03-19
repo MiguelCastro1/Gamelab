@@ -14,12 +14,15 @@ exports.createCourse = async (req, res) => {
   }
 };
 
-//listar cursos - pesquisa pode ser: usuario, string de busca, ativo, ano.
+//listar cursos para professor, dentre os quais é autor - permite pesquisa por: nome do curso e descrição.
 exports.listCoursesFromTeacher = async (req, res) => {
   let token = req.headers.authorization.split(" ")[1];
   let autor = parseJwt(token).email;
   try {
-    var busca = req.query.pesquisa;
+    let busca = req.query.pesquisa || "";
+    let fields = {
+      _id: 0
+    }
     const doc = await Course.find({
       $or: [
         { nomeCurso: { $regex: "(?i).*" + busca + ".*(?i)" } },
@@ -41,16 +44,24 @@ exports.listCoursesFromTeacher = async (req, res) => {
   }
 };
 
-exports.listCoursesForStudents = async (req, res) => {
-  try {
+//listar cursos para estudante, dentre os quais está matriculado - permite pesquisa por nome do curso, e descrição.
+exports.listCoursesFromStudent = async (req, res) => {
+  try {    
+    let token = req.headers.authorization.split(" ")[1];
+    let studentId = mongoose.Types.ObjectId( parseJwt(token).id);
     let busca = req.query.pesquisa || "";
+    let fields = {
+      _id: 0
+    }
     const doc = await Course.find({
       $or: [
         { nomeCurso: { $regex: "(?i).*" + busca + ".*(?i)" } },
         { descricao: { $regex: "(?i).*" + busca + ".*(?i)" } },
-        { autorEmail: { $regex: "(?i).*" + busca + ".*(?i)" } },
       ],
-    });
+      "Alunos.userId": studentId
+    },
+      fields
+    );
     let encontrados = Object.keys(doc).length;
     res.status(200).json({
       message: `Foram encontrados ${encontrados} resultados.`,

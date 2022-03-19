@@ -103,7 +103,7 @@ exports.listCourseParticipants = async (req, res) => {
   }
 };
 
-exports.listCoursesEnroll = async (req, res) => {
+/*xports.listCoursesEnroll = async (req, res) => {
   try{  
     let id = req.params.id;
     const doc = await Course.find().populate("User").select('nome');
@@ -113,7 +113,7 @@ exports.listCoursesEnroll = async (req, res) => {
   } catch (error) {
     console.error(error);
   }
-};
+};*/
 
 exports.listAll = async (req, res) => {
   try {

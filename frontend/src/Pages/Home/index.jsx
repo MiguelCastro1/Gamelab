@@ -121,9 +121,6 @@ function Home() {
             {perfil === "aluno" && (
               <div className={styles.perfil}>
                 <h3> Perfil </h3>
-                <section className={styles.userName}>
-                  <span>rodrigotaveiraa</span>
-                </section>
                 <div className={styles.gamificacao}>
                   <img
                     src={imageAluno}

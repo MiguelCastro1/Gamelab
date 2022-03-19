@@ -213,10 +213,6 @@ function Procurar() {
                   value={date}
                 />
               </li>
-                <li className={styles.avisos}>
-                  <h3>Avisos</h3>
-                  <h4>Sem avisos</h4>
-                </li>
             </ul>
           </div>
         </div>

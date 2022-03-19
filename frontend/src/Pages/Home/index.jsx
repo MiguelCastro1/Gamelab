@@ -32,13 +32,22 @@ function Home() {
  
   useEffect(() => {
     try {
-      
-      api.get("/cursos")
-      .then((data) => {
-        setResultados(data.data.doc);
-        console.log('done')
-      })
-      .catch(err => console.log(err))
+      if( perfil == "professor"){
+
+        api.get("/cursos/professor/MeusCursos")
+        .then((data) => {
+          setResultados(data.data.doc);
+          console.log('done')
+        })
+        .catch(err => console.log(err))
+      }else{// if perfil == aluno
+        api.get("/cursos/aluno/MeusCursos")
+        .then((data) => {
+          setResultados(data.data.doc);
+          console.log('done')
+        })
+        .catch(err => console.log(err))
+      }
     }catch (error) {
       console.log(error);
     }

@@ -22,6 +22,10 @@ const userSchema = new Schema(
       type: String,
       trim: true,
     },
+    dataNascimento: {
+      type: String,
+      required: true,
+    },
     matricula: {
       type: String,
       trim: true,
@@ -30,9 +34,17 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
-    dataNascimento: {
-      type: Date,
-      // required: true,
+    cidade: {
+      type: String,
+    },
+    paisOrigem: {
+      type: String,
+    },
+    dataIngresso: {
+      type: String,
+    },
+    descricaoPerfil: {
+      type: String,
     },
   },
   {

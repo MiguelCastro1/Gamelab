@@ -1,16 +1,15 @@
 import { useField } from "formik";
 import styles from "./styles.module.scss";
 
-function Input({ label, placeholder, estilo, disabled, tipo, ...props }) {
+function TextArea({ label, estilo, disabled, ...props }) {
   const [field, meta] = useField(props);
 
   return (
     <>
       <div className={styles.containerInput} style={estilo ? estilo : {}}>
-        <input
+        <textarea
           {...field}
           {...props}
-          placeholder={placeholder ? placeholder : ""}
           style={{
             border: meta.touched && meta.error && "1px solid red",
             background: disabled ? "#E9ECEF" : null,
@@ -26,4 +25,4 @@ function Input({ label, placeholder, estilo, disabled, tipo, ...props }) {
   );
 }
 
-export default Input;
+export default TextArea;

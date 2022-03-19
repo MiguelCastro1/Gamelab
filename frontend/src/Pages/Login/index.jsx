@@ -22,6 +22,7 @@ export default function Login() {
 
   const handleSubmit = async (values, actions) => {
     try {
+      console.log("in");
       let {
         data: {
           user: { perfil, nome, email },

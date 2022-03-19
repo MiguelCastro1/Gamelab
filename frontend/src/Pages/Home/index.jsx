@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { BiSearch } from "react-icons/bi";
-import { BsKanban } from "react-icons/bs";
+import { BsChevronCompactLeft, BsKanban } from "react-icons/bs";
 import { IoSchoolOutline } from "react-icons/io5";
 import HeaderHome from "../../components/HeaderHome";
 import BoxTurma from "../../components/BoxTurma";
@@ -9,7 +9,6 @@ import Calendar from "react-calendar";
 import styles from "./styles.module.scss";
 import imageAluno from "../../assets/animacao_megaman_-running.gif";
 import api from "../../services/axios";
-import { useTypePerfil } from "../../Context/PerfilContext";
 import ProgressBar from "../../components/ProgressBar";
 import { getToken } from "../../services/auth";
 
@@ -18,16 +17,40 @@ function Home() {
   const [searchString, setSearchString] = useState("");
   const [turmas, setTurmas] = useState([]);
   let { perfil } = getToken() ? JSON.parse(getToken()) : null;
+  // const {id, perfil} = localStorage.getItem("gamelab") ? JSON.parse(localStorage.getItem("gamelab")): null;
 
-  useEffect(() => {
-    async function fetchTurma() {
+  /*async function fetchTurma() {
       let { data } =
         perfil === "professor"
           ? await api.get(`/meuscursos?pesquisa=${searchString}`)
           : await api.get(`/cursos?pesquisa=${searchString}`);
       setTurmas([...data.doc]);
+  }*/
+
+  const [resultados, setResultados] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
+ 
+  useEffect(() => {
+    try {
+      
+      api.get("/cursos")
+      .then((data) => {
+        setResultados(data.data.doc);
+        console.log('done')
+      })
+      .catch(err => console.log(err))
+    }catch (error) {
+      console.log(error);
     }
-    fetchTurma();
+  }, []);
+
+  useEffect(() => {
+    //ao mudar string de busca, altera as turmas na home
+    setSearchResults(
+      resultados.filter((turma) =>
+        turma.nomeCurso.toLowerCase().includes(searchString.toLowerCase())
+      )
+    );
   }, [searchString]);
 
   return (
@@ -59,10 +82,9 @@ function Home() {
                 </Link>
               </li>
               <li>
-                <Link to="/criar-curso">
-                  {perfil.perfil === "aluno" ? "Procurar Turma" : "Criar Turma"}
-                  <IoSchoolOutline size={20} />
-                </Link>
+               <Link to= {perfil === "aluno" ? '/procurar-curso' : '/criar-curso'} >
+                {perfil === "aluno" ? 'Procurar Turma':'Criar Turma'} 
+                <IoSchoolOutline size={20}/>{" "} </Link>
               </li>
             </ul>
           </div>
@@ -72,15 +94,27 @@ function Home() {
               <h1>Minhas turmas</h1>
             </header>
             <div>
-              {turmas.map(({ _id, autorEmail, descricao, materia }) => (
-                <BoxTurma
-                  nomeTurma={materia}
-                  professor={autorEmail}
-                  descricao={descricao}
-                  key={_id}
-                />
-              ))}
             </div>
+            {searchString == "" //If
+                ? resultados.map((turma) => (
+                    <Link key={turma._id} to = {`/curso/${turma._id}`}>
+                      <BoxTurma
+                        nomeTurma={turma.nomeCurso}
+                        professor={turma.autorEmail}
+                        descricao={turma.descricao}
+                      />
+                    </Link>
+                  ))
+                : // Else
+                  searchResults.map((turma) => (
+                    <Link key={turma._id} to={`/curso/${turma._id}`}>
+                      <BoxTurma
+                        nomeTurma={turma.nomeCurso}
+                        professor={turma.autorEmail}
+                        descricao={turma.descricao}
+                      />
+                    </Link>
+                  ))}
           </div>
 
           <div className={styles.sideBarRight}>

@@ -46,7 +46,9 @@ button {
   cursor: pointer;
 }
 
-input {
+input,
+textarea,
+select {
   outline: 0;
 }
 

@@ -12,35 +12,43 @@ import { useState } from "react";
 import api from "../../services/axios";
 
 const formSchema = Yup.object().shape({
-  email: Yup.string().email('Email Invalido').required("Campo obrigatório"),
-  senha: Yup.string().min(8,'Senha precisa de mais de 8 letras').required("Campo obrigatório"),
-  nome: Yup.string().max(100,'Limite atingido').required("Campo obrigatório"),
-  matricula: Yup.number('Matricula invalida').required("Campo obrigatório"),
-  instituicao: Yup.string().max(100,'Limite atingido').required("Campo obrigatório"),
-  confirmacao_senha: Yup.string().required("Campo obrigatório")
-    .oneOf([Yup.ref("senha"), null], "A senhas não são iguais"),
+  email: Yup.string().email("Email Invalido").required("Campo obrigatório"),
+  senha: Yup.string()
+    .min(8, "Senha precisa de mais de 8 letras")
+    .required("Campo obrigatório"),
+  dataNascimento: Yup.string().required("Campo obrigatório"),
+  nome: Yup.string().max(100, "Limite atingido").required("Campo obrigatório"),
+  matricula: Yup.number("Matricula invalida").required("Campo obrigatório"),
+  instituicao: Yup.string()
+    .max(100, "Limite atingido")
+    .required("Campo obrigatório"),
+  confirmacao_senha: Yup.string()
+    .required("Campo obrigatório")
+    .oneOf([Yup.ref("senha"), null], "As senhas não são iguais"),
 });
 
 function FormCadastro() {
   let navigate = useNavigate();
   const { perfil } = useTypePerfil();
 
-  const [erro, setErro] = useState('');
+  const [erro, setErro] = useState("");
 
-  const handleSubmit = (values, actions) => {
-    delete values['confirmacao_senha'];
-    let object = { ...values, tipoUsuario: perfil };
-    console.log(perfil);
+  const handleSubmit = async (values, actions) => {
+    let object = {
+      ...values,
+      tipoUsuario: perfil,
+      cidade: "",
+      paisOrigem: "",
+      dataIngresso: "",
+      descricaoPerfil: "",
+    };
+    console.log(object);
     try {
-      api.post("/usuarios", object)
-      .then((data) => {
-        console.log(data);
+      await api.post("/usuarios", object);
       navigate("/login");
-      })
-      .catch(erro => setErro('Email já cadastrado'))
     } catch (error) {
-      setErro('Campos Inválidos')
       console.log(error);
+      setErro("Email já cadastrado");
     }
   };
 
@@ -48,17 +56,11 @@ function FormCadastro() {
     <>
       <HeaderAuth />
       <div className={styles.container}>
-        <section>
-          <h3>Sou {perfil === "aluno" ? "aluno" : "professor"}</h3>
-          <img
-            src={perfil === "aluno" ? aluno : professor}
-            alt={perfil === "aluno" ? "aluno" : "professor"}
-          />
-        </section>
         <Formik
           initialValues={{
             nome: "",
             email: "",
+            dataNascimento: "",
             senha: "",
             matricula: "",
             instituicao: "",
@@ -67,44 +69,74 @@ function FormCadastro() {
           onSubmit={handleSubmit}
           validationSchema={formSchema}
         >
-          {({ handleChange, ...props }) => (
+          {({ handleChange, values }) => (
             <Form>
               <main className={styles.content}>
-                <div>
-                  <Input label="Nome de usuário" name="nome" type="text" />
-                  <Input
-                    label="Número de Matrícula"
-                    name="matricula"
-                    type="text"
-                    onChange={handleChange}
+                <section>
+                  <h3>Sou {perfil === "aluno" ? "aluno" : "professor"}</h3>
+                  <img
+                    src={perfil === "aluno" ? aluno : professor}
+                    alt={perfil === "aluno" ? "aluno" : "professor"}
                   />
+                </section>
+                <div className={styles.formContent}>
+                  <Input
+                    label="Nome de usuário"
+                    name="nome"
+                    value={values.nome}
+                    onChange={handleChange}
+                    type="text"
+                    autoFocus={true}
+                    estilo={{ marginBottom: "2.7rem" }}
+                  />
+                  <div className={styles.lineForm}>
+                    <Input
+                      label="Número de Matrícula"
+                      name="matricula"
+                      value={values.matricula}
+                      type="text"
+                      onChange={handleChange}
+                    />
+                    <Input
+                      label="Data de nascimento"
+                      name="dataNascimento"
+                      value={values.dataNascimento}
+                      type="date"
+                      onChange={handleChange}
+                      estilo={{ marginTop: "0" }}
+                    />
+                  </div>
                   <Input
                     label="Nome da instituição"
                     name="instituicao"
+                    value={values.instituicao}
                     type="text"
                     onChange={handleChange}
                   />
-                </div>
-                <div>
                   <Input
                     label="Endereço de E-mail"
                     name="email"
+                    value={values.email}
                     type="text"
                     onChange={handleChange}
+                    estilo={{ marginBottom: "2.7rem" }}
                   />
-                  <Input
-                    label="Senha"
-                    name="senha"
-                    type="password"
-                    onChange={handleChange}
-                  />
-                  <Input
-                    label="Confirmação de senha"
-                    name="confirmacao_senha"
-                    type="password"
-                    onChange={handleChange}
-                  />
-                  {erro && <div className={styles.erro}> {erro} </div>}
+                  <div className={styles.lineForm}>
+                    <Input
+                      label="Senha"
+                      name="senha"
+                      type="password"
+                      onChange={handleChange}
+                    />
+                    <Input
+                      label="Confirmação de senha"
+                      name="confirmacao_senha"
+                      type="password"
+                      onChange={handleChange}
+                      estilo={{ marginTop: "0" }}
+                    />
+                  </div>
+                  {/* {erro && <div className={styles.erro}> {erro} </div>} */}
                   <button type="submit">Cadastrar</button>
                 </div>
               </main>

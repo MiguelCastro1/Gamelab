@@ -22,8 +22,16 @@ const courseSchema = new Schema(
       lowercase: true,
     },
     autorId: {
-      type: Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId, ref: "User",
       required: true,
+    },
+    senha: {
+      type: String,
+    },
+    codigo: {
+      type: String,
+    //  unique: true,
+     // required: true,
     },
     Alunos: [{
       userId: { type: Schema.Types.ObjectId, ref: "User"},

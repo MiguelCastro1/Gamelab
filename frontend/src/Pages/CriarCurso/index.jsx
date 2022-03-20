@@ -13,8 +13,7 @@ import ProgressBar from "../../components/ProgressBar";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import Input from "../../components/Input";
-
-
+import { getToken } from "../../services/auth";
 
 function CriarCurso() {
   const [habilitado, setHabilitado] = useState(-1);
@@ -23,34 +22,24 @@ function CriarCurso() {
   const [searchString, setSearchString] = useState("");
 
 
-  let {id} = localStorage.getItem("gamelab")
-    ? JSON.parse(localStorage.getItem("gamelab"))
-    : null;
-    const [erro, setErro] = useState(false);
-
+  let { id, email } = getToken() ? JSON.parse(getToken()) : null;
   const handleSubmit = async (values, actions) => {
-    try {
-      console.log("in");
-      let {
-        data: {
-          course: { nomeCurso,materia ,descricao,senha},
-          token,
-        },
-      } = await api.post("/criar-curso", values);
-      let dados = {
-        nomeCurso,
-        materia,
-        descricao,
-        senha,
-        token,
+      let object = {
+        ...values,
+        autorEmail: email,
+        autorId: id
       };
-      localStorage.setItem("gamelab", JSON.stringify(dados));
-      navigate("/");
-    } catch (error) {
-      setErro(true);
-      console.log(error);
-    }
-  };
+      try {
+        console.log(object);
+        console.log('in')
+        await api.post("/cursos", object);
+        console.log(done)
+        navigate("/");
+      } catch (error) {
+        console.log(error);
+        setErro("Email já cadastrado");
+      }
+    };
   
   return (
     <>

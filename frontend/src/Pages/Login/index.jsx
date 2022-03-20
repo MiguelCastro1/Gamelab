@@ -25,11 +25,12 @@ export default function Login() {
       console.log("in");
       let {
         data: {
-          user: { perfil, nome, email },
+          user: { _id, perfil, nome, email },
           token,
         },
       } = await api.post("/login", values);
       let dados = {
+        _id,
         perfil,
         nome,
         email,

@@ -4,7 +4,10 @@ const Course = mongoose.model("Course");
 
 exports.createCourse = async (req, res) => {
   try {
+    console.log('in')
+    console.log(req.body)
     let document = await Course.create(req.body);
+    console.log('done')
     res.status(200).json({
       document,
       message: `Curso ${req.body.nomeCurso} cadastrado com sucesso`,

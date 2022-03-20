@@ -42,6 +42,7 @@ function FormCadastro() {
       dataIngresso: "",
       descricaoPerfil: "",
     };
+    console.log(perfil)
     console.log(object);
     try {
       await api.post("/usuarios", object);

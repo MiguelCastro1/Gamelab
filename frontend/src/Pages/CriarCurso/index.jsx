@@ -8,7 +8,6 @@ import HeaderHome from "../../components/HeaderHome";
 import BoxTurmaEnroll from "../../components/BoxTurmaEnroll";
 import Calendar from "react-calendar";
 import styles from "./styles.module.scss";
-import imageAluno from "../../assets/animacao_megaman_-running.gif";
 import api from "../../services/axios";
 import ProgressBar from "../../components/ProgressBar";
 

@@ -31,6 +31,7 @@
     }
     input{
       transition: margin-bottom 0.1s ease-in-out;
+      align-self: center;
       margin-top: 10px;
       border: 1px solid var(--gray-300);
       text-align: center;
@@ -38,7 +39,7 @@
       width: 100%;
       gap: 10px;
       padding: 1rem;
-      color: var(--blue-700);
+      color: red
     }
 
     .matricula{

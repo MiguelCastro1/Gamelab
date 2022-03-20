@@ -9,13 +9,10 @@ import api from "../../services/axios";
 function BoxTurmaEnroll({ course_id, nomeTurma, professor, descricao, senha_curso, ...props }) {
   const [senha,setSenha] = useState("")
   let navigate = useNavigate()
-  const {id} = localStorage.getItem("gamelab")? JSON.parse(localStorage.getItem("gamelab")): null;
-
   const enroll =  () =>{
     if(senha_curso === undefined){
-      console.log('in')
       try {
-        api.post(`/cursos/${course_id}/matricula`, id)
+        api.post(`/cursos/${course_id}/matricula`)
         .then((data) => {
           console.log('done')
           navigate('/')
@@ -25,12 +22,9 @@ function BoxTurmaEnroll({ course_id, nomeTurma, professor, descricao, senha_curs
         console.log(error);
       }
     }else{
-      console.log(senha)
-      console.log(senha_curso)
       if(senha === senha_curso){
-        console.log('in')
         try {
-          api.post(`/cursos/${course_id}/matricula`,id)
+          api.post(`/cursos/${course_id}/matricula`)
           .then((data) => {
             console.log('done')
             navigate('/')
@@ -39,6 +33,8 @@ function BoxTurmaEnroll({ course_id, nomeTurma, professor, descricao, senha_curs
         }catch (error) {
           console.log(error);
         }
+      }else{
+        console.log("senha invalida")
       }
     }
   }
@@ -49,27 +45,23 @@ function BoxTurmaEnroll({ course_id, nomeTurma, professor, descricao, senha_curs
         <section>
           <h3>{nomeTurma}</h3>
           <FaGraduationCap/>
-          {/* <AiOutlineStar
-            style={{ cursor: "pointer", color: "var(--blue-700)" }}
-          /> */}
         </section>
         <section>
           <p>
-            <span>professor:</span> <br/>{professor}
+            <span>Professor:</span> <br/>{professor}
             <img src= {user_padrao} alt="Professor" />
-                  
           </p>
           <p>
             <span>Descrição:</span> {descricao}
             <div className={styles.matricula} onClick={enroll}>
                 Matricular-se <FaDoorOpen size={20} />
             </div>
-            { senha_curso !== undefined && 
-                <input
-                  onChange={(e) => setSenha(e.target.value)}
-                  value={senha}
-                  placeholder="Insira Chave da Turma"
-                />
+            {senha_curso !== undefined && 
+              <input
+                onChange={(e) => setSenha(e.target.value)}
+                value={senha}
+                placeholder="Insira Chave"
+              />
             }
           </p>
         </section>

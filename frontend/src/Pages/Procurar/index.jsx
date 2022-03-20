@@ -16,18 +16,16 @@ function Procurar() {
   const [date, setDate] = useState(new Date());
   const [searchString, setSearchString] = useState("");
   const [resultados, setResultados] = useState([]);
+  const [filterResults, SetfilterResults] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
-  const [titulo, setTitulo] = useState("Resultados: Todos")
-  let {id} = localStorage.getItem("gamelab")
-    ? JSON.parse(localStorage.getItem("gamelab"))
-    : null;
+  const [titulo, setTitulo] = useState("Resultados: Ativos")
+  let {id} = localStorage.getItem("gamelab")? JSON.parse(localStorage.getItem("gamelab")): null;
   
   useEffect(() => {
     try {
-      api.get("/cursos", id)
+      api.get("/cursos/procurar")
       .then((data) => {
-        setResultados(data.data.doc);
-        //console.log(data.data.doc)
+        setResultados(data.data.results);
         console.log('done')
       })
       .catch(err => console.log(err))
@@ -36,14 +34,20 @@ function Procurar() {
     }
   }, []);
 
+ 
   useEffect(() => {
     //ao mudar string de busca, altera as turmas na home
     setSearchResults(
-      resultados.filter((turma) =>
+      filterResults.filter((turma) =>
         turma.nomeCurso.toLowerCase().includes(searchString.toLowerCase())
       )
     );
   }, [searchString]);
+
+  useEffect(() => {
+   //setSearchResults(resultados.filter((turma) => resultados.Ativo))
+   SetfilterResults(resultados.filter((turma) => turma.Ativo))
+  }, [resultados]);
 
   return (
     <>
@@ -95,24 +99,25 @@ function Procurar() {
               <li>
                 <p 
                   onClick={() => {
-                  setTitulo("Resultados: Inativos")
-                 // setSearchResults(!resultado.ativo)
+                    setTitulo("Resultados: Inativos")
+                    SetfilterResults(resultados.filter((turma) => !turma.Ativo))
+                   
                   }}
                 >
                   Inativos
                 </p>
                 <p
                   onClick={() => {
-                   // setSearchResults(resultado.ativo)
                     setTitulo("Resultados: Ativos")
+                    SetfilterResults(resultados.filter((turma) => turma.Ativo))
                   }}
                 >
                   Ativos
                 </p>
                 <p
                   onClick={() => {
-                    searchResults(resultados)
                     setTitulo("Resultados: Todos")
+                    SetfilterResults(resultados)
                   }}
                 >
                   Todos
@@ -137,6 +142,7 @@ function Procurar() {
                   onClick={() => {
                     // setSearchResults(resultado.ativo)
                     setTitulo("Resultados: 2021")
+                    SetfilterResults(resultados.filter((turma) => turma.createdAt.includes('2021')))
                   }}
                 >
                   2021
@@ -145,6 +151,7 @@ function Procurar() {
                   onClick={() => {
                     // setSearchResults(!resultado.ativo)
                     setTitulo("Resultados: 2022")
+                    SetfilterResults(resultados.filter((turma) => turma.createdAt.includes('2022')))
                   }}
                 >
                   2022
@@ -155,30 +162,31 @@ function Procurar() {
 
             <div>
               <h2 className={styles.titulo}>  {titulo} </h2>
-              {searchString == "" //If
-                ?  (resultados.map((turma) => (
+              {searchString === '' ? (
+                filterResults.map((turma) => (
                   <div key={turma._id}>
-                       <BoxTurmaEnroll 
-                        course_id = {turma._id}
-                        nomeTurma={turma.nomeCurso}
-                        professor={turma.autorEmail}
-                        descricao={turma.descricao}
-                        senha={turma.senha}
-                      />
-                    </div>
-                  ))
-                 ) : (
-                  searchResults.map((turma) => (
-                    <div key={turma._id}>
-                      <BoxTurmaEnroll 
+                    <BoxTurmaEnroll 
                       course_id = {turma._id}
                       nomeTurma={turma.nomeCurso}
                       professor={turma.autorEmail}
                       descricao={turma.descricao}
                       senha={turma.senha}
                     />
-                   </div>
-                  )))}
+                  </div>
+                )))
+                :
+                (searchResults.map((turma) => (
+                  <div key={turma._id}>
+                    <BoxTurmaEnroll 
+                      course_id = {turma._id}
+                      nomeTurma={turma.nomeCurso}
+                      professor={turma.autorEmail}
+                      descricao={turma.descricao}
+                      senha={turma.senha}
+                    />
+                  </div>
+                )))
+              }
             </div>
             {}
           </div>

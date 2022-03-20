@@ -14,12 +14,15 @@ exports.createCourse = async (req, res) => {
   }
 };
 
-//listar cursos - pesquisa pode ser: usuario, string de busca, ativo, ano.
-exports.listCourseFromTeacher = async (req, res) => {
+//listar cursos para professor, dentre os quais é autor - permite pesquisa por: nome do curso e descrição.
+exports.listCoursesFromTeacher = async (req, res) => {
   let token = req.headers.authorization.split(" ")[1];
   let autor = parseJwt(token).email;
   try {
-    var busca = req.query.pesquisa;
+    let busca = req.query.pesquisa || "";
+    let fields = {
+      _id: 0
+    }
     const doc = await Course.find({
       $or: [
         { nomeCurso: { $regex: "(?i).*" + busca + ".*(?i)" } },
@@ -41,16 +44,24 @@ exports.listCourseFromTeacher = async (req, res) => {
   }
 };
 
-exports.listCourseForStudents = async (req, res) => {
-  try {
+//listar cursos para estudante, dentre os quais está matriculado - permite pesquisa por nome do curso, e descrição.
+exports.listCoursesFromStudent = async (req, res) => {
+  try {    
+    let token = req.headers.authorization.split(" ")[1];
+    let studentId = mongoose.Types.ObjectId( parseJwt(token).id);
     let busca = req.query.pesquisa || "";
+    let fields = {
+      _id: 0
+    }
     const doc = await Course.find({
       $or: [
         { nomeCurso: { $regex: "(?i).*" + busca + ".*(?i)" } },
         { descricao: { $regex: "(?i).*" + busca + ".*(?i)" } },
-        { autorEmail: { $regex: "(?i).*" + busca + ".*(?i)" } },
       ],
-    });
+      "Alunos.userId": studentId
+    },
+      fields
+    );
     let encontrados = Object.keys(doc).length;
     res.status(200).json({
       message: `Foram encontrados ${encontrados} resultados.`,
@@ -103,17 +114,33 @@ exports.listCourseParticipants = async (req, res) => {
   }
 };
 
-/*xports.listCoursesEnroll = async (req, res) => {
+exports.listCoursesEnroll = async (req, res) => {
   try{  
-    let id = req.params.id;
-    const doc = await Course.find().populate("User").select('nome');
+
+    let token = req.headers.authorization.split(" ")[1];
+    let studentId = parseJwt(token).id;
+    const doc = await Course.find({})
+    
     //carregar cursos que aluno nao esteja matriculado
-    const result = doc.Aluno.filter((alunos) => id !== alunos.userId)
-    res.status(200).json({ doc });
+    let results = [];
+    for(let i =0; i < doc.length; i++){
+      let matriculado = false
+      if(doc[i].Alunos){
+        for(let j=0; j < doc[i].Alunos.length; j++){
+          if(doc[i].Alunos[j].userId == studentId){
+            matriculado = true
+          }
+        }
+      }
+      if(!matriculado) results.push(doc[i])
+    }
+    
+  //const results = doc.filter((turma) => turma.Alunos.filter((alunos) => studentId !== alunos.userId))
+    res.status(200).json({ results });
   } catch (error) {
     console.error(error);
   }
-};*/
+};
 
 exports.listAll = async (req, res) => {
   try {

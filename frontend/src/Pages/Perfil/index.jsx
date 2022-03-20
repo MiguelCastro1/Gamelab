@@ -50,9 +50,11 @@ function Perfil() {
 
   const handleCancel = () => {
     setFlagReset(!flagReset);
+    setIsEdit(!setIsEdit)
   };
 
   const handleSubmit = async (values, actions) => {
+    console.log("getin")
     console.log(values);
     // try {
     //   await api.patch(`usuarios/${id}`, values);

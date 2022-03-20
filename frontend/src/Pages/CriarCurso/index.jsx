@@ -47,7 +47,6 @@ function CriarCurso() {
         navigate("/");
       } catch (error) {
         console.log(error);
-        setErro("Email já cadastrado");
       }
     };
   
@@ -85,6 +84,7 @@ function CriarCurso() {
                 descricao: "",
                 senha: "",
                 confirmacao_senha: "",
+                codigo: "",
               }}
               onSubmit={handleSubmit}
               validationSchema={formSchema}
@@ -104,6 +104,11 @@ function CriarCurso() {
                 <Input
                 name="descricao"
                 label={"Descrição"}
+                type="text"
+                />  
+                <Input
+                name="codigo"
+                label={"Codigo da turma"}
                 type="text"
                 />  
               <p className={styles.senha_h}>Habilitar senha <input id="toggle" className={styles.toggle} type="checkbox" onClick={() => setHabilitado(habilitado * -1)}></input>

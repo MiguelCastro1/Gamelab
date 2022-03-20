@@ -27,6 +27,7 @@ const courseSchema = new Schema(
     },
     senha: {
       type: String,
+      default: ""
     },
     codigo: {
       type: String,

@@ -16,6 +16,14 @@ import * as Yup from "yup";
 import Input from "../../components/Input";
 
 
+const formSchema = Yup.object().shape({
+  nomeCurso: Yup.string().required("Campo obrigatório"),
+  descricao: Yup.string().required("Campo obrigatório"),
+  codigo: Yup.string().max(10, "Limite atingido").required("Campo obrigatório"),
+  matricula: Yup.number("Matricula invalida").required("Campo obrigatório"),
+  confirmacao_senha: Yup.string()
+    .oneOf([Yup.ref("senha"), null], "As senhas não são iguais"),
+});
 
 function CriarCurso() {
   const [habilitado, setHabilitado] = useState(-1);
@@ -34,13 +42,12 @@ function CriarCurso() {
       console.log("in");
       let {
         data: {
-          course: {nomeCurso,materia ,descricao,senha,codigo,autorId,autorEmail},
+          course: {nomeCurso,materia ,descricao,senha,autorId,autorEmail},
         },
       } = await api.post("/criar-curso", values);
       let dados = {
         nomeCurso,
         materia,
-        codigo,
         descricao,
         senha,
         autorEmail: email,
@@ -87,8 +94,10 @@ function CriarCurso() {
                 materia: "",
                 descricao: "",
                 senha: "",
+                confirmacao_senha: "",
               }}
               onSubmit={handleSubmit}
+              validationSchema={formSchema}
               >
               {({handleSubmit, ...props})=>
               <Form>
@@ -96,32 +105,23 @@ function CriarCurso() {
                 name="nomeCurso"
                 label={"Nome do curso"}
                 type="text"
-                placeholder=""
                 />
                 <Input
                 name="materia"
                 label={"Materia"}
                 type="text"
-                placeholder=""
                 />    
-                 <Input
+                <Input
                 name="descricao"
                 label={"Descrição"}
                 type="text"
-                placeholder=""
-                />  
-                 <Input
-                name="codigo"
-                label={"Codigo da turma"}
-                type="text"
-                placeholder=""
                 />  
               <p className={styles.senha_h}>Habilitar senha <input id="toggle" className={styles.toggle} type="checkbox" onClick={() => setHabilitado(habilitado * -1)}></input>
               <label htmlFor="toggle"></label></p> 
               {habilitado === 1 &&(
                 <div className={styles.campo_senha}> 
-                <Input name="senha" label={"Inserir senha"} type="text" placeholder=""/>
-                <Input name="confirmar_senha" label={"Confirmar senha"} type="text" placeholder=""/>
+                <Input name="senha" label={"Inserir senha"} type="password" placeholder=""/>
+                <Input name="confirmacao_senha" label={"Confirmar senha"} type="password" placeholder=""/>
                 </div>
               )}
               <button type="submit">Criar Curso</button>

@@ -25,17 +25,18 @@ export default function Login() {
       console.log("in");
       let {
         data: {
-          user: { _id, perfil, nome, email },
+          user: { id, perfil, nome, email },
           token,
         },
       } = await api.post("/login", values);
       let dados = {
-        _id,
+        id,
         perfil,
         nome,
         email,
         token,
       };
+      console.log(dados)
       localStorage.setItem("gamelab", JSON.stringify(dados));
       navigate("/");
     } catch (error) {

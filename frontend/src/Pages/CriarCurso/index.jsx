@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BiSearch} from "react-icons/bi";
 import { BsChevronCompactLeft, BsKanban, BsFilter, BsCalendarCheck} from "react-icons/bs";
 import {FiHome} from "react-icons/fi"
@@ -15,12 +15,21 @@ import * as Yup from "yup";
 import Input from "../../components/Input";
 import { getToken } from "../../services/auth";
 
+
+const formSchema = Yup.object().shape({
+  nomeCurso: Yup.string().required("Campo obrigatório"),
+  descricao: Yup.string().required("Campo obrigatório"),
+ // codigo: Yup.string().max(10, "Limite atingido").required("Campo obrigatório"),
+  confirmacao_senha: Yup.string()
+    .oneOf([Yup.ref("senha"), null], "As senhas não são iguais"),
+});
+
 function CriarCurso() {
   const [habilitado, setHabilitado] = useState(-1);
 
   const [date, setDate] = useState(new Date());
   const [searchString, setSearchString] = useState("");
-
+  let navigate = useNavigate();
 
   let { id, email } = getToken() ? JSON.parse(getToken()) : null;
   const handleSubmit = async (values, actions) => {
@@ -29,11 +38,12 @@ function CriarCurso() {
         autorEmail: email,
         autorId: id
       };
+      console.log(object);
+    
       try {
-        console.log(object);
-        console.log('in')
+        
         await api.post("/cursos", object);
-        console.log(done)
+        console.log('done')
         navigate("/");
       } catch (error) {
         console.log(error);
@@ -74,43 +84,39 @@ function CriarCurso() {
                 materia: "",
                 descricao: "",
                 senha: "",
+                confirmacao_senha: "",
               }}
               onSubmit={handleSubmit}
+              validationSchema={formSchema}
               >
-              {({handleSubmit, ...props})=>
+              {({handleSubmit, ...props})=> (
               <Form>
                 <Input 
                 name="nomeCurso"
                 label={"Nome do curso"}
                 type="text"
-                placeholder=""
                 />
                 <Input
                 name="materia"
                 label={"Materia"}
                 type="text"
-                placeholder=""
                 />    
-                 <Input
+                <Input
                 name="descricao"
                 label={"Descrição"}
                 type="text"
-                placeholder=""
                 />  
               <p className={styles.senha_h}>Habilitar senha <input id="toggle" className={styles.toggle} type="checkbox" onClick={() => setHabilitado(habilitado * -1)}></input>
               <label htmlFor="toggle"></label></p> 
               {habilitado === 1 &&(
                 <div className={styles.campo_senha}> 
-                <Input name="senha" label={"Inserir senha"} type="text" placeholder=""/>
-                <Input name="senha" label={"Confirmar senha"} type="text" placeholder=""/>
+                <Input name="senha" label={"Inserir senha"} type="password" placeholder=""/>
+                <Input name="confirmacao_senha" label={"Confirmar senha"} type="password" placeholder=""/>
                 </div>
               )}
-              <button type="submit">Criar Curso</button>
+              <button type="submit" >Criar Curso</button>
               </Form>
-              
-              
-              }
-
+              )}
               </Formik>
             <div>
 

@@ -8,6 +8,7 @@ import api from "../../services/axios";
 
 function BoxTurmaEnroll({ course_id, nomeTurma, professor, descricao, senha_curso, ...props }) {
   const [senha,setSenha] = useState("")
+
   let navigate = useNavigate()
   const enroll =  () =>{
     if(senha_curso === undefined){
@@ -48,7 +49,7 @@ function BoxTurmaEnroll({ course_id, nomeTurma, professor, descricao, senha_curs
         </section>
         <section>
           <p>
-            <span>Professor:</span> <br/>{professor}
+            <span>Professor:</span> {professor}
             <img src= {user_padrao} alt="Professor" />
           </p>
           <p>

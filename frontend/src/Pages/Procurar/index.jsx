@@ -25,6 +25,7 @@ function Procurar() {
     try {
       api.get("/cursos/procurar")
       .then((data) => {
+        console.log(data.data.results)
         setResultados(data.data.results);
         console.log('done')
       })
@@ -170,7 +171,7 @@ function Procurar() {
                       nomeTurma={turma.nomeCurso}
                       professor={turma.autorEmail}
                       descricao={turma.descricao}
-                      senha={turma.senha}
+                      senha_curso={turma.senha}
                     />
                   </div>
                 )))
@@ -182,7 +183,7 @@ function Procurar() {
                       nomeTurma={turma.nomeCurso}
                       professor={turma.autorEmail}
                       descricao={turma.descricao}
-                      senha={turma.senha}
+                      senha_curso={turma.senha}
                     />
                   </div>
                 )))

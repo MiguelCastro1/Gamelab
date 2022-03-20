@@ -34,16 +34,17 @@ function CriarCurso() {
       console.log("in");
       let {
         data: {
-          course: { nomeCurso,materia ,descricao,senha},
-          token,
+          course: {nomeCurso,materia ,descricao,senha,codigo,autorId,autorEmail},
         },
       } = await api.post("/criar-curso", values);
       let dados = {
         nomeCurso,
         materia,
+        codigo,
         descricao,
         senha,
-        token,
+        autorEmail: email,
+        autorId: id,
       };
       localStorage.setItem("gamelab", JSON.stringify(dados));
       navigate("/");
@@ -109,12 +110,18 @@ function CriarCurso() {
                 type="text"
                 placeholder=""
                 />  
+                 <Input
+                name="codigo"
+                label={"Codigo da turma"}
+                type="text"
+                placeholder=""
+                />  
               <p className={styles.senha_h}>Habilitar senha <input id="toggle" className={styles.toggle} type="checkbox" onClick={() => setHabilitado(habilitado * -1)}></input>
               <label htmlFor="toggle"></label></p> 
               {habilitado === 1 &&(
                 <div className={styles.campo_senha}> 
                 <Input name="senha" label={"Inserir senha"} type="text" placeholder=""/>
-                <Input name="senha" label={"Confirmar senha"} type="text" placeholder=""/>
+                <Input name="confirmar_senha" label={"Confirmar senha"} type="text" placeholder=""/>
                 </div>
               )}
               <button type="submit">Criar Curso</button>

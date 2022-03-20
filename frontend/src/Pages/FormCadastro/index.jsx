@@ -5,7 +5,7 @@ import HeaderAuth from "../../components/HeaderAuth";
 import Input from "../../components/Input";
 import { useTypePerfil } from "../../Context/PerfilContext";
 import styles from "./styles.module.scss";
-
+import { toast } from 'react-toastify';
 import aluno from "../../assets/aluno.svg";
 import professor from "../../assets/professor.svg";
 import { useState } from "react";
@@ -46,9 +46,11 @@ function FormCadastro() {
     console.log(object);
     try {
       await api.post("/usuarios", object);
+      toast("Cadastro Concluido com Sucesso")
       navigate("/login");
     } catch (error) {
       console.log(error);
+ 
       setErro("Email já cadastrado");
     }
   };

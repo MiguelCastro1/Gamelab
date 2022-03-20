@@ -11,6 +11,7 @@ import styles from "./styles.module.scss";
 import imageAluno from "../../assets/animacao_megaman_-running.gif";
 import api from "../../services/axios";
 import ProgressBar from "../../components/ProgressBar";
+import { toast } from 'react-toastify';
 
 function Procurar() {
   const [date, setDate] = useState(new Date());

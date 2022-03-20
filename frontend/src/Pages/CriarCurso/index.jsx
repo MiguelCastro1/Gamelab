@@ -14,7 +14,7 @@ import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import Input from "../../components/Input";
 import { getToken } from "../../services/auth";
-
+import { toast } from 'react-toastify';
 
 const formSchema = Yup.object().shape({
   nomeCurso: Yup.string().required("Campo obrigatório"),
@@ -44,8 +44,10 @@ function CriarCurso() {
         
         await api.post("/cursos", object);
         console.log('done')
+        toast("Curso criado com Sucesso")
         navigate("/");
       } catch (error) {
+        toast.error("Algum erro ocorreu")
         console.log(error);
       }
     };

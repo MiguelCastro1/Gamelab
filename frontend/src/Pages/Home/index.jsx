@@ -31,6 +31,7 @@ function Home() {
   const [searchResults, setSearchResults] = useState([]);
  
   useEffect(() => {
+    
     try {
       if( perfil === "professor"){
 

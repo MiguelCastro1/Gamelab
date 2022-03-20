@@ -5,37 +5,47 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useState,  } from "react";
 import user_padrao from "../../assets/user_padrao.png"
 import api from "../../services/axios";
-
+import { toast } from 'react-toastify';
 function BoxTurmaEnroll({ course_id, nomeTurma, professor, descricao, senha_curso, ...props }) {
   const [senha,setSenha] = useState("")
 
   let navigate = useNavigate()
   const enroll =  () =>{
-    if(senha_curso === undefined){
+    if(senha_curso === undefined && senha_curso !== ''){
       try {
         api.post(`/cursos/${course_id}/matricula`)
         .then((data) => {
-          console.log('done')
-          navigate('/')
+          toast("Matriculado com sucesso!");
+          console.log('done');
+          navigate('/');
         })
-        .catch(err => console.log(err))
+        .catch((err) =>  {
+          toast.error("Algum Erro ocorreu") 
+          console.log(err)
+        })
       }catch (error) {
-        console.log(error);
+        toast.error("Algum Erro ocorreu") 
+          console.log(err)
       }
     }else{
       if(senha === senha_curso){
         try {
           api.post(`/cursos/${course_id}/matricula`)
           .then((data) => {
+            toast("Matriculado com sucesso!");
             console.log('done')
             navigate('/')
           })
-          .catch(err => console.log(err))
-        }catch (error) {
-          console.log(error);
+          .catch((erro) => {
+            toast.error("Algum Erro ocorreu") 
+            console.log(err)})
+        }catch(err)  {
+          toast.error("Algum Erro ocorreu") 
+          console.log(err)
         }
       }else{
-        console.log("senha invalida")
+        toast.error("Senha inválida") 
+        console.log("senha inválida")
       }
     }
   }
@@ -57,7 +67,7 @@ function BoxTurmaEnroll({ course_id, nomeTurma, professor, descricao, senha_curs
             <div className={styles.matricula} onClick={enroll}>
                 Matricular-se <FaDoorOpen size={20} />
             </div>
-            {senha_curso !== undefined && 
+            {senha_curso !== undefined &&  senha_curso !== '' &&
               <input
                 onChange={(e) => setSenha(e.target.value)}
                 value={senha}

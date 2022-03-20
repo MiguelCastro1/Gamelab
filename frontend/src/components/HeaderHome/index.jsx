@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import styles from "./styles.module.scss";
-import imgUser from "../../assets/foto_prof.svg";
+import imgUser from "../../assets/user_padrao.png";
 import { FiUser, FiLogOut } from "react-icons/fi";
 import { BiLogOut } from "react-icons/bi";
 import { VscBellDot } from "react-icons/vsc";

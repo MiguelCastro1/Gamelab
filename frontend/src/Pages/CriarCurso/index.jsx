@@ -11,14 +11,47 @@ import styles from "./styles.module.scss";
 import imageAluno from "../../assets/animacao_megaman_-running.gif";
 import api from "../../services/axios";
 import ProgressBar from "../../components/ProgressBar";
+import { Form, Formik } from "formik";
+import * as Yup from "yup";
+import Input from "../../components/Input";
+
+
 
 function CriarCurso() {
+  const [habilitado, setHabilitado] = useState(-1);
+
   const [date, setDate] = useState(new Date());
   const [searchString, setSearchString] = useState("");
+
 
   let {id} = localStorage.getItem("gamelab")
     ? JSON.parse(localStorage.getItem("gamelab"))
     : null;
+    const [erro, setErro] = useState(false);
+
+  const handleSubmit = async (values, actions) => {
+    try {
+      console.log("in");
+      let {
+        data: {
+          course: { nomeCurso,materia ,descricao,senha},
+          token,
+        },
+      } = await api.post("/criar-curso", values);
+      let dados = {
+        nomeCurso,
+        materia,
+        descricao,
+        senha,
+        token,
+      };
+      localStorage.setItem("gamelab", JSON.stringify(dados));
+      navigate("/");
+    } catch (error) {
+      setErro(true);
+      console.log(error);
+    }
+  };
   
   return (
     <>
@@ -46,14 +79,53 @@ function CriarCurso() {
 
           <div className={styles.feed}>
             <header>
-              <h1>Criar Turma</h1>
+              <h1 className="C">Criar Turma</h1>
             </header>
-            <input
-                  onChange={(e) => setSearchString(e.target.value)}
-                  value={searchString}
-                  placeholder="Nome ou Código da turma"
+                <Formik initialValues={{
+                nomeCurso: "",
+                materia: "",
+                descricao: "",
+                senha: "",
+              }}
+              onSubmit={handleSubmit}
+              >
+              {({handleSubmit, ...props})=>
+              <Form>
+                <Input 
+                name="nomeCurso"
+                label={"Nome do curso"}
+                type="text"
+                placeholder=""
                 />
+                <Input
+                name="materia"
+                label={"Materia"}
+                type="text"
+                placeholder=""
+                />    
+                 <Input
+                name="descricao"
+                label={"Descrição"}
+                type="text"
+                placeholder=""
+                />  
+              <p className={styles.senha_h}>Habilitar senha <input id="toggle" className={styles.toggle} type="checkbox" onClick={() => setHabilitado(habilitado * -1)}></input>
+              <label htmlFor="toggle"></label></p> 
+              {habilitado === 1 &&(
+                <div className={styles.campo_senha}> 
+                <Input name="senha" label={"Inserir senha"} type="text" placeholder=""/>
+                <Input name="senha" label={"Confirmar senha"} type="text" placeholder=""/>
+                </div>
+              )}
+              <button type="submit">Criar Curso</button>
+              </Form>
+              
+              
+              }
+
+              </Formik>
             <div>
+
     
             </div>
             {}

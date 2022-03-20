@@ -49,7 +49,7 @@ function BoxTurmaEnroll({ course_id, nomeTurma, professor, descricao, senha_curs
         </section>
         <section>
           <p>
-            <span>Professor:</span> {professor}
+            <span>Professor: </span>{professor}
             <img src= {user_padrao} alt="Professor" />
           </p>
           <p>

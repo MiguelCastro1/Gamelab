@@ -3,7 +3,7 @@ import HeaderHome from "../../components/HeaderHome";
 import { useNavigate } from "react-router-dom";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import imgUser from "../../assets/foto_prof.svg";
+import imgUser from "../../assets/user_padrao.png";
 import Input from "../../components/Input";
 import styles from "./styles.module.scss";
 import { FiEdit2, FiArrowLeft } from "react-icons/fi";

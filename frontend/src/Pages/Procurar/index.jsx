@@ -13,6 +13,8 @@ import api from "../../services/axios";
 import ProgressBar from "../../components/ProgressBar";
 import { toast } from 'react-toastify';
 
+
+
 function Procurar() {
   const [date, setDate] = useState(new Date());
   const [searchString, setSearchString] = useState("");
@@ -199,7 +201,6 @@ function Procurar() {
                 <li>
                   <h3> Perfil </h3>
                   <section className={styles.userName}>
-                    <span>rodrigotaveiraa</span>
                   </section>
                   <div className={styles.gamificacao}>
                     <img

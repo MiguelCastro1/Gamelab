@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { BiSearch} from "react-icons/bi";
+import * as React from 'react';
 import { BsChevronCompactLeft, BsKanban, BsFilter, BsCalendarCheck} from "react-icons/bs";
 import {FiHome} from "react-icons/fi"
 import {FaDoorOpen} from "react-icons/fa"
@@ -15,6 +16,14 @@ import * as Yup from "yup";
 import Input from "../../components/Input";
 import { getToken } from "../../services/auth";
 import { toast } from 'react-toastify';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+
+
 
 const formSchema = Yup.object().shape({
   nomeCurso: Yup.string().required("Campo obrigatório"),
@@ -25,8 +34,16 @@ const formSchema = Yup.object().shape({
 });
 
 function CriarCurso() {
-  const [habilitado, setHabilitado] = useState(-1);
+  const [open, setOpen] = React.useState(false);
 
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const [habilitado, setHabilitado] = useState(-1);
   const [date, setDate] = useState(new Date());
   const [searchString, setSearchString] = useState("");
   let navigate = useNavigate();
@@ -121,7 +138,18 @@ function CriarCurso() {
                 <Input name="confirmacao_senha" label={"Confirmar senha"} type="password" placeholder=""/>
                 </div>
               )}
-              <button type="submit" >Criar Curso</button>
+              <Button variant="outlined" onClick={handleClickOpen}>
+               Criar curso
+              </Button>
+                <Dialog open={open} onClose={handleClose} aria-labelledby="alert-dialog-title">
+                  <DialogTitle id="alert-dialog-title">
+                    {"Você deseja realmente adicionar um curso?"}
+                  </DialogTitle>
+                  <DialogActions>
+                    <Button onClick={handleClose}  >Cancelar</Button>
+                    <Button onClick={handleSubmit}>Confirmar</Button>
+                  </DialogActions>
+              </Dialog>
               </Form>
               )}
               </Formik>

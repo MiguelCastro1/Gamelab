@@ -61,7 +61,7 @@ function CriarCurso() {
         
         await api.post("/cursos", object);
         console.log('done')
-        toast("Curso criado com Sucesso")
+        toast.success("Curso criado com Sucesso")
         navigate("/");
       } catch (error) {
         toast.error("Algum erro ocorreu")

@@ -35,8 +35,10 @@
 
     section {
       display: flex;
-      gap: 1rem;
-      width: 100%;
+      flex-direction: column;
+      gap: 3rem;
+      width: 80%;
+      margin: 0 auto;
     }
 
     div {
@@ -86,7 +88,7 @@
     }
 
     .submitImage {
-      margin-top: 1rem;
+      // margin-top: 1rem;
       display: inline;
       width: auto;
       position: relative;

@@ -46,7 +46,7 @@ function FormCadastro() {
     console.log(object);
     try {
       await api.post("/usuarios", object);
-      toast("Cadastro Concluido com Sucesso")
+      toast.success("Cadastro Concluido com Sucesso")
       navigate("/login");
     } catch (error) {
       console.log(error);

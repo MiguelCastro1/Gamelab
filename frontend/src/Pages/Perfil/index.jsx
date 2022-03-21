@@ -7,6 +7,7 @@ import imgUser from "../../assets/user_padrao.png";
 import Input from "../../components/Input";
 import styles from "./styles.module.scss";
 import { FiEdit2, FiArrowLeft } from "react-icons/fi";
+import { toast } from 'react-toastify';
 //import { parseJwt } from "../../services/decodedToken";
 import { getToken } from "../../services/auth";
 import api from "../../services/axios";
@@ -15,7 +16,6 @@ import TextArea from "../../components/TextArea";
 const fields = [
   "nome",
   "email",
-  "senha",
   "matricula",
   "instituicao",
   "dataNascimento",
@@ -26,25 +26,24 @@ const fields = [
 ];
 
 const formSchema = Yup.object().shape({
-  email: Yup.string().email("Email Invalido").required("Campo obrigatório"),
-  senha: Yup.string()
-    .min(8, "Senha precisa de mais de 8 letras")
-    .required("Campo obrigatório"),
-  dataNascimento: Yup.string().required("Campo obrigatório"),
   nome: Yup.string().max(100, "Limite atingido").required("Campo obrigatório"),
+  email: Yup.string().email("Email Invalido").required("Campo obrigatório"),
+  dataNascimento: Yup.string().required("Campo obrigatório"),
   matricula: Yup.number("Matricula invalida").required("Campo obrigatório"),
   instituicao: Yup.string()
     .max(100, "Limite atingido")
     .required("Campo obrigatório"),
-  confirmacao_senha: Yup.string()
-    .required("Campo obrigatório")
-    .oneOf([Yup.ref("senha"), null], "As senhas não são iguais"),
+  cidade: Yup.string(),
+  paisOrigem: Yup.string(),
+  dataIngresso: Yup.string(),
+  descricaoPerfil: Yup.string()
 });
 
 function Perfil() {
   let navigate = useNavigate();
   const [flagReset, setFlagReset] = useState(false);
   const [isEdit, setIsEdit] = useState(true);
+  const [file, setFile] = useState([true]);
 
   const {id} = localStorage.getItem("gamelab")? JSON.parse(localStorage.getItem("gamelab")): null;
 
@@ -53,15 +52,16 @@ function Perfil() {
     setIsEdit(!setIsEdit)
   };
 
-  const handleSubmit = async (values, actions) => {
-    console.log("getin")
+  const handleSubmit = async (values) => {
     console.log(values);
-    // try {
-    //   await api.patch(`usuarios/${id}`, values);
-    //   setIsEdit(true);
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    try {
+      await api.patch(`usuarios/${id}`, values);
+      setIsEdit(true);
+      toast.success('Campos editados com sucesso')
+    } catch (error) {
+      console.log(error);
+      toast.success('Erro ao editar seus dados')
+    }
   };
 
   return (
@@ -73,7 +73,6 @@ function Perfil() {
           initialValues={{
             nome: "",
             email: "",
-            senha: "",
             matricula: "",
             instituicao: "",
             dataNascimento: "",
@@ -113,15 +112,14 @@ function Perfil() {
                   <section>
                     <div
                       className={styles.formContent}
-                      style={{ width: "65%" }}
                     >
                       <img src={imgUser} alt="imagem usuário" />
                       <div className={styles.submitImage}>
                         <p>
-                          Alterar imagem <FiEdit2 />{" "}
+                          Alterar imagem <FiEdit2 />
                         </p>
-                        <input type="file" value="" />
-                      </div>
+                        <input type="file" value="" onChange={e =>  setFile(e.target.value)} />
+                      </div>  
                     </div>
                     <div>
                       <Input
@@ -193,29 +191,29 @@ function Perfil() {
                         onChange={handleChange}
                         disabled={isEdit}
                       />
-                      {/* <TextArea
+                      <TextArea
                         label="Descrição de perfil"
                         name="descricaoPerfil"
                         value={values.descricaoPerfil}
                         onChange={handleChange}
                         disabled={isEdit}
-                      /> */}
+                      />
                     </div>
                   </section>
                   <footer>
-                    {!isEdit && (
-                      <>
                         <button
+                            style={{ opacity: !isEdit ? "1": 0}}
                           className={styles.cancelar}
                           onClick={handleCancel}
+                          type="button"
                         >
                           Cancelar
                         </button>
-                        <button className={styles.salvar} type="submit">
-                          Editar
+                        <button 
+                          style={{ opacity: !isEdit ? "1": 0}}
+                          className={styles.salvar} type="submit">
+                          Salvar
                         </button>
-                      </>
-                    )}
                   </footer>
                 </main>
               </Form>

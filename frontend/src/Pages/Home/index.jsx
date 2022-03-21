@@ -16,8 +16,8 @@ function Home() {
   const [date, setDate] = useState(new Date());
   const [searchString, setSearchString] = useState("");
   const [turmas, setTurmas] = useState([]);
-  let { perfil } = getToken() ? JSON.parse(getToken()) : null;
-  // const {id, perfil} = localStorage.getItem("gamelab") ? JSON.parse(localStorage.getItem("gamelab")): null;
+  const {perfil} = localStorage.getItem("gamelab") ? JSON.parse(localStorage.getItem("gamelab")): null;
+  console.log(perfil)
 
   /*async function fetchTurma() {
       let { data } =

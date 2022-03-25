@@ -83,7 +83,7 @@ function BoxTurmaEnroll({ course_id, nomeTurma, professor, descricao, senha_curs
           <p>
             <span>Descrição:</span> {descricao}
             <Button className={styles.matricula} onClick={handleClickOpen}>
-              Matricular-se
+              Matricular-se <FaDoorOpen size={20}/>
               </Button>
                 <Dialog open={open} onClose={handleClose} aria-labelledby="alert-dialog-title">
                   <DialogTitle id="alert-dialog-title">

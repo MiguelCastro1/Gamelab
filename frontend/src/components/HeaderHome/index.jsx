@@ -1,17 +1,14 @@
-import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import styles from "./styles.module.scss";
 import imgUser from "../../assets/user_padrao.png";
 import { FiUser, FiLogOut } from "react-icons/fi";
 import { BiLogOut } from "react-icons/bi";
 import { VscBellDot } from "react-icons/vsc";
-import { useTypePerfil } from "../../Context/PerfilContext";
 import { getToken } from "../../services/auth";
 
 function HeaderHome() {
   let navigate = useNavigate();
-  // const { perfil, setPerfil } = useTypePerfil();
-  let { nome, perfil } = getToken() ? JSON.parse(getToken()) : null;
+  let { id, nome, perfil } = getToken() ? JSON.parse(getToken()) : null;
 
   return (
     <header className={styles.container}>
@@ -44,7 +41,7 @@ function HeaderHome() {
             <li>
               <p
                 onClick={() => {
-                  navigate("/perfil");
+                  navigate(`/perfil/${id}`);
                 }}
               >
                 <FiUser size=".9rem" /> Perfil

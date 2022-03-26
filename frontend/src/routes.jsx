@@ -45,7 +45,7 @@ export default function Rotas() {
           <Route path="/criar-curso" element={<CriarCurso />} />
           <Route path="/avisos" element={<Avisos />} />
           <Route path="/curso/:id" element={<Curso />} />
-          <Route path="/perfil" element={<Perfil />} />
+          <Route path="/perfil/:userId" element={<Perfil />} />
           <Route path="/procurar-curso" element={<Procurar />} />
         </Route>
       </Routes>

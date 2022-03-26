@@ -1,4 +1,4 @@
-import { AiOutlineStar, AiFillStar } from "react-icons/ai";
+import { AiOutlineStar } from "react-icons/ai";
 import styles from "./styles.module.scss";
 
 function BoxTurma({ nomeTurma, professor, descricao, ...props }) {

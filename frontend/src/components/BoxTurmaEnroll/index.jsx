@@ -1,13 +1,11 @@
-import * as React from 'react';
-
-import { AiOutlineStar, AiFillStar } from "react-icons/ai";
+import { useState } from "react";
 import { FaDoorOpen, FaGraduationCap} from "react-icons/fa";
 import styles from "./styles.module.scss";
-import { Link, NavLink, useNavigate } from "react-router-dom";
-import { useState,  } from "react";
+import { useNavigate } from "react-router-dom";
 import user_padrao from "../../assets/user_padrao.png"
 import api from "../../services/axios";
 import { toast } from 'react-toastify';
+
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -18,8 +16,9 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 function BoxTurmaEnroll({ course_id, nomeTurma, professor, descricao, senha_curso, ...props }) {
   const [senha,setSenha] = useState("")
-  const [open, setOpen] = React.useState(false);
-
+  const [open, setOpen] = useState(false);
+  const navigate = useNavigate()
+  
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -27,7 +26,7 @@ function BoxTurmaEnroll({ course_id, nomeTurma, professor, descricao, senha_curs
   const handleClose = () => {
     setOpen(false);
   };
-  let navigate = useNavigate()
+
   const enroll =  () =>{
     if(senha_curso === undefined && senha_curso !== ''){
       try {

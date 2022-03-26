@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import HeaderHome from "../../components/HeaderHome";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams} from "react-router-dom";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import imgUser from "../../assets/user_padrao.png";
@@ -44,18 +44,18 @@ function Perfil() {
   const [flagReset, setFlagReset] = useState(false);
   const [isEdit, setIsEdit] = useState(true);
   const [file, setFile] = useState([true]);
-
-  const {id} = localStorage.getItem("gamelab")? JSON.parse(localStorage.getItem("gamelab")): null;
+  const { userId } = useParams();
+  let {id} = localStorage.getItem("gamelab")? JSON.parse(localStorage.getItem("gamelab")): null;
 
   const handleCancel = () => {
     setFlagReset(!flagReset);
-    setIsEdit(!setIsEdit)
+    setIsEdit(!isEdit)
   };
 
   const handleSubmit = async (values) => {
     console.log(values);
     try {
-      await api.patch(`usuarios/${id}`, values);
+      await api.patch(`usuarios/${userId}`, values);
       setIsEdit(true);
       toast.success('Campos editados com sucesso')
     } catch (error) {
@@ -99,15 +99,17 @@ function Perfil() {
               <Form>
                 <main className={styles.content}>
                   <header>
-                    <div className={styles.icons} onClick={() => navigate("/")}>
-                      <FiArrowLeft size="1.3rem" />
+                    <div className={styles.icons} onClick={() => navigate(-1)}>
+                      <FiArrowLeft size="1.6rem" />
                     </div>
-                    <div
-                      onClick={() => setIsEdit(!isEdit)}
-                      className={styles.icons}
-                    >
-                      <FiEdit2 size="1.3rem" />
-                    </div>
+                    { id === userId && (
+                      <div
+                        onClick={() => setIsEdit(!isEdit)}
+                        className={styles.icons}
+                      >
+                      <FiEdit2 size="1.6rem" /> 
+                      </div>
+                    )}
                   </header>
                   <section>
                     <div
@@ -115,10 +117,14 @@ function Perfil() {
                     >
                       <img src={imgUser} alt="imagem usuário" />
                       <div className={styles.submitImage}>
-                        <p>
-                          Alterar imagem <FiEdit2 />
-                        </p>
-                        <input type="file" value="" onChange={e =>  setFile(e.target.value)} />
+                        {!isEdit && ( 
+                          <p>
+                            Alterar imagem <FiEdit2 />
+                          </p>
+                        )} 
+                        {!isEdit && (
+                          <input type="file" value="" onChange={e =>  setFile(e.target.value)} />
+                        )} 
                       </div>  
                     </div>
                     <div>
@@ -131,6 +137,13 @@ function Perfil() {
                         disabled={isEdit}
                         autoFocus={true}
                         estilo={{ marginBottom: "2.7rem" }}
+                      />
+                      <TextArea
+                        label="Descrição de perfil"
+                        name="descricaoPerfil"
+                        value={values.descricaoPerfil}
+                        onChange={handleChange}
+                        disabled={isEdit}
                       />
                       <div className={styles.lineForm}>
                         <Input
@@ -191,13 +204,7 @@ function Perfil() {
                         onChange={handleChange}
                         disabled={isEdit}
                       />
-                      <TextArea
-                        label="Descrição de perfil"
-                        name="descricaoPerfil"
-                        value={values.descricaoPerfil}
-                        onChange={handleChange}
-                        disabled={isEdit}
-                      />
+                      
                     </div>
                   </section>
                   <footer>

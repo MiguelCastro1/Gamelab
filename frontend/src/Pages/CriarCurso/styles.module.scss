@@ -100,41 +100,6 @@
           }
         }
 
-        
-          .filtros{
-            display: flex;
-            
-            p {
-              cursor: pointer;
-              display: inline-flex;
-              align-items: center;
-              margin-right: 20px;
-            }
-      
-            & > p {
-              font-size: 1rem;
-              transition: text-decoration 0.3s linear;
-              color: var(--gray-500);
-      
-              &:hover:not(:last-child) {
-                text-decoration: underline;
-              }
-            }
-      
-            li > p {
-              padding: 4px 7px;
-              gap: 7px;
-      
-              & + p {
-                border-top: 1px solid #d3d3d3;
-              }
-      
-              &:hover {
-                background: rgb(240, 239, 239);
-              }
-            }
-        }
-  
         .titulo {
           font-weight: normal;
           font-size: 1.5rem;
@@ -145,18 +110,6 @@
           color: #111;
         }
   
-        input {
-          padding: 0.5rem;
-          border: 1px solid var(--gray-300);
-          width: 100%;
-          margin-bottom: 10px;
-          border-radius: 4px;
-          padding-left: 10px;
-  
-          &:focus {
-            border: 1px solid var(--blue-700);
-          }
-        }
         .areaSearch {
           display: none;
           width: 100%;
@@ -227,31 +180,6 @@
             color: var(--gray-500);
           }
         }
-  
-        .gamificacao {
-          display: flex;
-          align-items: center;
-          gap: 1rem;
-  
-          img {
-            max-width: 150px;
-            max-height: 130px;
-            object-fit: contain;
-            margin-bottom: 0.5rem;
-          }
-  
-          div {
-            background: var(--gray-100);
-            padding: 0.5rem;
-            border-radius: 8px;
-            display: flex;
-            gap: 10px;
-  
-            span:last-child {
-              font-weight: bold;
-            }
-          }
-        }
       }
   
       .sideBarLeft {
@@ -276,7 +204,7 @@
             text-align: center;
             margin-bottom: 0.4rem;
             padding: 0.5rem;
-            // padding-left: 15%;
+            //padding-left: 15%;
             border: 1px solid var(--gray-300);
             border-radius: 4px;
             cursor: pointer;

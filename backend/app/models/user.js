@@ -20,6 +20,7 @@ const userSchema = new Schema(
     },
     instituicao: {
       type: String,
+      default: "",
       trim: true,
     },
     dataNascimento: {

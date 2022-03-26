@@ -1,8 +1,6 @@
-import { useState, useEffect, useContext } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { BiSearch} from "react-icons/bi";
-import * as React from 'react';
-import { BsChevronCompactLeft, BsKanban, BsFilter, BsCalendarCheck} from "react-icons/bs";
+import { BsKanban, BsCalendarCheck} from "react-icons/bs";
 import {FiHome} from "react-icons/fi"
 import {FaDoorOpen} from "react-icons/fa"
 import HeaderHome from "../../components/HeaderHome";
@@ -23,8 +21,6 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-
-
 const formSchema = Yup.object().shape({
   nomeCurso: Yup.string().required("Campo obrigatório"),
   descricao: Yup.string().required("Campo obrigatório"),
@@ -34,7 +30,11 @@ const formSchema = Yup.object().shape({
 });
 
 function CriarCurso() {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+  const [habilitado, setHabilitado] = useState(-1);
+  const [date, setDate] = useState(new Date());
+  const [searchString, setSearchString] = useState("");
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -43,11 +43,7 @@ function CriarCurso() {
   const handleClose = () => {
     setOpen(false);
   };
-  const [habilitado, setHabilitado] = useState(-1);
-  const [date, setDate] = useState(new Date());
-  const [searchString, setSearchString] = useState("");
-  let navigate = useNavigate();
-
+  
   let { id, email } = getToken() ? JSON.parse(getToken()) : null;
   const handleSubmit = async (values, actions) => {
       let object = {
@@ -58,7 +54,6 @@ function CriarCurso() {
       console.log(object);
     
       try {
-        
         await api.post("/cursos", object);
         console.log('done')
         toast.success("Curso criado com Sucesso")
@@ -76,7 +71,7 @@ function CriarCurso() {
         <div className={styles.content}>
           <div className={styles.sideBarLeft}>
             <ul>
-              <li></li>
+              <li ></li>
               <li>
                 <Link to="/kanban">
                   {" "}

@@ -67,9 +67,8 @@ exports.update = async (req, res) => {
 exports.user = async (req, res) => {
   try {
     
-   // let userId = req.params.id;
+    let userId = req.params.id;
     let token = req.headers.authorization.split(" ")[1];
-    let userId = parseJwt(token).id;
     let doc = await User.findById(userId);
     res.status(200).json({ doc });
   } catch (error) {

@@ -17,6 +17,7 @@ router.post("/cursos", auth, Curso.createCourse);
 router.post("/cursos/:id/matricula", auth, Curso.enroll);
 //router.get("/cursos/:pesquisa", auth, Curso.courses);
 router.get("/cursos", Curso.listAll);
+router.get("/cursos/:courseId",auth, Curso.curse);
 router.get("/cursos/procurar", auth,  Curso.listCoursesEnroll);
 router.get("/cursos/professor/MeusCursos", auth,  Curso.listCoursesFromTeacher);
 router.get("/cursos/aluno/MeusCursos", auth,  Curso.listCoursesFromStudent);

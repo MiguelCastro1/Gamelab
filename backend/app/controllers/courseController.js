@@ -16,6 +16,16 @@ exports.createCourse = async (req, res) => {
   }
 };
 
+exports.curse = async (req, res) => {
+  try {
+    let courseId = req.params.courseId;
+    let doc = await Course.findById(courseId);
+    res.status(200).json({ doc });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 //listar cursos para professor, dentre os quais é autor - permite pesquisa por: nome do curso e descrição.
 exports.listCoursesFromTeacher = async (req, res) => {
   let token = req.headers.authorization.split(" ")[1];
@@ -61,9 +71,8 @@ exports.listCoursesFromStudent = async (req, res) => {
         { descricao: { $regex: "(?i).*" + busca + ".*(?i)" } },
       ],
       "Alunos.userId": studentId
-    },
-      fields
-    );
+    });
+    console.log(doc)
     let encontrados = Object.keys(doc).length;
     res.status(200).json({
       message: `Foram encontrados ${encontrados} resultados.`,

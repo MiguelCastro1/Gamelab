@@ -87,7 +87,7 @@ function Perfil() {
           {function ShowForm({ values, handleChange, setFieldValue }) {
             useEffect(() => {
               async function fetchItemsDetails() {
-                const { data } = await api.get(`usuarios/${id}`);
+                const { data } = await api.get(`usuarios/${userId}`);
                 fields.forEach((field) => {
                   setFieldValue(field, data.doc[field], false);
                 });

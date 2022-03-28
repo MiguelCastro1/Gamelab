@@ -13,7 +13,7 @@ import BoxTurma from "../../components/BoxTurma";
 import monster from "../../assets/guerreiro-morto.gif";
 import ghost from "../../assets/ghost.gif";
 
-function Curso() {
+function Participantes() {
   const atividade = {
     nome: "Matematica Lógica",
     dataFim: "15/04/22 as 21:00",
@@ -86,7 +86,7 @@ function Curso() {
                 <ul>
                   <li></li>
                   <li>
-                    <Link to={`/curso/${courseId}/participantes`}>
+                    <Link to="/kanban">
                       {" "}
                       Ver Participantes <BsKanban size={20} />{" "}
                     </Link>
@@ -143,4 +143,4 @@ function Curso() {
   );
 }
 
-export default Curso;
+export default Participantes;

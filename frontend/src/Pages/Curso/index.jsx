@@ -158,16 +158,16 @@ function Curso() {
             <div className={styles.formating} >
               <div className={styles.dados}> 
                 <h3> Dados da turma </h3>
-                <p><span className={styles.tit}> Professor : </span> {curso.autorEmail} </p>
-                <p><span className={styles.tit}> Descrição : </span> {curso.descricao}  </p> 
-                <p><span className={styles.tit}> Status : </span> {curso.Ativo ? 'Ativo': 'Ativo'}  </p> 
+                <p><span className={styles.tit}> Professor: </span> {curso.autorEmail} </p>
+                <p><span className={styles.tit}> Descrição: </span> {curso.descricao}  </p> 
+                <p><span className={styles.tit}> Status: </span> {curso.Ativo ? 'Ativo': 'Ativo'}  </p> 
               </div> 
 
               <div className={styles.botoes} >
                 <ul>
                   <li></li>
                   <li>
-                    <Link to={`/curso/${courseId}/participantes`}>
+                    <Link to={`/participantes/${courseId}`}>
                       {" "}
                       <FcConferenceCall size={20} /> Ver Participantes {" "}
                     </Link>

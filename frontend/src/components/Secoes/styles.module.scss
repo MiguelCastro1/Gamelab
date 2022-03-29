@@ -44,11 +44,10 @@
         display: flex;
         align-content: flex-start;
         padding: 0.5rem;
-       // border: px solid var(--gray-300);
         margin-bottom: 0.6rem;
-        width: 580px;
+        //width: 580px;
+        //border: px solid var(--gray-300);
         gap: 10px;
-        
         cursor: pointer;
         border-radius: 4px;
         transition: margin-bottom 0.1s ease-in-out;

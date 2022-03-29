@@ -104,6 +104,7 @@ function Atividades() {
         console.log(err)
     }
   }
+  
   useEffect(() => {
     
     try {

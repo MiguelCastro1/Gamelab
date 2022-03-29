@@ -59,6 +59,7 @@ exports.listCoursesFromTeacher = async (req, res) => {
 //listar cursos para estudante, dentre os quais está matriculado - permite pesquisa por nome do curso, e descrição.
 exports.listCoursesFromStudent = async (req, res) => {
   try {    
+    console.log('begin')
     let token = req.headers.authorization.split(" ")[1];
     let studentId = mongoose.Types.ObjectId( parseJwt(token).id);
     let busca = req.query.pesquisa || "";
@@ -72,7 +73,7 @@ exports.listCoursesFromStudent = async (req, res) => {
       ],
       "Alunos.userId": studentId
     });
-    console.log(doc)
+   // console.log(doc)
     let encontrados = Object.keys(doc).length;
     res.status(200).json({
       message: `Foram encontrados ${encontrados} resultados.`,
@@ -88,7 +89,7 @@ exports.enroll = async (req, res) => {
     let token = req.headers.authorization.split(" ")[1];
     let object = parseJwt(token);
     let userId = object.id;
-    let courseId = req.params.id;
+    let courseId = req.params.courseId;
     let aluno = {
       userId: new mongoose.Types.ObjectId(userId),
       notas: [],
@@ -106,11 +107,38 @@ exports.enroll = async (req, res) => {
   }
 };
 
+exports.unroll = async (req, res) => {
+  try {
+    let token = req.headers.authorization.split(" ")[1];
+    let object = parseJwt(token);
+    let userId = object.id;
+    let courseId = req.params.courseId;
+    let aluno = {
+      userId: new mongoose.Types.ObjectId(userId),
+      notas: [],
+    };
+
+    let document = await Course.updateOne(
+     { _id: courseId },
+      { $pull: { Alunos: aluno } }
+    );
+   //console.log(userId)
+  // console.log(courseId)
+    res.status(200).json({
+      document,
+      message: `Aluno desmatriculado com sucesso`,
+    });
+  } catch (e) {
+    res.status(500).json({ message: e.message });
+  }
+};
+
+
 exports.update = async (req, res) => {};
 
 exports.listCourseParticipants = async (req, res) => {
   try {
-    let courseId = req.params.id;
+    let courseId = req.params.courseId;
     let fields = {
       Alunos: 1,
       _id: 0,
@@ -131,7 +159,7 @@ exports.listCoursesEnroll = async (req, res) => {
     let token = req.headers.authorization.split(" ")[1];
     let studentId = parseJwt(token).id;
     const doc = await Course.find({})
-    
+  
     //carregar cursos que aluno nao esteja matriculado
     let results = [];
     for(let i =0; i < doc.length; i++){
@@ -147,7 +175,7 @@ exports.listCoursesEnroll = async (req, res) => {
     }
     
   //const results = doc.filter((turma) => turma.Alunos.filter((alunos) => studentId !== alunos.userId))
-    res.status(200).json({ results });
+    res.status(200).send({results});
   } catch (error) {
     console.error(error);
   }

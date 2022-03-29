@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import user_padrao from "../../assets/user_padrao.png"
 import api from "../../services/axios";
 import { toast } from 'react-toastify';
-
+import {FcGraduationCap} from "react-icons/fc";
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -72,7 +72,7 @@ function BoxTurmaEnroll({ course_id, nomeTurma, professor, descricao, senha_curs
       <div className={styles.content}>
         <section>
           <h3>{nomeTurma}</h3>
-          <FaGraduationCap/>
+          <FcGraduationCap size={25}/>
         </section>
         <section>
           <p>

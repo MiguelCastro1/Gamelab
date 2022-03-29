@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { BsKanban, BsCalendarCheck} from "react-icons/bs";
-import {FiHome} from "react-icons/fi"
+import { BsKanban} from "react-icons/bs";
 import HeaderHome from "../../components/HeaderHome";
 import Calendar from "react-calendar";
 import styles from "./styles.module.scss";
@@ -9,32 +8,109 @@ import api from "../../services/axios";
 import ProgressBar from "../../components/ProgressBar";
 import Input from "../../components/Input";
 import { getToken } from "../../services/auth";
-import BoxTurma from "../../components/BoxTurma";
+import Secoes from "../../components/Secoes";
 import monster from "../../assets/guerreiro-morto.gif";
 import ghost from "../../assets/ghost.gif";
+import {SiGoogleclassroom} from "react-icons/si";
+import {FcHome} from "react-icons/fc";
+import {FcAreaChart, FcConferenceCall, FcDislike, FcLeft} from "react-icons/fc";
+import { toast } from 'react-toastify';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 function Participantes() {
-  const atividade = {
-    nome: "Matematica Lógica",
-    dataFim: "15/04/22 as 21:00",
-    imagem: monster,
-  }
-
-  const atividade2 = {
-    nome: "Programação Lógica",
-    dataFim: "15/04/22 as 21:00",
-    imagem: monster,
-  }
+  const atividades = [
+    {
+      titulo: "Matematica Lógica",
+      dataFim: "15/04/22 as 21:00",
+      imagem: monster,
+    },
+    {
+      titulo: "Programação Lógica",
+      dataFim: "15/04/22 as 21:00",
+      imagem: ghost,
+    }
+  ]
+  const secoes = [
+    {
+      titulo: 'Plano de Ensino',
+      conteudos: [
+        {
+          tipo : 'pdf',
+          titulo: 'Plano de Ensino 2022',
+          visivel: true
+        }
+      ]
+    },
+    {
+      titulo: 'Modulo 1: Vetores',
+      conteudos: [
+        {
+          tipo : 'pdf',
+          titulo: 'Aula 01 - Introdução a vetores',
+          visivel: true
+        },
+        {
+          tipo : 'link',
+          titulo: 'Playlist de Vetores',
+          visivel: true
+        },
+        {
+          tipo : 'Atividade',
+          titulo: 'Atividade 01 - Vetores',
+          visivel: true
+        },
+      ]
+    },
+    {
+      titulo: 'Modulo 2: Matrizes',
+      conteudos: []
+    }
+  ]
 
   let { id, perfil } = getToken() ? JSON.parse(getToken()) : null;
   const [curso, setCurso] = useState([]);
   const { courseId } = useParams();
+  const [open, setOpen] = useState(false);
+  const navigate = useNavigate()
+  
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const unroll =  () =>{
+    try {
+      console.log('unroll');
+      api.post(`/cursos/${courseId}/desmatricula`)
+      .then((data) => {
+        toast("Desmatriculado com sucesso!");
+        console.log('done');
+        navigate('/');
+      })
+      .catch((err) =>  {
+        toast.error("Algum Erro ocorreu") 
+        console.log(err)
+      })
+    }catch (error) {
+      toast.error("Algum Erro ocorreu") 
+        console.log(err)
+    }
+  }
   useEffect(() => {
     
     try {
       api.get(`/cursos/${courseId}`)
       .then((data) => {
        // console.log(data.data.doc)
+       console.log(secoes)
         setCurso(data.data.doc);
         console.log('done')
 
@@ -54,86 +130,96 @@ function Participantes() {
             <ul>
               <li></li>
               <li>
-                <Link to="/kanban">
+                <Link to={`/curso/${courseId}`} >
                   {" "}
-                  Meu Kanban <BsKanban size={20} />{" "}
+                  Voltar  {"       "} 
+                  <FcLeft size={20} />
+                </Link>
+              </li>
+              <li>
+                <Link to="/kanban" >
+                  {" "}
+                  Meu Kanban  {"       "} 
+                  <BsKanban size={20} />
                 </Link>
               </li>
               <li>
                 <Link to="/">
                   {" "}
-                  Home
-                  <FiHome size={20} />{" "}
+                  Home {"           "}
+                  <FcHome size={20} />
                 </Link>
               </li>
             </ul>
           </div>
 
             <div className={styles.feed}>
-                <h1> {curso.nomeCurso} </h1>
+            <h1>  <SiGoogleclassroom size={25}/> Participantes </h1> 
+                {secoes.map((secao) => (
+                  <Secoes key = {secao.titulo} titulo = {secao.titulo} conteudos={secao.conteudos}/>
+                ))}
             </div>
+           
 
             <div className={styles.sideBarRight}>
             <div className={styles.formating} >
               <div className={styles.dados}> 
                 <h3> Dados da turma </h3>
-                <p> Professor : {curso.autorEmail} </p>
-                <p> Descrição: {curso.descricao}  </p> 
-                <p> Status: {curso.Ativo}  </p> 
+                <p><span className={styles.tit}> Professor : </span> {curso.autorEmail} </p>
+                <p><span className={styles.tit}> Descrição : </span> {curso.descricao}  </p> 
+                <p><span className={styles.tit}> Status : </span> {curso.Ativo ? 'Ativo': 'Ativo'}  </p> 
               </div> 
 
               <div className={styles.botoes} >
                 <ul>
                   <li></li>
                   <li>
-                    <Link to="/kanban">
+                    <Link to={`/curso/${courseId}/participantes`}>
                       {" "}
-                      Ver Participantes <BsKanban size={20} />{" "}
+                      <FcConferenceCall size={20} /> Ver Participantes {" "}
                     </Link>
                   </li>
                   <li>
-                    <Link to="/">
+                    <Link to={`/notas-curso/${courseId}`}>
                       {" "}
+                      <FcAreaChart size={20} />
                       Ver Notas
-                      <FiHome size={20} />{" "}
+                      {" "}
                     </Link>
                   </li>
                   <li>
-                    <Link to="/">
-                      {" "}
-                      Desinscrever-se
-                      <FiHome size={20} />{" "}
-                    </Link>
+                    <Button  className={styles.botao} onClick={handleClickOpen}>
+                    <FcDislike size={20} /> Desinscrever-se  
+                    </Button>
+                    <Dialog open={open} onClose={handleClose} aria-labelledby="alert-dialog-title">
+                      <DialogTitle id="alert-dialog-title">
+                        {"Você deseja realmente se desmatricular?"}
+                      </DialogTitle>
+                      <DialogActions>
+                        <Button onClick={handleClose}  >Cancelar</Button>
+                        <Button onClick={unroll}>Confirmar</Button>
+                      </DialogActions>
+                    </Dialog>    
                   </li>
                 </ul>
               </div>
 
               <div className={styles.atividades} >
                 <h3> Atividades </h3>
-                <div className={styles.tarefa}>
-                  <p> {atividade.nome} </p>
-                  <p> Entrega : {atividade.dataFim}  </p> 
-                  <button >Mais Detalhes</button>
-                  <img
-                      src={monster}
-                      alt="Monstro"  
-                      width={115}
-                      height={115}
-                    />
-                    
-                </div>
-                <div className={styles.tarefa}>
-                  <p> {atividade2.nome} </p>
-                  <p> Entrega: {atividade2.dataFim}  </p> 
-                  <button >Mais Detalhes</button>
-                  <img
-                      src={ghost}
-                      alt="Monstro"  
-                      width={115}
-                      height={115}
-                    />
+                {atividades.map((atividade) => (
+                  <div key = {atividade.titulo} className={styles.tarefa}>
+                  <p style={{fontWeight: 'bolder'}}> {atividade.titulo} </p>
+                    <p> Entrega : {atividade.dataFim}  </p> 
+                    <Link to={`/curso/${courseId}/${atividade.titulo}`}>Mais Detalhes</Link>
+                    <img
+                        src={atividade.imagem}  
+                        alt="Monstro"  
+                        width={115}
+                        height={115}
+                      />
                   
-                </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

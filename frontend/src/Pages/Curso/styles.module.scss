@@ -20,24 +20,16 @@
         overflow: auto;
         height: auto;
         max-height : auto;
-    
-        header {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          margin-bottom: 1rem;
   
           h1 {
             font-family: Inter, sans-serif;
             font-weight: normal;
-            font-size: 1.5rem;
+            font-size: xx-large;
             line-height: 2rem;
-            color: #111;
+            color: #2b463c;
             padding-bottom: 20px;
-
-          }
-  
-         }
+            text-align: center;
+          } 
 
         .titulo {
           font-weight: normal;
@@ -74,12 +66,12 @@
         align-items: center;
         position: sticky;
         top: 70px;
-        z-index: -1;
+       // z-index: -1;
 
   
         .formating {
           width: 100%;
-          padding: 1rem;
+          padding: 0.5rem;
           border: 1px solid var(--gray-100);
           border-radius: 4px;
           display: flex;
@@ -90,21 +82,28 @@
             margin-bottom: 1.4rem;
             color: var(--blue-700);
             font-weight: normal;
+            align-self: center;
+            text-align: center;
           }
 
            .dados {
-            
-            padding: 0.5rem;
+            text-align: start;
+            align-content: flex-start;
+            padding: 0.4rem;
             border: 1px solid var(--gray-100);
-            text-align: center;
             font-weight: normal;
-            margin-bottom: 0.5rem;
+           // margin-bottom: 0.5rem;
             //color: var(--blue-700);
+
+            .tit{
+              color: var(--blue-700);
+              font-weight: normal;
+            }
            }
 
             .atividades {
              
-              border: 1px solid var(--gray-100);
+           // border: 1px solid var(--gray-100);
             padding: 0.5rem;
             margin-bottom: 0.5rem;
             width: 100%;
@@ -115,24 +114,28 @@
               background: rgb(255, 254, 254);
               margin-bottom: 0.5rem;
               width: 100%;
+              
               text-align: center;
               border: 1px solid var(--gray-100);
               padding: 0.3rem;
+
             }
+
           }
 
            .botoes{
             background: rgb(255, 254, 254);
-            border: 1px solid var(--gray-100);
+           // border: 1px solid var(--gray-100);
             padding: 0.5rem;
-            margin-bottom: 0.5rem;
+           // margin-bottom: 0.5rem;
             width: 100%;
             
             ul {
               list-style: none;
               // color: var(--blue-700);
            //   
-              li {
+
+            li{
                 display: flex;
                 align-items: flex-start;
                 justify-content: space-evenly;
@@ -145,7 +148,18 @@
                 border-radius: 4px;
                 cursor: pointer;
                 transition: margin-bottom 0.1s ease-in-out;
-      
+
+                .botao{
+                  text-transform: initial;
+                  font-size: medium;
+                  color: #111;
+                  padding: 0%;
+                  margin: 0%;
+                  //background-color: #ecececd5;
+                 // border: 1px solid var(--gray-100);
+ 
+
+                }
                 &:hover {
                   margin-bottom: 0.8rem;
                 }

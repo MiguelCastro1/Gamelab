@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { BiSearch} from "react-icons/bi";
 import { BsChevronCompactLeft, BsKanban, BsFilter, BsCalendarCheck} from "react-icons/bs";
-import {FiHome} from "react-icons/fi"
+import {FcHome} from "react-icons/fc";
 import {FaDoorOpen} from "react-icons/fa"
 import HeaderHome from "../../components/HeaderHome";
 import BoxTurmaEnroll from "../../components/BoxTurmaEnroll";
@@ -26,9 +26,10 @@ function Procurar() {
   
   useEffect(() => {
     try {
-      api.get("/cursos/procurar")
+      console.log('begin')
+      api.get("/cursos/procurar-curso")
       .then((data) => {
-        console.log(data.data.results)
+        //console.log(data.data.results)
         setResultados(data.data.results);
         console.log('done')
       })
@@ -71,7 +72,7 @@ function Procurar() {
                 <Link to="/">
                   {" "}
                   Home
-                  <FiHome size={20} />{" "}
+                  <FcHome size={20} />{" "}
                 </Link>
               </li>
             </ul>

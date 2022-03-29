@@ -45,7 +45,7 @@ function Home() {
         api.get("/cursos/aluno/MeusCursos")
         .then((data) => {
           setResultados(data.data.doc);
-          console.log(data.data.doc);
+          //console.log(data.data.doc);
           console.log('done')
         })
         .catch(err => console.log(err))

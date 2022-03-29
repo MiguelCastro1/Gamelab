@@ -13,7 +13,7 @@ import monster from "../../assets/guerreiro-morto.gif";
 import ghost from "../../assets/ghost.gif";
 import {SiGoogleclassroom} from "react-icons/si";
 import {FcHome} from "react-icons/fc";
-import {FcAreaChart, FcConferenceCall, FcDislike} from "react-icons/fc";
+import {FcAreaChart, FcConferenceCall, FcDislike, FcLeft} from "react-icons/fc";
 import { toast } from 'react-toastify';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -22,7 +22,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-function Curso() {
+function Atividades() {
   const atividades = [
     {
       titulo: "Matematica Lógica",
@@ -130,6 +130,13 @@ function Curso() {
             <ul>
               <li></li>
               <li>
+                <Link to={`/curso/${courseId}`} >
+                  {" "}
+                  Voltar  {"       "} 
+                  <FcLeft size={20} />
+                </Link>
+              </li>
+              <li>
                 <Link to="/kanban" >
                   {" "}
                   Meu Kanban  {"       "} 
@@ -147,7 +154,7 @@ function Curso() {
           </div>
 
             <div className={styles.feed}>
-            <h1>  <SiGoogleclassroom size={25}/> {curso.nomeCurso}   </h1> 
+            <h1>  <SiGoogleclassroom size={25}/> Atividades  </h1> 
                 {secoes.map((secao) => (
                   <Secoes key = {secao.titulo} titulo = {secao.titulo} conteudos={secao.conteudos}/>
                 ))}
@@ -222,4 +229,4 @@ function Curso() {
   );
 }
 
-export default Curso;
+export default Atividades;

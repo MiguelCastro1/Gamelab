@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { BsKanban, BsCalendarCheck} from "react-icons/bs";
-import {FiHome} from "react-icons/fi"
+import {FcHome} from "react-icons/fc";
 import {FaDoorOpen} from "react-icons/fa"
 import HeaderHome from "../../components/HeaderHome";
 import BoxTurmaEnroll from "../../components/BoxTurmaEnroll";
@@ -82,7 +82,7 @@ function CriarCurso() {
                 <Link to="/">
                   {" "}
                   Home
-                  <FiHome size={20} />{" "}
+                  <FcHome size={20} />{" "}
                 </Link>
               </li>
             </ul>

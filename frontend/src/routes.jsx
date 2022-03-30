@@ -21,6 +21,7 @@ import Perfil from "./Pages/Perfil";
 import Procurar from "./Pages/Procurar";
 import Participantes from "./Pages/Participantes";
 import Atividade from "./Pages/Atividade";
+import NotFound from "./Pages/NotFound";
 
 import { isAuthenticated } from "./services/auth";
 
@@ -38,7 +39,7 @@ export default function Rotas() {
         <Route path="/cadastrar-perfil" element={<FormCadastro />} />
         <Route path="/email" element={<EmailEnviado />} />
         <Route path="/sobre" element={<Sobre />} />
-        <Route path="*" element={<h1>Not Found</h1>} />
+        <Route path="*" element={<NotFound/>} />
 
         <Route element={<RotasPrivadas />}>
           <Route path="/" element={<Home />} />

@@ -13,7 +13,8 @@ import monster from "../../assets/guerreiro-morto.gif";
 import ghost from "../../assets/ghost.gif";
 import {SiGoogleclassroom} from "react-icons/si";
 import {FcHome} from "react-icons/fc";
-import {FcAreaChart, FcConferenceCall, FcDislike} from "react-icons/fc";
+import {FcAreaChart, FcConferenceCall, FcDislike, FcApproval,
+   FcSupport, FcEditImage, FcAdvertising } from "react-icons/fc";
 import { toast } from 'react-toastify';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -21,6 +22,9 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import ShowMoreText from "react-show-more-text";
+import { ClassNames } from "@emotion/react";
+import { style } from "@mui/system";
 
 function Curso() {
   const atividades = [
@@ -110,7 +114,7 @@ function Curso() {
       api.get(`/cursos/${courseId}`)
       .then((data) => {
        // console.log(data.data.doc)
-       console.log(secoes)
+       //console.log(secoes)
         setCurso(data.data.doc);
         console.log('done')
 
@@ -159,42 +163,107 @@ function Curso() {
               <div className={styles.dados}> 
                 <h3> Dados da turma </h3>
                 <p><span className={styles.tit}> Professor: </span> {curso.autorEmail} </p>
-                <p><span className={styles.tit}> Descrição: </span> {curso.descricao}  </p> 
-                <p><span className={styles.tit}> Status: </span> {curso.Ativo ? 'Ativo': 'Ativo'}  </p> 
+                <p><span className={styles.tit}> Descrição: </span> 
+                  <ShowMoreText
+                    lines={2}
+                    more="Ver mais"
+                    less="Ver menos"
+                    className="content-css"
+                    width={300}
+                  >
+                  
+                  {curso.descricao}  
+                  </ShowMoreText>
+                </p> 
+                <p><span className={styles.tit}> Status: </span> {curso.Ativo ? 'Ativo': 'Ativo'} < FcApproval size={20}/> </p> 
               </div> 
 
               <div className={styles.botoes} >
-                <ul>
-                  <li></li>
-                  <li>
-                    <Link to={`/participantes/${courseId}`}>
-                      {" "}
-                      <FcConferenceCall size={20} /> Ver Participantes {" "}
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to={`/notas-curso/${courseId}`}>
-                      {" "}
-                      <FcAreaChart size={20} />
-                      Ver Notas
-                      {" "}
-                    </Link>
-                  </li>
-                  <li>
-                    <Button  className={styles.botao} onClick={handleClickOpen}>
-                    <FcDislike size={20} /> Desinscrever-se  
-                    </Button>
-                    <Dialog open={open} onClose={handleClose} aria-labelledby="alert-dialog-title">
-                      <DialogTitle id="alert-dialog-title">
-                        {"Você deseja realmente se desmatricular?"}
-                      </DialogTitle>
-                      <DialogActions>
-                        <Button onClick={handleClose}  >Cancelar</Button>
-                        <Button onClick={unroll}>Confirmar</Button>
-                      </DialogActions>
-                    </Dialog>    
-                  </li>
-                </ul>
+                {perfil === 'aluno' && (
+                  <ul>
+                    <li></li>
+                    <li>
+                      <Link to={`/participantes/${courseId}`}>
+                        {" "}
+                        <FcConferenceCall size={20} /> Ver Participantes {" "}
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to={`/notas-curso/${courseId}`}>
+                        {" "}
+                        <FcAreaChart size={20} />
+                        Ver Notas
+                        {" "}
+                      </Link>
+                    </li>
+                    <li>
+                      <Button  className={styles.botao} onClick={handleClickOpen}>
+                      <FcDislike size={20} /> Desinscrever-se  
+                      </Button>
+                      <Dialog open={open} onClose={handleClose} aria-labelledby="alert-dialog-title">
+                        <DialogTitle id="alert-dialog-title">
+                          {"Você deseja realmente se desmatricular?"}
+                        </DialogTitle>
+                        <DialogActions>
+                          <Button onClick={handleClose}  >Cancelar</Button>
+                          <Button onClick={unroll}>Confirmar</Button>
+                        </DialogActions>
+                      </Dialog>    
+                    </li>
+                  </ul>
+                )}
+
+                {perfil === 'professor' && (
+                  <ul>
+                    <li></li>
+                    <li>
+                      <Link to={`/participantes/${courseId}`}>
+                        {" "}
+                        <FcSupport size={20} /> Editar dados{" "}
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to={`/participantes/${courseId}`}>
+                        {" "}
+                        <FcEditImage size={20} /> Adicionar/Editar Conteudo{" "}
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to={`/participantes/${courseId}`}>
+                        {" "}
+                        <FcConferenceCall size={20} /> Ver Participantes {" "}
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to={`/notas-curso/${courseId}`}>
+                        {" "}
+                        <FcAreaChart size={20} />
+                        Ver Notas
+                        {" "}
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to={`/participantes/${courseId}`}>
+                        {" "}
+                        <FcAdvertising size={20} /> Criar Avisos {" "}
+                      </Link>
+                    </li>
+                    <li>
+                      <Button  className={styles.botao} onClick={handleClickOpen}>
+                      <FcDislike size={20} /> Desinscrever-se  
+                      </Button>
+                      <Dialog open={open} onClose={handleClose} aria-labelledby="alert-dialog-title">
+                        <DialogTitle id="alert-dialog-title">
+                          {"Você deseja realmente se desmatricular?"}
+                        </DialogTitle>
+                        <DialogActions>
+                          <Button onClick={handleClose}  >Cancelar</Button>
+                          <Button onClick={unroll}>Confirmar</Button>
+                        </DialogActions>
+                      </Dialog>    
+                    </li>
+                  </ul>
+                )}
               </div>
 
               <div className={styles.atividades} >
@@ -203,7 +272,7 @@ function Curso() {
                   <div key = {atividade.titulo} className={styles.tarefa}>
                   <p style={{fontWeight: 'bolder'}}> {atividade.titulo} </p>
                     <p> Entrega : {atividade.dataFim}  </p> 
-                    <Link to={`/curso/${courseId}/${atividade.titulo}`}>Mais Detalhes</Link>
+                    <Link className={styles.moreDetails} to={`/curso/${courseId}/${atividade.titulo}`}>Mais Detalhes</Link>
                     <img
                         src={atividade.imagem}  
                         alt="Monstro"  

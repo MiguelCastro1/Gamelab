@@ -8,6 +8,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "latest",
+    "@emotion/styled": "latest",
+    "@mui/material": "latest",
     "apexcharts": "^3.33.1",
     "axios": "^0.26.0",
     "formik": "^2.2.9",
@@ -17,16 +20,13 @@
     "react-dom": "^17.0.2",
     "react-icons": "^4.3.1",
     "react-router-dom": "^6.2.1",
+    "react-show-more-text": "^1.5.2",
     "react-toastify": "^8.2.0",
     "sass": "^1.49.8",
-    "yup": "^0.32.11",
-    "@mui/material": "latest",
-    "@emotion/styled": "latest",
-    "@emotion/react": "latest"
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^1.0.7",
     "vite": "^2.8.0"
   }
 }
-

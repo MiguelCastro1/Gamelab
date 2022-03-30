@@ -29,6 +29,7 @@
           color: #2b463c;
           padding-bottom: 20px;
           text-align: center;
+          margin-bottom: 1rem;
         } 
 
       .titulo {
@@ -44,6 +45,24 @@
       .aluno{
         border: 1px solid var(--gray-100);
         margin-bottom: 1rem;
+        display: flex;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: margin-bottom 0.1s ease-in-out;
+        h2{
+          margin: 10px;
+          font-size: medium;
+          padding-top: 0.5rem;
+          font-family: serif;
+          &:hover {
+            color: #5280ff;
+          }
+
+        }
+      
+        &:hover {
+          margin-bottom: 0.8rem;
+        }
       }
 
       .areaSearch {
@@ -124,6 +143,12 @@
             border: 1px solid var(--gray-100);
             padding: 0.3rem;
 
+            .moreDetails{
+              border: 1px solid;
+              border-color: rgb(184, 184, 184);
+              padding: 00.5rem;
+            }
+
           }
 
         }
@@ -157,6 +182,7 @@
               .botao{
                 text-transform: initial;
                 font-size: medium;
+                font-weight: normal;
                 color: #111;
                 padding: 0%;
                 margin: 0%;

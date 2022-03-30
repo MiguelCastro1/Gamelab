@@ -2,22 +2,28 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { BsKanban} from "react-icons/bs";
 import HeaderHome from "../../components/HeaderHome";
+import Calendar from "react-calendar";
 import styles from "./styles.module.scss";
 import api from "../../services/axios";
 import ProgressBar from "../../components/ProgressBar";
+import Input from "../../components/Input";
 import { getToken } from "../../services/auth";
+import Secoes from "../../components/Secoes";
 import monster from "../../assets/guerreiro-morto.gif";
 import ghost from "../../assets/ghost.gif";
-import userPhoto from "../../assets/user_padrao.png";
+import userPhoto from "../../assets/user_padrao.png"
 import {SiGoogleclassroom} from "react-icons/si";
 import {FcHome} from "react-icons/fc";
-import {FcAreaChart, FcConferenceCall, FcDislike, FcLeft} from "react-icons/fc";
+import {FcAreaChart, FcConferenceCall, FcDislike, FcApproval,
+   FcSupport, FcEditImage, FcAdvertising, FcLeft } from "react-icons/fc";
+import { toast } from 'react-toastify';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import ShowMoreText from "react-show-more-text";
 
 function Participantes() {
   const atividades = [
@@ -32,18 +38,18 @@ function Participantes() {
       imagem: ghost,
     }
   ]
-
+  
   const alunos = [
-    {nome: 'Pedro Paulo'},
-    {nome: 'João Paulo'},
-    {nome: 'Maria da Silva'},
-    {nome: 'Rodrigo Taveira'},
-    {nome: 'José da Silva'},
-    {nome: 'Miguel Castr'},
-    {nome: 'Maria da Silva'},
-    {nome: 'João da Silva'},
-    {nome: 'Natalia Freire'},
-    {nome: 'José da Silva'},
+    {nome: 'Pedro Paulo', id:'623754e72c990383e09b990a'},
+    {nome: 'João Paulo', id:'623754e72c990383e09b990a'} ,
+    {nome: 'Maria da Silva', id:'623754e72c990383e09b990a'},
+    {nome: 'Rodrigo Taveira', id:'623754e72c990383e09b990a'},
+    {nome: 'José da Silva', id:'623754e72c990383e09b990a'},
+    {nome: 'Miguel Castr', id:'623754e72c990383e09b990a'},
+    {nome: 'Maria da Silva', id:'623754e72c990383e09b990a'},
+    {nome: 'João da Silva', id:'623754e72c990383e09b990a'},
+    {nome: 'Natalia Freire', id:'623754e72c990383e09b990a'},
+    {nome: 'José da Silva', id:'623754e72c990383e09b990a'},
   ]
 
   let { id, perfil } = getToken() ? JSON.parse(getToken()) : null;
@@ -52,7 +58,6 @@ function Participantes() {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate()
   
-  console.log(courseId)
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -79,12 +84,13 @@ function Participantes() {
         console.log(err)
     }
   }
-
   useEffect(() => {
+    
     try {
       api.get(`/cursos/${courseId}`)
       .then((data) => {
-       // console.log(data.data.doc)  
+       // console.log(data.data.doc)
+       //console.log(secoes)
         setCurso(data.data.doc);
         console.log('done')
 
@@ -121,61 +127,128 @@ function Participantes() {
           </div>
 
             <div className={styles.feed}>
-            <h1>  <SiGoogleclassroom size={25}/> Participantes </h1> 
-                 {alunos.map((aluno) => (
-                  <div key={aluno.nome} className={styles.aluno}>
-                    <img 
-                      src={userPhoto}  
-                      alt="Perfil"
-                      width={50}
-                      height={50}
-                      />
-                    <h2> {aluno.nome} </h2>
-                  </div>
-                 ))}
+            <h1>  <FcConferenceCall size={25}/>Participantes</h1> 
+              {alunos.map((aluno) => (
+               <Link key={aluno.nome} to={`/perfil/${aluno.id}`}>
+                <div  className={styles.aluno}>
+                  <img 
+                    src={userPhoto}  
+                    alt="Perfil"
+                    width={50}
+                    height={50}
+                    />
+                  <h2 > {aluno.nome} </h2>
+                </div>
+              </Link> 
+              ))}
             </div>
-  
+
             <div className={styles.sideBarRight}>
             <div className={styles.formating} >
               <div className={styles.dados}> 
                 <h3> Dados da turma </h3>
-                <p><span className={styles.tit}> Professor : </span> {curso.autorEmail} </p>
-                <p><span className={styles.tit}> Descrição : </span> {curso.descricao}  </p> 
-                <p><span className={styles.tit}> Status : </span> {curso.Ativo ? 'Ativo': 'Ativo'}  </p> 
+                <p><span className={styles.tit}> Professor: </span> {curso.autorEmail} </p>
+                <p><span className={styles.tit}> Descrição: </span> 
+                  <ShowMoreText
+                    lines={2}
+                    more="Ver mais"
+                    less="Ver menos"
+                    className="content-css"
+                    width={300}
+                  >
+                  
+                  {curso.descricao}  
+                  </ShowMoreText>
+                </p> 
+                <p><span className={styles.tit}> Status: </span> {curso.Ativo ? 'Ativo': 'Ativo'} < FcApproval size={20}/> </p> 
               </div> 
 
               <div className={styles.botoes} >
-                <ul>
-                  <li></li>
-                  <li>
-                    <Link to={`/curso/${courseId}`}>
-                      {" "}
-                      <FcLeft size={20} /> Voltar pra Turma {" "}
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to={`/notas-curso/${courseId}`}>
-                      {" "}
-                      <FcAreaChart size={20} />
-                      Ver Notas
-                      {" "}
-                    </Link>
-                  </li>
-                  <li>
-                    <Button  className={styles.botao} onClick={handleClickOpen}>
-                    <FcDislike size={20} /> Desinscrever-se  
-                    </Button>
-                    <Dialog open={open} onClose={handleClose} aria-labelledby="alert-dialog-title">
-                      <DialogTitle id="alert-dialog-title">
-                        {"Você deseja realmente se desmatricular?"}
-                      </DialogTitle>
-                      <DialogActions>
-                        <Button onClick={handleClose}  >Cancelar</Button>
-                        <Button onClick={unroll}>Confirmar</Button>
-                      </DialogActions>
-                    </Dialog>    
-                  </li>
-                </ul>
+                {perfil === 'aluno' && (
+                  <ul>
+                    <li></li>
+                    <li>
+                      <Link to={`/curso/${courseId}`}>
+                        {" "}
+                        <FcLeft size={20}/>Voltar {" "}
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to={`/notas-curso/${courseId}`}>
+                        {" "}
+                        <FcAreaChart size={20} />
+                        Ver Notas
+                        {" "}
+                      </Link>
+                    </li>
+                    <li>
+                      <Button  className={styles.botao} onClick={handleClickOpen}>
+                      <FcDislike size={20} /> Desinscrever-se  
+                      </Button>
+                      <Dialog open={open} onClose={handleClose} aria-labelledby="alert-dialog-title">
+                        <DialogTitle id="alert-dialog-title">
+                          {"Você deseja realmente se desmatricular?"}
+                        </DialogTitle>
+                        <DialogActions>
+                          <Button onClick={handleClose}  >Cancelar</Button>
+                          <Button onClick={unroll}>Confirmar</Button>
+                        </DialogActions>
+                      </Dialog>    
+                    </li>
+                  </ul>
+                )}
+
+                {perfil === 'professor' && (
+                  <ul>
+                    <li></li>
+                    <li>
+                      <Link to={`/participantes/${courseId}`}>
+                        {" "}
+                        <FcSupport size={20} /> Editar dados{" "}
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to={`/participantes/${courseId}`}>
+                        {" "}
+                        <FcEditImage size={20} /> Adicionar/Editar Conteudo{" "}
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to={`/participantes/${courseId}`}>
+                        {" "}
+                        <FcConferenceCall size={20} /> Ver Participantes {" "}
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to={`/notas-curso/${courseId}`}>
+                        {" "}
+                        <FcAreaChart size={20} />
+                        Ver Notas
+                        {" "}
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to={`/participantes/${courseId}`}>
+                        {" "}
+                        <FcAdvertising size={20} /> Criar Avisos {" "}
+                      </Link>
+                    </li>
+                    <li>
+                      <Button  className={styles.botao} onClick={handleClickOpen}>
+                      <FcDislike size={20} /> Desinscrever-se  
+                      </Button>
+                      <Dialog open={open} onClose={handleClose} aria-labelledby="alert-dialog-title">
+                        <DialogTitle id="alert-dialog-title">
+                          {"Você deseja realmente se desmatricular?"}
+                        </DialogTitle>
+                        <DialogActions>
+                          <Button onClick={handleClose}  >Cancelar</Button>
+                          <Button onClick={unroll}>Confirmar</Button>
+                        </DialogActions>
+                      </Dialog>    
+                    </li>
+                  </ul>
+                )}
               </div>
 
               <div className={styles.atividades} >
@@ -184,13 +257,14 @@ function Participantes() {
                   <div key = {atividade.titulo} className={styles.tarefa}>
                   <p style={{fontWeight: 'bolder'}}> {atividade.titulo} </p>
                     <p> Entrega : {atividade.dataFim}  </p> 
-                    <Link to={`/curso/${courseId}/${atividade.titulo}`}>Mais Detalhes</Link>
+                    <Link className={styles.moreDetails} to={`/curso/${courseId}/${atividade.titulo}`}>Mais Detalhes</Link>
                     <img
                         src={atividade.imagem}  
                         alt="Monstro"  
                         width={115}
                         height={115}
                       />
+                  
                   </div>
                 ))}
               </div>

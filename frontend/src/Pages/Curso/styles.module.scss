@@ -118,7 +118,13 @@
               text-align: center;
               border: 1px solid var(--gray-100);
               padding: 0.3rem;
+              
 
+              .moreDetails{
+                border: 1px solid;
+                border-color: rgb(184, 184, 184);
+                padding: 00.5rem;
+              }
             }
 
           }
@@ -152,6 +158,7 @@
                 .botao{
                   text-transform: initial;
                   font-size: medium;
+                  font-weight: normal;
                   color: #111;
                   padding: 0%;
                   margin: 0%;

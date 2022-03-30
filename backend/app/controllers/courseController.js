@@ -16,10 +16,12 @@ exports.createCourse = async (req, res) => {
   }
 };
 
-exports.curse = async (req, res) => {
+exports.getCourse = async (req, res) => {
   try {
     let courseId = req.params.courseId;
-    let doc = await Course.findById(courseId);
+    let fields = 'nome _id';
+    let doc = await Course.findById(courseId)
+      .populate( "autorId", fields );
     res.status(200).json({ doc });
   } catch (error) {
     console.error(error);

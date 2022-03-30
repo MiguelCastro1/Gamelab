@@ -64,8 +64,8 @@ function DetalheTurma() {
       <HeaderHome />
       <div className={styles.container}>
         <div className={styles.content}>
-          <div className={styles.mainContent}>
-            <section className={styles.areaGraphic}>
+          <div >
+            <section >
               <h1>Média das parciais</h1>
               <Chart
                 type="area"

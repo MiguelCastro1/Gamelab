@@ -214,9 +214,9 @@ function Participantes() {
                       </Link>
                     </li>
                     <li>
-                      <Link to={`/participantes/${courseId}`}>
+                      <Link to={`/curso/${courseId}`}>
                         {" "}
-                        <FcConferenceCall size={20} /> Ver Participantes {" "}
+                        <FcLeft size={20} /> Voltar {" "}
                       </Link>
                     </li>
                     <li>
@@ -243,7 +243,7 @@ function Participantes() {
                         </DialogTitle>
                         <DialogActions>
                           <Button onClick={handleClose}  >Cancelar</Button>
-                          <Button onClick={unroll}>Confirmar</Button>
+                          <Button >Confirmar</Button>
                         </DialogActions>
                       </Dialog>    
                     </li>

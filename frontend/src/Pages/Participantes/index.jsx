@@ -2,19 +2,16 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { BsKanban} from "react-icons/bs";
 import HeaderHome from "../../components/HeaderHome";
-import Calendar from "react-calendar";
 import styles from "./styles.module.scss";
 import api from "../../services/axios";
 import ProgressBar from "../../components/ProgressBar";
-import Input from "../../components/Input";
 import { getToken } from "../../services/auth";
-import Secoes from "../../components/Secoes";
 import monster from "../../assets/guerreiro-morto.gif";
 import ghost from "../../assets/ghost.gif";
+import userPhoto from "../../assets/user_padrao.png";
 import {SiGoogleclassroom} from "react-icons/si";
 import {FcHome} from "react-icons/fc";
-import {FcAreaChart, FcConferenceCall, FcDislike} from "react-icons/fc";
-import { toast } from 'react-toastify';
+import {FcAreaChart, FcConferenceCall, FcDislike, FcLeft} from "react-icons/fc";
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -22,7 +19,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-function Curso() {
+function Participantes() {
   const atividades = [
     {
       titulo: "Matematica Lógica",
@@ -35,41 +32,18 @@ function Curso() {
       imagem: ghost,
     }
   ]
-  const secoes = [
-    {
-      titulo: 'Plano de Ensino',
-      conteudos: [
-        {
-          tipo : 'pdf',
-          titulo: 'Plano de Ensino 2022',
-          visivel: true
-        }
-      ]
-    },
-    {
-      titulo: 'Modulo 1: Vetores',
-      conteudos: [
-        {
-          tipo : 'pdf',
-          titulo: 'Aula 01 - Introdução a vetores',
-          visivel: true
-        },
-        {
-          tipo : 'link',
-          titulo: 'Playlist de Vetores',
-          visivel: true
-        },
-        {
-          tipo : 'Atividade',
-          titulo: 'Atividade 01 - Vetores',
-          visivel: true
-        },
-      ]
-    },
-    {
-      titulo: 'Modulo 2: Matrizes',
-      conteudos: []
-    }
+
+  const alunos = [
+    {nome: 'Pedro Paulo'},
+    {nome: 'João Paulo'},
+    {nome: 'Maria da Silva'},
+    {nome: 'Rodrigo Taveira'},
+    {nome: 'José da Silva'},
+    {nome: 'Miguel Castr'},
+    {nome: 'Maria da Silva'},
+    {nome: 'João da Silva'},
+    {nome: 'Natalia Freire'},
+    {nome: 'José da Silva'},
   ]
 
   let { id, perfil } = getToken() ? JSON.parse(getToken()) : null;
@@ -78,6 +52,7 @@ function Curso() {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate()
   
+  console.log(courseId)
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -104,13 +79,12 @@ function Curso() {
         console.log(err)
     }
   }
+
   useEffect(() => {
-    
     try {
       api.get(`/cursos/${courseId}`)
       .then((data) => {
-       // console.log(data.data.doc)
-       console.log(secoes)
+       // console.log(data.data.doc)  
         setCurso(data.data.doc);
         console.log('done')
 
@@ -147,29 +121,36 @@ function Curso() {
           </div>
 
             <div className={styles.feed}>
-            <h1>  <SiGoogleclassroom size={25}/> {curso.nomeCurso}   </h1> 
-                {secoes.map((secao) => (
-                  <Secoes key = {secao.titulo} titulo = {secao.titulo} conteudos={secao.conteudos}/>
-                ))}
+            <h1>  <SiGoogleclassroom size={25}/> Participantes </h1> 
+                 {alunos.map((aluno) => (
+                  <div key={aluno.nome} className={styles.aluno}>
+                    <img 
+                      src={userPhoto}  
+                      alt="Perfil"
+                      width={50}
+                      height={50}
+                      />
+                    <h2> {aluno.nome} </h2>
+                  </div>
+                 ))}
             </div>
-           
-
+  
             <div className={styles.sideBarRight}>
             <div className={styles.formating} >
               <div className={styles.dados}> 
                 <h3> Dados da turma </h3>
-                <p><span className={styles.tit}> Professor: </span> {curso.autorEmail} </p>
-                <p><span className={styles.tit}> Descrição: </span> {curso.descricao}  </p> 
-                <p><span className={styles.tit}> Status: </span> {curso.Ativo ? 'Ativo': 'Ativo'}  </p> 
+                <p><span className={styles.tit}> Professor : </span> {curso.autorEmail} </p>
+                <p><span className={styles.tit}> Descrição : </span> {curso.descricao}  </p> 
+                <p><span className={styles.tit}> Status : </span> {curso.Ativo ? 'Ativo': 'Ativo'}  </p> 
               </div> 
 
               <div className={styles.botoes} >
                 <ul>
                   <li></li>
                   <li>
-                    <Link to={`/participantes/${courseId}`}>
+                    <Link to={`/curso/${courseId}`}>
                       {" "}
-                      <FcConferenceCall size={20} /> Ver Participantes {" "}
+                      <FcLeft size={20} /> Voltar pra Turma {" "}
                     </Link>
                   </li>
                   <li>
@@ -210,7 +191,6 @@ function Curso() {
                         width={115}
                         height={115}
                       />
-                  
                   </div>
                 ))}
               </div>
@@ -222,4 +202,4 @@ function Curso() {
   );
 }
 
-export default Curso;
+export default Participantes;

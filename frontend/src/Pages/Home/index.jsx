@@ -17,7 +17,6 @@ function Home() {
   const [searchString, setSearchString] = useState("");
   const [turmas, setTurmas] = useState([]);
   const {perfil} = localStorage.getItem("gamelab") ? JSON.parse(localStorage.getItem("gamelab")): null;
-  console.log(perfil)
 
   /*async function fetchTurma() {
       let { data } =
@@ -38,13 +37,15 @@ function Home() {
         api.get("/cursos/professor/MeusCursos")
         .then((data) => {
           setResultados(data.data.doc);
-          console.log('done')
+          console.log('done');
+       
         })
         .catch(err => console.log(err))
       }else{// if perfil == aluno
         api.get("/cursos/aluno/MeusCursos")
         .then((data) => {
           setResultados(data.data.doc);
+          //console.log(data.data.doc);
           console.log('done')
         })
         .catch(err => console.log(err))

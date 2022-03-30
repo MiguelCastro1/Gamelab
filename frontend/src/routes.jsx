@@ -19,6 +19,8 @@ import Avisos from "./Pages/Avisos";
 import Curso from "./Pages/Curso";
 import Perfil from "./Pages/Perfil";
 import Procurar from "./Pages/Procurar";
+import Participantes from "./Pages/Participantes";
+import Atividade from "./Pages/Atividade";
 
 import { isAuthenticated } from "./services/auth";
 
@@ -40,13 +42,16 @@ export default function Rotas() {
 
         <Route element={<RotasPrivadas />}>
           <Route path="/" element={<Home />} />
-          <Route path="/detalhes" element={<DetalheTurma />} />
+          <Route path="/notas-curso/:courseId" element={<DetalheTurma />} />
           <Route path="/kanban" element={<Kanban />} />
           <Route path="/criar-curso" element={<CriarCurso />} />
           <Route path="/avisos" element={<Avisos />} />
-          <Route path="/curso/:id" element={<Curso />} />
+          <Route path="/curso/:courseId" element={<Curso />} />
           <Route path="/perfil/:userId" element={<Perfil />} />
           <Route path="/procurar-curso" element={<Procurar />} />
+          <Route path="/curso/:courseId/:titulo" element={<Atividade />} />
+          <Route path="/participantes/:courseId" element={<Participantes />} />
+
         </Route>
       </Routes>
     </BrowserRouter>

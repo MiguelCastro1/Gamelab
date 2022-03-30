@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { BsKanban, BsCalendarCheck} from "react-icons/bs";
-import {FiHome} from "react-icons/fi"
+import { FcHome } from "react-icons/fc";
 import HeaderHome from "../../components/HeaderHome";
 import styles from "./styles.module.scss";
 import api from "../../services/axios";
@@ -25,7 +25,7 @@ function Kanban() {
                 <Link to="/">
                   {" "}
                   Home
-                  <FiHome size={20} />{" "}
+                  <FcHome size={20} />{" "}
                 </Link>
               </li>
             </ul>

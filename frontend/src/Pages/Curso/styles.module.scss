@@ -20,23 +20,16 @@
         overflow: auto;
         height: auto;
         max-height : auto;
-    
-        header {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          margin-bottom: 1rem;
   
           h1 {
             font-family: Inter, sans-serif;
             font-weight: normal;
-            font-size: 2rem;
+            font-size: xx-large;
             line-height: 2rem;
-            color: #111;
+            color: #2b463c;
             padding-bottom: 20px;
-          }
-  
-         }
+            text-align: center;
+          } 
 
         .titulo {
           font-weight: normal;
@@ -65,21 +58,22 @@
       }
       
       .sideBarRight {
+        background-color: white;
+       // background:  linear-gradient( rgb(0, 195, 255) 50px, green 50px, green 100px, yellow 100px, yellow 150px, blue 150px);
+        border: 1px;
         display: flex;
         flex-direction: column;
         align-items: center;
-        max-height: 87vh;
         position: sticky;
         top: 70px;
-        z-index: -1;
+       // z-index: -1;
+
   
         .formating {
           width: 100%;
-          padding: 1rem;
+          padding: 0.5rem;
           border: 1px solid var(--gray-100);
-          background: rgb(255, 254, 254);
           border-radius: 4px;
-  
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -88,49 +82,97 @@
             margin-bottom: 1.4rem;
             color: var(--blue-700);
             font-weight: normal;
+            align-self: center;
+            text-align: center;
           }
-        }
-  
-        .perfil {
-          @extend .formating;
-          margin-bottom: 0.8rem;
-          // position: sticky;
-          // top: 60px;
-  
-          .userName {
-            padding: 0.4rem 0.6rem;
-            font-weight: bold;
-            // background: var(--gray-100);
-            border-radius: 8px;
-            color: var(--gray-500);
-          }
-          .gamificacao {
-            display: flex;
-            align-items: center;
-            gap: 0.2rem;
-  
-            img {
-              max-width: 150px;
-              max-height: 130px;
-              object-fit: contain;
-              margin-bottom: 0.5rem;
+
+           .dados {
+            text-align: start;
+            align-content: flex-start;
+            padding: 0.4rem;
+            border: 1px solid var(--gray-100);
+            font-weight: normal;
+           // margin-bottom: 0.5rem;
+            //color: var(--blue-700);
+
+            .tit{
+              color: var(--blue-700);
+              font-weight: normal;
             }
-  
-            div {
-              background: var(--gray-100);
-              padding: 0.5rem;
-              border-radius: 8px;
-              display: flex;
-              gap: 10px;
-  
-              span:last-child {
-                color: var(--blue-700);
-                font-weight: bold;
+           }
+
+            .atividades {
+             
+           // border: 1px solid var(--gray-100);
+            padding: 0.5rem;
+            margin-bottom: 0.5rem;
+            width: 100%;
+            text-align: center;
+
+            .tarefa{
+              border-radius: 10px;
+              background: rgb(255, 254, 254);
+              margin-bottom: 0.5rem;
+              width: 100%;
+              
+              text-align: center;
+              border: 1px solid var(--gray-100);
+              padding: 0.3rem;
+
+            }
+
+          }
+
+           .botoes{
+            background: rgb(255, 254, 254);
+           // border: 1px solid var(--gray-100);
+            padding: 0.5rem;
+           // margin-bottom: 0.5rem;
+            width: 100%;
+            
+            ul {
+              list-style: none;
+              // color: var(--blue-700);
+           //   
+
+            li{
+                display: flex;
+                align-items: flex-start;
+                justify-content: space-evenly;
+                gap: 10px;
+                width: 100%;
+                text-align: center;
+                margin-bottom: 0.4rem;
+                padding: 0.5rem;
+                border: 1px solid var(--gray-300);
+                border-radius: 4px;
+                cursor: pointer;
+                transition: margin-bottom 0.1s ease-in-out;
+
+                .botao{
+                  text-transform: initial;
+                  font-size: medium;
+                  color: #111;
+                  padding: 0%;
+                  margin: 0%;
+                  //background-color: #ecececd5;
+                 // border: 1px solid var(--gray-100);
+ 
+
+                }
+                &:hover {
+                  margin-bottom: 0.8rem;
+                }
+      
+                &:first-child {
+                  position: relative;
+                  padding: 0;
+                  border: none;
+                }
               }
             }
           }
         }
-
       }
   
       .sideBarLeft {

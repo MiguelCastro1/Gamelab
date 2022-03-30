@@ -24,8 +24,9 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import ShowMoreText from "react-show-more-text";
+import Chart from "react-apexcharts";
 
-function Participantes() {
+function CursoNotas() {
   const atividades = [
     {
       titulo: "Matematica Lógica",
@@ -51,6 +52,48 @@ function Participantes() {
     {nome: 'Natalia Freire', id:'623754e72c990383e09b990a'},
     {nome: 'José da Silva', id:'623754e72c990383e09b990a'},
   ]
+       
+   const series = [
+     {
+      name: 'Nota',
+      type: 'column',
+      data: [10,8,5,10,6,9]
+     },
+     {
+      name: 'Nota',
+      type: 'line',
+      data: [10,8,5,10,6,9]
+    }];
+    
+    const options = {
+      chart: {
+        height: 50,
+        type: 'line',
+      },
+      stroke: {
+        width: [0, 4]
+      },
+      title: {
+        text: 'Medias Parciais'
+      },
+      dataLabels: {
+        enabled: true,
+        enabledOnSeries: [1]
+      },
+      labels: ['Atividade 1','Atividade 2','Atividade 3','Atividade 4','Atividade 5','Atividade 6',],
+      xaxis: {
+        type: 'string'
+      },
+      yaxis: {
+        title: {
+          text: 'Nota',
+        },
+        min: 0,
+        max: 10,
+        
+      
+      }
+    }
 
   let { id, perfil } = getToken() ? JSON.parse(getToken()) : null;
   const [curso, setCurso] = useState([]);
@@ -127,20 +170,18 @@ function Participantes() {
           </div>
 
             <div className={styles.feed}>
-            <h1>  <FcConferenceCall size={25}/>Participantes</h1> 
-              {alunos.map((aluno) => (
-               <Link key={aluno.nome} to={`/perfil/${aluno.id}`}>
-                <div  className={styles.aluno}>
-                  <img 
-                    src={userPhoto}  
-                    alt="Perfil"
-                    width={50}
-                    height={50}
-                    />
-                  <h2 > {aluno.nome} </h2>
-                </div>
-              </Link> 
-              ))}
+           
+            <div className={styles.mainContent}>
+            <section className={styles.areaGraphic}>
+              <h1>Média das parciais</h1>
+              <Chart
+                type="area"
+                height="400"
+                options={options}
+                series={series}
+              />
+            </section>
+          </div>
             </div>
 
             <div className={styles.sideBarRight}>
@@ -168,16 +209,16 @@ function Participantes() {
                   <ul>
                     <li></li>
                     <li>
-                      <Link to={`/curso/${courseId}`}>
+                      <Link to={`/participantes/${courseId}`}>
                         {" "}
-                        <FcLeft size={20}/>Voltar {" "}
+                        <FcConferenceCall size={20}/>Participantes {" "}
                       </Link>
                     </li>
                     <li>
-                      <Link to={`/notas-curso/${courseId}`}>
+                      <Link to={`/curso/${courseId}`}>
                         {" "}
-                        <FcAreaChart size={20} />
-                        Ver Notas
+                        <FcLeft size={20} />
+                        Voltar
                         {" "}
                       </Link>
                     </li>
@@ -214,16 +255,16 @@ function Participantes() {
                       </Link>
                     </li>
                     <li>
-                      <Link to={`/curso/${courseId}`}>
+                      <Link to={`/participantes/${courseId}`}>
                         {" "}
-                        <FcLeft size={20} /> Voltar {" "}
+                        <FcConferenceCall size={20} /> Ver Participantes {" "}
                       </Link>
                     </li>
                     <li>
-                      <Link to={`/notas-curso/${courseId}`}>
+                      <Link to={`/curso/${courseId}`}>
                         {" "}
-                        <FcAreaChart size={20} />
-                        Ver Notas
+                        <FcLeft size={20} />
+                        Voltar
                         {" "}
                       </Link>
                     </li>
@@ -276,4 +317,4 @@ function Participantes() {
   );
 }
 
-export default Participantes;
+export default CursoNotas;

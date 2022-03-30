@@ -258,7 +258,7 @@ function Curso() {
                         </DialogTitle>
                         <DialogActions>
                           <Button onClick={handleClose}  >Cancelar</Button>
-                          <Button onClick={unroll}>Confirmar</Button>
+                          <Button >Confirmar</Button>
                         </DialogActions>
                       </Dialog>    
                     </li>

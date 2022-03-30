@@ -22,7 +22,7 @@ import Procurar from "./Pages/Procurar";
 import Participantes from "./Pages/Participantes";
 import Atividade from "./Pages/Atividade";
 import NotFound from "./Pages/NotFound";
-
+import CursoNotas from "./Pages/CursoNotas";
 import { isAuthenticated } from "./services/auth";
 
 const RotasPrivadas = () => {
@@ -43,7 +43,7 @@ export default function Rotas() {
 
         <Route element={<RotasPrivadas />}>
           <Route path="/" element={<Home />} />
-          <Route path="/notas-curso/:courseId" element={<DetalheTurma />} />
+          <Route path="/notas-curso/:courseId" element={<CursoNotas />} />
           <Route path="/kanban" element={<Kanban />} />
           <Route path="/criar-curso" element={<CriarCurso />} />
           <Route path="/avisos" element={<Avisos />} />

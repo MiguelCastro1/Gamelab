@@ -3,6 +3,8 @@ const router = express.Router();
 
 const Usuario = require("../controllers/userController");
 const Curso = require("../controllers/courseController");
+const Aviso = require("../controllers/noticeController");
+
 require("../middlewares/autenticador");
 
 //Usuário
@@ -22,5 +24,8 @@ router.get("/cursos/professor/MeusCursos", auth,  Curso.listCoursesFromTeacher);
 router.get("/cursos/aluno/MeusCursos", auth,  Curso.listCoursesFromStudent);
 router.put("/cursos/:id", auth, Curso.update);
 router.get("/cursos/:id/participantes", auth, Curso.listCourseParticipants);
+
+router.post("/avisos", auth, Aviso.createNotice);
+router.get("/avisos/:id", auth, Aviso.listNoticesFromUser);
 
 module.exports = router;

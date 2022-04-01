@@ -39,9 +39,10 @@ const courseSchema = new Schema(
     Alunos: [{
       userId: { type: Schema.Types.ObjectId, ref: "User"},
       notas: [{
-        atividade: { type: Schema.Types.ObjectId},
+        atividadeId: { type: Schema.Types.ObjectId},
         status: {type: String},
         nota: {type : Number},
+        entregaUri: {type: String},
         dataEntrega: {type: String}
       }]
     }],
@@ -50,13 +51,14 @@ const courseSchema = new Schema(
       titulo: {type: String, default: ""},
       conteudos: [
         {
-          id: {type: Schema.Types.ObjectId, auto: true},
+          id: {type: Schema.Types.ObjectId, default: new mongoose.Types.ObjectId()},
+          uri: {type: String},
           visivel: {type: Boolean, default: true},
           tipo: {type: String ,  enum: ["link", "arquivo", "atividade"]},
           titulo: {type: String},
           descricao: {type: String},
-          dataInicio: {type: String},
-          dataEntrega: { type: String },
+          dataInicio: {type: Schema.Types.Date},
+          dataEntrega: {type: Schema.Types.Date},
         }
       ]
     }], 

@@ -113,9 +113,10 @@ function Curso() {
     try {
       api.get(`/cursos/${courseId}`)
       .then((data) => {
-       // console.log(data.data.doc)
+        console.log(data.data.doc)
        //console.log(secoes)
-        setCurso(data.data.doc);
+       // setCurso(data.data.doc);
+        console.log(curso)
         console.log('done')
 
        })
@@ -162,7 +163,7 @@ function Curso() {
             <div className={styles.formating} >
               <div className={styles.dados}> 
                 <h3> Dados da turma </h3>
-                <p><span className={styles.tit}> Professor: </span> {curso.autorEmail} </p>
+                <p><span className={styles.tit}> Professor: </span> {curso.autorId.nome} </p>
                 <p><span className={styles.tit}> Descrição: </span> 
                   <ShowMoreText
                     lines={2}
@@ -273,13 +274,14 @@ function Curso() {
                   <p style={{fontWeight: 'bolder'}}> {atividade.titulo} </p>
                     <p> Entrega : {atividade.dataFim}  </p> 
                     <Link className={styles.moreDetails} to={`/curso/${courseId}/${atividade.titulo}`}>Mais Detalhes</Link>
-                    <img
+                    {perfil === 'aluno' && 
+                      <img
                         src={atividade.imagem}  
                         alt="Monstro"  
                         width={115}
                         height={115}
                       />
-                  
+                  }
                   </div>
                 ))}
               </div>

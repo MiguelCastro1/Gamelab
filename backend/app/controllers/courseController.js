@@ -21,7 +21,8 @@ exports.getCourse = async (req, res) => {
     let courseId = req.params.courseId;
     let fields = 'nome _id';
     let doc = await Course.findById(courseId)
-      .populate( "autorId", fields );
+      .populate( "autorId", fields)
+      .populate( "Alunos.userId", fields);
     res.status(200).json({ doc });
   } catch (error) {
     console.error(error);

@@ -15,7 +15,7 @@ import userPhoto from "../../assets/user_padrao.png"
 import {SiGoogleclassroom} from "react-icons/si";
 import {FcHome} from "react-icons/fc";
 import {FcAreaChart, FcConferenceCall, FcDislike, FcApproval,
-   FcSupport, FcEditImage, FcAdvertising, FcLeft } from "react-icons/fc";
+        FcSupport, FcEditImage, FcAdvertising, FcLeft } from "react-icons/fc";
 import { toast } from 'react-toastify';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -39,19 +39,6 @@ function Participantes() {
     }
   ]
   
-  const alunos = [
-    {nome: 'Pedro Paulo', id:'623754e72c990383e09b990a'},
-    {nome: 'João Paulo', id:'623754e72c990383e09b990a'} ,
-    {nome: 'Maria da Silva', id:'623754e72c990383e09b990a'},
-    {nome: 'Rodrigo Taveira', id:'623754e72c990383e09b990a'},
-    {nome: 'José da Silva', id:'623754e72c990383e09b990a'},
-    {nome: 'Miguel Castr', id:'623754e72c990383e09b990a'},
-    {nome: 'Maria da Silva', id:'623754e72c990383e09b990a'},
-    {nome: 'João da Silva', id:'623754e72c990383e09b990a'},
-    {nome: 'Natalia Freire', id:'623754e72c990383e09b990a'},
-    {nome: 'José da Silva', id:'623754e72c990383e09b990a'},
-  ]
-
   let { id, perfil } = getToken() ? JSON.parse(getToken()) : null;
   const [curso, setCurso] = useState([]);
   const { courseId } = useParams();
@@ -84,16 +71,14 @@ function Participantes() {
         console.log(err)
     }
   }
-  useEffect(() => {
-    
+
+  useEffect(() => {  
     try {
       api.get(`/cursos/${courseId}`)
       .then((data) => {
-       // console.log(data.data.doc)
-       //console.log(secoes)
-        setCurso(data.data.doc);
+       setCurso(data.data.doc);
+      //console.log(curso['Alunos'])
         console.log('done')
-
        })
       .catch(err => console.log(err))
     }catch (error) {
@@ -128,8 +113,8 @@ function Participantes() {
 
             <div className={styles.feed}>
             <h1>  <FcConferenceCall size={25}/>Participantes</h1> 
-              {alunos.map((aluno) => (
-               <Link key={aluno.nome} to={`/perfil/${aluno.id}`}>
+              {curso.Alunos.map((aluno) => (
+               <Link key={aluno.userId._id} to={`/perfil/${aluno.userId._id}`}>
                 <div  className={styles.aluno}>
                   <img 
                     src={userPhoto}  
@@ -137,7 +122,7 @@ function Participantes() {
                     width={50}
                     height={50}
                     />
-                  <h2 > {aluno.nome} </h2>
+                  <h2 > {aluno.userId.nome} </h2>
                 </div>
               </Link> 
               ))}
@@ -147,7 +132,7 @@ function Participantes() {
             <div className={styles.formating} >
               <div className={styles.dados}> 
                 <h3> Dados da turma </h3>
-                <p><span className={styles.tit}> Professor: </span> {curso.autorEmail} </p>
+                <p><span className={styles.tit}> Professor: </span> {curso.autorId['nome']} </p>
                 <p><span className={styles.tit}> Descrição: </span> 
                   <ShowMoreText
                     lines={2}

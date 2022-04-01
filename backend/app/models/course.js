@@ -39,26 +39,27 @@ const courseSchema = new Schema(
     Alunos: [{
       userId: { type: Schema.Types.ObjectId, ref: "User"},
       notas: [{
-        atividade: {type: String},
-        status : {type: String},
-        nota : {type : Number},
+        atividade: { type: Schema.Types.ObjectId},
+        status: {type: String},
+        nota: {type : Number},
         dataEntrega: {type: String}
       }]
     }],
 
-    /*secoes : {
-      titulo:  {type: String, default: ""},
-      conteudos : [
+    secoes: [{
+      titulo: {type: String, default: ""},
+      conteudos: [
         {
+          id: {type: Schema.Types.ObjectId, auto: true},
           visivel: {type: Boolean, default: true},
-          tipo : { type: String ,  enum: ["link", "arquivo", "atividade"]},
-          titulo: {type: String, unique: True },
-          descrição: {type: String},
+          tipo: {type: String ,  enum: ["link", "arquivo", "atividade"]},
+          titulo: {type: String},
+          descricao: {type: String},
           dataInicio: {type: String},
           dataEntrega: { type: String },
         }
       ]
-    }, */
+    }], 
     Ativo: {
       type: Boolean,
       default: true

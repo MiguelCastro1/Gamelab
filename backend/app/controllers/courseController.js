@@ -29,6 +29,16 @@ exports.getCourse = async (req, res) => {
   }
 };
 
+exports.update = async (req, res) => {
+  let courseId = req.params.courseId;
+  try {
+    let doc = await Course.findOneAndUpdate({ _id: courseId }, req.body);
+    res.status(200).json({ doc });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 //listar cursos para professor, dentre os quais é autor - permite pesquisa por: nome do curso e descrição.
 exports.listCoursesFromTeacher = async (req, res) => {
   let token = req.headers.authorization.split(" ")[1];
@@ -136,8 +146,6 @@ exports.unroll = async (req, res) => {
   }
 };
 
-
-exports.update = async (req, res) => {};
 
 exports.listCourseParticipants = async (req, res) => {
   try {

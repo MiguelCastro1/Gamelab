@@ -151,13 +151,6 @@ function Curso() {
             <ul>
               <li></li>
               <li>
-                <Link to="/curso/" >
-                  {" "}
-                  Curso  {"       "} 
-                  <BsKanban size={20} />
-                </Link>
-              </li>
-              <li>
                 <Link to="/kanban" >
                   {" "}
                   Meu Kanban  {"       "} 
@@ -175,8 +168,8 @@ function Curso() {
           </div>
 
             <div className={styles.feed}>
-            <h1>  <SiGoogleclassroom size={25}/> Atividade </h1> 
-
+            <h1>  <SiGoogleclassroom size={25}/> Editar Conteudo  </h1> 
+     
             </div>
           
             <div className={styles.sideBarRight}>
@@ -244,9 +237,9 @@ function Curso() {
                       </Link>
                     </li>
                     <li>
-                      <Link to={`/participantes/${courseId}`}>
+                      <Link to={`/cursos/${courseId}`}>
                         {" "}
-                        <FcEditImage size={20} /> Adicionar/Editar Conteudo{" "}
+                        <FcEditImage size={20} /> Voltar{" "}
                       </Link>
                     </li>
                     <li>

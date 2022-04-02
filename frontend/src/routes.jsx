@@ -23,6 +23,8 @@ import Participantes from "./Pages/Participantes";
 import Atividade from "./Pages/Atividade";
 import NotFound from "./Pages/NotFound";
 import CursoNotas from "./Pages/CursoNotas";
+import Atividade from "./Pages/AtividadeCadastro";
+
 import { isAuthenticated } from "./services/auth";
 
 const RotasPrivadas = () => {

@@ -21,7 +21,28 @@ exports.getCourse = async (req, res) => {
     let courseId = req.params.courseId;
     let fields = 'nome _id';
     let doc = await Course.findById(courseId)
-      .populate( "autorId", fields );
+      .populate( "autorId", fields)
+      .populate( "Alunos.userId", fields);
+    res.status(200).json({ doc });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+exports.delete = async (req, res) => {
+  let courseId = req.params.courseId;
+  try {
+    let doc = await Course.findByIdAndDelete({ _id: courseId });
+    res.status(200).json({ doc });
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+exports.update = async (req, res) => {
+  let courseId = req.params.courseId;
+  try {
+    let doc = await Course.findOneAndUpdate({ _id: courseId }, req.body);
     res.status(200).json({ doc });
   } catch (error) {
     console.error(error);
@@ -135,8 +156,6 @@ exports.unroll = async (req, res) => {
   }
 };
 
-
-exports.update = async (req, res) => {};
 
 exports.listCourseParticipants = async (req, res) => {
   try {

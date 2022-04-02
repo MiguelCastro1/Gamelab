@@ -15,7 +15,7 @@ import userPhoto from "../../assets/user_padrao.png"
 import {SiGoogleclassroom} from "react-icons/si";
 import {FcHome} from "react-icons/fc";
 import {FcAreaChart, FcConferenceCall, FcDislike, FcApproval,
-   FcSupport, FcEditImage, FcAdvertising, FcLeft } from "react-icons/fc";
+        FcSupport, FcEditImage, FcAdvertising, FcLeft } from "react-icons/fc";
 import { toast } from 'react-toastify';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -39,21 +39,9 @@ function Participantes() {
     }
   ]
   
-  const alunos = [
-    {nome: 'Pedro Paulo', id:'623754e72c990383e09b990a'},
-    {nome: 'João Paulo', id:'623754e72c990383e09b990a'} ,
-    {nome: 'Maria da Silva', id:'623754e72c990383e09b990a'},
-    {nome: 'Rodrigo Taveira', id:'623754e72c990383e09b990a'},
-    {nome: 'José da Silva', id:'623754e72c990383e09b990a'},
-    {nome: 'Miguel Castr', id:'623754e72c990383e09b990a'},
-    {nome: 'Maria da Silva', id:'623754e72c990383e09b990a'},
-    {nome: 'João da Silva', id:'623754e72c990383e09b990a'},
-    {nome: 'Natalia Freire', id:'623754e72c990383e09b990a'},
-    {nome: 'José da Silva', id:'623754e72c990383e09b990a'},
-  ]
-
   let { id, perfil } = getToken() ? JSON.parse(getToken()) : null;
-  const [curso, setCurso] = useState([]);
+  const [curso, setCurso] = useState({});
+  const [loaded, setLoaded] = useState(false);
   const { courseId } = useParams();
   const [open, setOpen] = useState(false);
   const navigate = useNavigate()
@@ -84,16 +72,34 @@ function Participantes() {
         console.log(err)
     }
   }
-  useEffect(() => {
-    
+
+  
+  const deletar =  () =>{
+    try {
+      api.delete(`/cursos/${courseId}`)
+      .then((data) => {
+        toast("O curso foi excluido com sucesso!");
+        console.log('done');
+        navigate('/');
+      })
+      .catch((err) =>  {
+        toast.error("Algum Erro ocorreu") 
+        console.log(err)
+      })
+    }catch (error) {
+      toast.error("Algum Erro ocorreu") 
+        console.log(err)
+    }
+  }
+
+  useEffect(() => {  
     try {
       api.get(`/cursos/${courseId}`)
       .then((data) => {
-       // console.log(data.data.doc)
-       //console.log(secoes)
         setCurso(data.data.doc);
+        //console.log(data.data.doc);
+        setLoaded(true);
         console.log('done')
-
        })
       .catch(err => console.log(err))
     }catch (error) {
@@ -128,8 +134,8 @@ function Participantes() {
 
             <div className={styles.feed}>
             <h1>  <FcConferenceCall size={25}/>Participantes</h1> 
-              {alunos.map((aluno) => (
-               <Link key={aluno.nome} to={`/perfil/${aluno.id}`}>
+            {loaded ? curso.Alunos.map((aluno) => (
+               <Link key={aluno.userId._id} to={`/perfil/${aluno.userId._id}`}>
                 <div  className={styles.aluno}>
                   <img 
                     src={userPhoto}  
@@ -137,27 +143,27 @@ function Participantes() {
                     width={50}
                     height={50}
                     />
-                  <h2 > {aluno.nome} </h2>
+                  <h2 > {aluno.userId.nome} </h2>
                 </div>
               </Link> 
-              ))}
+              )) : ''}
             </div>
 
             <div className={styles.sideBarRight}>
             <div className={styles.formating} >
               <div className={styles.dados}> 
                 <h3> Dados da turma </h3>
-                <p><span className={styles.tit}> Professor: </span> {curso.autorEmail} </p>
+                <p><span className={styles.tit}> Professor: </span> {loaded ? curso.autorId.nome : ''} </p>
                 <p><span className={styles.tit}> Descrição: </span> 
                   <ShowMoreText
                     lines={2}
                     more="Ver mais"
                     less="Ver menos"
                     className="content-css"
-                    width={300}
+                    width={320}
                   >
                   
-                  {curso.descricao}  
+                  {loaded ? curso.descricao :''}  
                   </ShowMoreText>
                 </p> 
                 <p><span className={styles.tit}> Status: </span> {curso.Ativo ? 'Ativo': 'Ativo'} < FcApproval size={20}/> </p> 
@@ -235,7 +241,7 @@ function Participantes() {
                     </li>
                     <li>
                       <Button  className={styles.botao} onClick={handleClickOpen}>
-                      <FcDislike size={20} /> Desinscrever-se  
+                      <FcDislike size={20} /> Excluir Curso 
                       </Button>
                       <Dialog open={open} onClose={handleClose} aria-labelledby="alert-dialog-title">
                         <DialogTitle id="alert-dialog-title">
@@ -243,7 +249,7 @@ function Participantes() {
                         </DialogTitle>
                         <DialogActions>
                           <Button onClick={handleClose}  >Cancelar</Button>
-                          <Button >Confirmar</Button>
+                          <Button onClick={deletar}>Confirmar</Button>
                         </DialogActions>
                       </Dialog>    
                     </li>

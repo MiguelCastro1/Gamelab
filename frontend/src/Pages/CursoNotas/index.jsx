@@ -98,6 +98,7 @@ function CursoNotas() {
   let { id, perfil } = getToken() ? JSON.parse(getToken()) : null;
   const [curso, setCurso] = useState([]);
   const { courseId } = useParams();
+  const [loaded, setLoaded] = useState(false);
   const [open, setOpen] = useState(false);
   const navigate = useNavigate()
   
@@ -127,6 +128,25 @@ function CursoNotas() {
         console.log(err)
     }
   }
+  
+  const deletar =  () =>{
+    try {
+      api.delete(`/cursos/${courseId}`)
+      .then((data) => {
+        toast("O curso foi excluido com sucesso!");
+        console.log('done');
+        navigate('/');
+      })
+      .catch((err) =>  {
+        toast.error("Algum Erro ocorreu") 
+        console.log(err)
+      })
+    }catch (error) {
+      toast.error("Algum Erro ocorreu") 
+        console.log(err)
+    }
+  }
+
   useEffect(() => {
     
     try {
@@ -135,6 +155,7 @@ function CursoNotas() {
        // console.log(data.data.doc)
        //console.log(secoes)
         setCurso(data.data.doc);
+        setLoaded(true);
         console.log('done')
 
        })
@@ -188,7 +209,7 @@ function CursoNotas() {
             <div className={styles.formating} >
               <div className={styles.dados}> 
                 <h3> Dados da turma </h3>
-                <p><span className={styles.tit}> Professor: </span> {curso.autorEmail} </p>
+                <p><span className={styles.tit}> Professor: </span> {loaded ? curso.autorId.nome : ''} </p>
                 <p><span className={styles.tit}> Descrição: </span> 
                   <ShowMoreText
                     lines={2}
@@ -224,7 +245,7 @@ function CursoNotas() {
                     </li>
                     <li>
                       <Button  className={styles.botao} onClick={handleClickOpen}>
-                      <FcDislike size={20} /> Desinscrever-se  
+                      <FcDislike size={20} /> Excluir Curso 
                       </Button>
                       <Dialog open={open} onClose={handleClose} aria-labelledby="alert-dialog-title">
                         <DialogTitle id="alert-dialog-title">
@@ -284,7 +305,7 @@ function CursoNotas() {
                         </DialogTitle>
                         <DialogActions>
                           <Button onClick={handleClose}  >Cancelar</Button>
-                          <Button >Confirmar</Button>
+                          <Button onClick={deletar}>Confirmar</Button>
                         </DialogActions>
                       </Dialog>    
                     </li>

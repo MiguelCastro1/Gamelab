@@ -3,11 +3,14 @@ const { parseJwt } = require("../middlewares/decodedToken");
 const User = mongoose.model("User");
 const { encrypt, compare } = require("../helpers/bcrypt");
 const jwt = require("jsonwebtoken");
+const path = require("path");
+const fs = require("fs");
 
 exports.createUser = async (req, res) => {
   let entrada = {
     ...req.body,
     senha: encrypt(req.body.senha),
+    imageAvatar: "user_padrao.png",
   };
   console.log(entrada);
   try {
@@ -61,12 +64,12 @@ exports.update = async (req, res) => {
     res.status(200).json({ doc });
   } catch (error) {
     console.error(error);
+    res.status(500).json({ message: "Erro ao deletar usuários" });
   }
 };
 
 exports.user = async (req, res) => {
   try {
-    
     let userId = req.params.id;
     let token = req.headers.authorization.split(" ")[1];
     let doc = await User.findById(userId);
@@ -82,5 +85,58 @@ exports.listAll = async (req, res) => {
     res.status(200).json({ doc });
   } catch (error) {
     console.error(error);
+    res.status(500).json({ message: "Erro ao listar usuários" });
+  }
+};
+
+exports.uploadAvatar = async (req, res) => {
+  let userId = req.params.id;
+
+  try {
+    if (req.file) {
+      await User.findOneAndUpdate(
+        { _id: userId },
+        { imageAvatar: req.file.filename }
+      );
+    } else {
+      await User.findOneAndUpdate(
+        { _id: userId },
+        { imageAvatar: "user_padrao.png" }
+      );
+    }
+    res.send("imagem alterada com sucesso");
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Erro ao alterar a imagem" });
+  }
+};
+
+exports.getImageAvatar = async (req, res) => {
+  try {
+    let userId = req.params.id;
+    const { imageAvatar } = await User.findOne({ _id: userId });
+    console.log(path.resolve(imageAvatar));
+    res.json({ image: imageAvatar });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Erro ao buscar  imagem" });
+  }
+};
+
+// Método para alterar o schema geral de usuários
+
+exports.scriptUpdate = async (req, res) => {
+  try {
+    let usuarios = await User.find({}, { _id: 1, nome: 1 });
+    for await (let user of usuarios) {
+      await User.findOneAndUpdate(
+        { _id: user._id },
+        { imageAvatar: "user_padrao.png" }
+      );
+    }
+    res.send("atualização concluída");
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Erro ao executar script" });
   }
 };

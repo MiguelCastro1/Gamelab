@@ -47,6 +47,12 @@ const userSchema = new Schema(
     descricaoPerfil: {
       type: String,
     },
+    imageAvatar: {
+      type: String,
+    },
+    tokenRecuperarSenha: {
+      type: String,
+    },
   },
   {
     timestamps: true,

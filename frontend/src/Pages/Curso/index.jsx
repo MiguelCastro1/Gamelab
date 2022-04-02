@@ -77,8 +77,9 @@ function Curso() {
   ]
 
   let { id, perfil } = getToken() ? JSON.parse(getToken()) : null;
-  const [curso, setCurso] = useState([]);
-  const { courseId } = useParams();
+  const [curso, setCurso] = useState({});
+  const [loaded, setLoaded] = useState(false);
+  const {courseId } = useParams();
   const [open, setOpen] = useState(false);
   const navigate = useNavigate()
   
@@ -92,7 +93,6 @@ function Curso() {
 
   const unroll =  () =>{
     try {
-      console.log('unroll');
       api.post(`/cursos/${courseId}/desmatricula`)
       .then((data) => {
         toast("Desmatriculado com sucesso!");
@@ -108,17 +108,33 @@ function Curso() {
         console.log(err)
     }
   }
+
+  const deletar =  () =>{
+    try {
+      api.delete(`/cursos/${courseId}`)
+      .then((data) => {
+        toast("O curso foi excluido com sucesso!");
+        console.log('done');
+        navigate('/');
+      })
+      .catch((err) =>  {
+        toast.error("Algum Erro ocorreu") 
+        console.log(err)
+      })
+    }catch (error) {
+      toast.error("Algum Erro ocorreu") 
+        console.log(err)
+    }
+  }
+  
   useEffect(() => {
-    
     try {
       api.get(`/cursos/${courseId}`)
       .then((data) => {
         console.log(data.data.doc)
-       //console.log(secoes)
-       // setCurso(data.data.doc);
-        console.log(curso)
+        setCurso(data.data.doc);
         console.log('done')
-
+        setLoaded(true);
        })
       .catch(err => console.log(err))
     }catch (error) {
@@ -152,28 +168,27 @@ function Curso() {
           </div>
 
             <div className={styles.feed}>
-            <h1>  <SiGoogleclassroom size={25}/> {curso.nomeCurso}   </h1> 
+            <h1>  <SiGoogleclassroom size={25}/> {loaded ? curso.nomeCurso : ''}   </h1> 
                 {secoes.map((secao) => (
                   <Secoes key = {secao.titulo} titulo = {secao.titulo} conteudos={secao.conteudos}/>
                 ))}
             </div>
-           
-
+          
             <div className={styles.sideBarRight}>
             <div className={styles.formating} >
               <div className={styles.dados}> 
                 <h3> Dados da turma </h3>
-                <p><span className={styles.tit}> Professor: </span> {curso.autorId.nome} </p>
+                <p><span className={styles.tit}> Professor: </span> {loaded ? curso.autorId.nome : ''} </p>
                 <p><span className={styles.tit}> Descrição: </span> 
                   <ShowMoreText
                     lines={2}
                     more="Ver mais"
                     less="Ver menos"
                     className="content-css"
-                    width={300}
+                    width={320}
                   >
                   
-                  {curso.descricao}  
+                  {loaded ? curso.descricao : '' } 
                   </ShowMoreText>
                 </p> 
                 <p><span className={styles.tit}> Status: </span> {curso.Ativo ? 'Ativo': 'Ativo'} < FcApproval size={20}/> </p> 
@@ -259,7 +274,7 @@ function Curso() {
                         </DialogTitle>
                         <DialogActions>
                           <Button onClick={handleClose}  >Cancelar</Button>
-                          <Button >Confirmar</Button>
+                          <Button onClick={deletar}>Confirmar</Button>
                         </DialogActions>
                       </Dialog>    
                     </li>

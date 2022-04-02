@@ -29,6 +29,16 @@ exports.getCourse = async (req, res) => {
   }
 };
 
+exports.delete = async (req, res) => {
+  let courseId = req.params.courseId;
+  try {
+    let doc = await Course.findByIdAndDelete({ _id: courseId });
+    res.status(200).json({ doc });
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 exports.update = async (req, res) => {
   let courseId = req.params.courseId;
   try {

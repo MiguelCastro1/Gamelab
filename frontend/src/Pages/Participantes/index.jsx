@@ -40,7 +40,8 @@ function Participantes() {
   ]
   
   let { id, perfil } = getToken() ? JSON.parse(getToken()) : null;
-  const [curso, setCurso] = useState([]);
+  const [curso, setCurso] = useState({});
+  const [loaded, setLoaded] = useState(false);
   const { courseId } = useParams();
   const [open, setOpen] = useState(false);
   const navigate = useNavigate()
@@ -72,12 +73,32 @@ function Participantes() {
     }
   }
 
+  
+  const deletar =  () =>{
+    try {
+      api.delete(`/cursos/${courseId}`)
+      .then((data) => {
+        toast("O curso foi excluido com sucesso!");
+        console.log('done');
+        navigate('/');
+      })
+      .catch((err) =>  {
+        toast.error("Algum Erro ocorreu") 
+        console.log(err)
+      })
+    }catch (error) {
+      toast.error("Algum Erro ocorreu") 
+        console.log(err)
+    }
+  }
+
   useEffect(() => {  
     try {
       api.get(`/cursos/${courseId}`)
       .then((data) => {
-       setCurso(data.data.doc);
-      //console.log(curso['Alunos'])
+        setCurso(data.data.doc);
+        //console.log(data.data.doc);
+        setLoaded(true);
         console.log('done')
        })
       .catch(err => console.log(err))
@@ -113,7 +134,7 @@ function Participantes() {
 
             <div className={styles.feed}>
             <h1>  <FcConferenceCall size={25}/>Participantes</h1> 
-              {curso.Alunos.map((aluno) => (
+            {loaded ? curso.Alunos.map((aluno) => (
                <Link key={aluno.userId._id} to={`/perfil/${aluno.userId._id}`}>
                 <div  className={styles.aluno}>
                   <img 
@@ -125,24 +146,24 @@ function Participantes() {
                   <h2 > {aluno.userId.nome} </h2>
                 </div>
               </Link> 
-              ))}
+              )) : ''}
             </div>
 
             <div className={styles.sideBarRight}>
             <div className={styles.formating} >
               <div className={styles.dados}> 
                 <h3> Dados da turma </h3>
-                <p><span className={styles.tit}> Professor: </span> {curso.autorId['nome']} </p>
+                <p><span className={styles.tit}> Professor: </span> {loaded ? curso.autorId.nome : ''} </p>
                 <p><span className={styles.tit}> Descrição: </span> 
                   <ShowMoreText
                     lines={2}
                     more="Ver mais"
                     less="Ver menos"
                     className="content-css"
-                    width={300}
+                    width={320}
                   >
                   
-                  {curso.descricao}  
+                  {loaded ? curso.descricao :''}  
                   </ShowMoreText>
                 </p> 
                 <p><span className={styles.tit}> Status: </span> {curso.Ativo ? 'Ativo': 'Ativo'} < FcApproval size={20}/> </p> 
@@ -220,7 +241,7 @@ function Participantes() {
                     </li>
                     <li>
                       <Button  className={styles.botao} onClick={handleClickOpen}>
-                      <FcDislike size={20} /> Desinscrever-se  
+                      <FcDislike size={20} /> Excluir Curso 
                       </Button>
                       <Dialog open={open} onClose={handleClose} aria-labelledby="alert-dialog-title">
                         <DialogTitle id="alert-dialog-title">
@@ -228,7 +249,7 @@ function Participantes() {
                         </DialogTitle>
                         <DialogActions>
                           <Button onClick={handleClose}  >Cancelar</Button>
-                          <Button >Confirmar</Button>
+                          <Button onClick={deletar}>Confirmar</Button>
                         </DialogActions>
                       </Dialog>    
                     </li>

@@ -27,6 +27,7 @@ router.get("/cursos/professor/MeusCursos", auth,  Curso.listCoursesFromTeacher);
 router.get("/cursos/aluno/MeusCursos",  auth, Curso.listCoursesFromStudent);
 router.get("/cursos/:courseId",auth, Curso.getCourse);
 router.patch("/cursos/:courseId",auth, Curso.update);
+router.delete("/cursos/:courseId",auth, Curso.delete);
 router.get("/cursos/:courseId/participantes", auth,Curso.listCourseParticipants);
 router.post("/cursos/:courseId/matricula", auth, Curso.enroll);
 router.post("/cursos/:courseId/desmatricula", auth, Curso.unroll);

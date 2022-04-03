@@ -19,7 +19,7 @@ function NotFound(){
     </div>
 
     <h1>Oops! Aconteceu alguma coisa errada!</h1>
-    <Link className={styles.btn} to='/'> Home </Link>
+    <Link className={styles.btn} to='/home'> Home </Link>
         
     </div>
         

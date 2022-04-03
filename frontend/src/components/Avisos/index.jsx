@@ -1,13 +1,13 @@
 
 import styles from "./styles.module.scss";
 
-function kanban() {
+function Avisos() {
   return (
 
       <div className={styles.feed}>
-        <h1>Kanban</h1>
+        <h1>Avisos</h1>
       </div>      
   );
 }
 
-export default kanban;
+export default Avisos;

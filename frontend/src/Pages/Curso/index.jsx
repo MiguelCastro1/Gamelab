@@ -16,26 +16,28 @@ import ghost from "../../assets/ghost.gif";
 import {AiFillPlusSquare} from "react-icons/ai";
 import { BsKanban} from "react-icons/bs";
 import {SiGoogleclassroom} from "react-icons/si";
+import {VscBellDot} from 'react-icons/vsc'
 import {FcHome, FcAreaChart, FcConferenceCall, FcDislike, FcApproval, FcSupport, FcEditImage, FcAdvertising, FcLeft } from "react-icons/fc";
 import {toast} from 'react-toastify';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogTitle from '@mui/material/DialogTitle';
+import {Button, Dialog, DialogActions, DialogTitle} from '@mui/material';
 import ShowMoreText from "react-show-more-text";
 
 
+
 function Curso() {
+  const monstros =  [monster,ghost];
   const atividades = [
     {
       titulo: "Matematica Lógica",
-      dataFim: "15/04/22 as 21:00",
-      imagem: monster,
+      descricao: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Incidunt maxime ullam ipsum architecto repudiandae laborum ",      dataFim: "15/04/22 as 21:00",
+      imagem: 0,
+      dataEntrega: "15/04/22 as 21:00",
     },
     {
       titulo: "Programação Lógica",
-      dataFim: "15/04/22 as 21:00",
-      imagem: ghost,
+      descricao: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Incidunt maxime ullam ipsum architecto repudiandae laborum ",      dataFim: "15/04/22 as 21:00",
+      dataEntrega: "15/04/22 as 21:00",
+      imagem: 1,
     }
   ]
 
@@ -98,7 +100,7 @@ function Curso() {
       .then((data) => {
         toast("Desmatriculado com sucesso!");
         console.log('done');
-        navigate('/');
+        navigate('/home');
       })
       .catch((err) =>  {
         toast.error("Algum Erro ocorreu") 
@@ -116,7 +118,7 @@ function Curso() {
       .then((data) => {
         toast("O curso foi excluido com sucesso!");
         console.log('done');
-        navigate('/');
+        navigate('/home');
       })
       .catch((err) =>  {
         toast.error("Algum Erro ocorreu") 
@@ -150,32 +152,27 @@ function Curso() {
       <div className={styles.container}>
         <div className={styles.content}>
           <div className={styles.sideBarLeft}>
-            <ul>
-              <li></li>
-              <li>
-                <Link to="/kanban" >
-                  {" "}
-                  Meu Kanban  {"       "} 
-                  <BsKanban size={20} />
-                </Link>
-              </li>
-              <li>
-                <Link to="/">
-                  {" "}
-                  Home {"           "}
-                  <FcHome size={20} />
-                </Link>
-              </li>
+          <ul>
+             <Button  onClick={() => navigate('/home')} variant="outlined" startIcon={<FcHome /> }>
+                  Home
+              </Button>
+              <Button onClick={() => navigate('/kanban')}  variant="outlined" startIcon={<BsKanban />}>
+                Meu Kanban 
+              </Button>
+             {perfil === 'aluno' && (
+                <Button  onClick={() => navigate('/avisos')} variant="outlined" startIcon={<VscBellDot /> }>
+                  Avisos
+                </Button>
+             )}
             </ul>
           </div>
           
           <div className={styles.feed}>
-              <h1>  <SiGoogleclassroom size={25}/> {loaded ? curso.nomeCurso : ''}  </h1> 
-              {pagina === 'home' && <Secoes secoes={secoes} />}
+              {pagina === 'home' && <Secoes secoes={secoes} nomeCurso={curso.nomeCurso} />}
               {pagina === 'participantes' && loaded && <Participantes Alunos={curso.Alunos}/>}
               {pagina === 'notas' && <Notas Alunos={curso.Alunos} />}
               {pagina === 'atividade' && <Atividade atividade={atividades[0]} />}
-              {pagina === 'editar-dados' && <EditarDados curso={curso} />}
+              {pagina === 'editar-dados' && <EditarDados curso={courseId} />}
               {pagina === 'editar-conteudo' && <EditarConteudo curso={curso} />}
               {pagina === 'criar-aviso' && <CriarAviso courseId={courseId} />}
            </div>
@@ -329,7 +326,7 @@ function Curso() {
                      </Button>
                     {perfil === 'aluno' && 
                       <img
-                        src={atividade.imagem}  
+                        src={monstros[atividade.imagem]}  
                         alt="Monstro"  
                         width={115}
                         height={115}

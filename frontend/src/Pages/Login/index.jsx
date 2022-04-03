@@ -38,7 +38,7 @@ export default function Login() {
       };
       console.log(dados)
       localStorage.setItem("gamelab", JSON.stringify(dados));
-      navigate("/");
+      navigate("/home");
     } catch (error) {
       setErro(true);
       console.log(error);

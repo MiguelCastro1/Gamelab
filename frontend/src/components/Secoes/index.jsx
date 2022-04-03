@@ -1,13 +1,14 @@
 import { useState } from "react";
 import styles from "./styles.module.scss";
 import { useNavigate } from "react-router-dom";
+import {SiGoogleclassroom} from "react-icons/si"
 import api from "../../services/axios";
 import { toast } from 'react-toastify';
 import {FcLink} from "react-icons/fc";
 import {FcInspection} from "react-icons/fc";
 import {FcFile} from "react-icons/fc";
 
-function Secoes({secoes,...props }) {
+function Secoes({secoes, nomeCurso, ...props }) {
   const navigate = useNavigate()
 
   const acao = (conteudo) => {
@@ -23,6 +24,7 @@ function Secoes({secoes,...props }) {
   return (
 
     <div className={styles.container}>
+      <h1>  <SiGoogleclassroom size={25}/> {nomeCurso}  </h1> 
       {secoes.map((secao) => (
       <div className={styles.secao}>
         <h2>{secao.titulo}</h2>

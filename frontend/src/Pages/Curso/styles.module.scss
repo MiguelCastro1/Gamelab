@@ -176,30 +176,18 @@
           list-style: none;
           // color: var(--blue-700);
           width: 100%;
-          li {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
+          Button {
+            font-size: medium;
+            text-transform: initial;
+            margin-top: 0.2rem;
             width: 100%;
-            text-align: center;
-            margin-bottom: 0.4rem;
-            padding: 0.5rem;
-            //padding-left: 15%;
-            border: 1px solid var(--gray-300);
-            border-radius: 4px;
-            cursor: pointer;
-            transition: margin-bottom 0.1s ease-in-out;
+            border: 1px solid var(--gray-100);
+            color: #111;
   
             &:hover {
-              margin-bottom: 0.8rem;
+              color:  var(--blue-700);
             }
-  
-            &:first-child {
-              position: relative;
-              padding: 0;
-              border: none;
-            }
+            
           }
         }
       }

@@ -12,7 +12,6 @@ import FormCadastro from "./Pages/FormCadastro";
 import Home from "./Pages/Home";
 import Login from "./Pages/Login";
 import Sobre from "./Pages/Sobre";
-import Avisos from "./Pages/Avisos";
 import Curso from "./Pages/Curso";
 import Perfil from "./Pages/Perfil";
 import NotFound from "./Pages/NotFound";
@@ -38,11 +37,10 @@ export default function Rotas() {
         <Route path="*" element={<NotFound/>} />
 
         <Route element={<RotasPrivadas />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/avisos" element={<Avisos />} />
           <Route path="/curso/:courseId" element={<Curso />} />
           <Route path="/perfil/:userId" element={<Perfil />} />
-
+          <Route path="/:url" element={<Home />} />
+         
         </Route>
       </Routes>
     </BrowserRouter>

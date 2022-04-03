@@ -2,14 +2,199 @@
     .feed {
 
 
-      &::-webkit-scrollbar {
-        width: 7px;
+      header {
+        margin-bottom: 3rem;
+        display: flex;
+        justify-content: space-between;
+  
+        .icons {
+          height: 2rem;
+          width: 2rem;
+          border-radius: 50%;
+          cursor: pointer;
+          transition: hover 0.3s linear;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+  
+          &:hover {
+            background: var(--gray-100);
+          }
+        }
       }
-
-      &::-webkit-scrollbar-thumb {
-        background-color: #ecebeb;
-        border-radius: 5px;
+  
+      section {
+        display: flex;
+        flex-direction: column;
+        gap: 3rem;
+        width: 80%;
+        margin: 0 auto;
+      }
+  
+      div {
+        width: 100%;
+      }
+  
+      footer {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.9rem;
+        margin-bottom: 0.8rem;
+      }
+  
+      .lineForm {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 2.7rem;
+      }
+  
+      .formContent {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+  
+        div {
+          // background: red;
+          height: 11rem;
+          width: 11rem;
+          border-radius: 50%;
+          border: 2px solid var(--purple-700);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+          animation: fadeY 0.3s ease-in-out;
+  
+          .addImage {
+            position: absolute;
+            background: var(--blue-700);
+            height: 3rem;
+            width: 3rem;
+            border-radius: 50%;
+            bottom: 0;
+            right: 0;
+  
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+  
+            svg {
+              color: white;
+              font-size: 1.5rem;
+            }
+          }
+        }
+  
+        img {
+          height: 10.5rem;
+          width: 10.5rem;
+          object-fit: cover;
+          border-radius: 50%;
+        }
+  
+        @keyframes fadeY {
+          from {
+            opacity: 0;
+            margin-top: -2rem;
+          }
+          to {
+            opacity: 1;
+            margin-top: 0;
+          }
+        }
+      }
+  
+      .submitImage {
+        // margin-top: 1rem;
+        display: inline;
+        width: auto;
+        position: relative;
+        width: 60%;
+  
+        p {
+          width: 100%;
+          text-align: center;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          cursor: pointer;
+        }
+  
+        input {
+          cursor: pointer;
+          opacity: 0;
+          width: 100%;
+          height: 100%;
+  
+          &:hover {
+            cursor: pointer;
+          }
+        }
+      }
+  
+      button {
+        margin-top: 2.7rem;
+        height: 3rem;
+        width: 10%;
+        border: none;
+        border-radius: 4px;
+        font-weight: bold;
+  
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        transition: hover 0.3s linear;
+      }
+  
+      .cancelar {
+        color: var(--gray-300);
+        &:hover {
+          color: var(--preto);
+        }
+      }
+  
+      .salvar {
+        background: var(--blue-700);
+        color: white;
+        &:hover {
+          background: var(--blue-500);
+        }
+      }
+    
+  
+  
+  .modalContent {
+    header,
+    main,
+    footer {
+      padding: 1rem;
+    }
+  
+    header {
+      border-bottom: 1px solid var(--gray-300);
+    }
+  
+    main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+  
+      img {
+        width: 14rem;
       }
     }
+  
+    footer {
+      display: flex;
+      justify-content: end;
+    }
+  }
+}
+  
     
    

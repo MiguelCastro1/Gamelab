@@ -6,36 +6,33 @@ import { BiLogOut } from "react-icons/bi";
 import { VscBellDot } from "react-icons/vsc";
 import { getToken } from "../../services/auth";
 import api from "../../services/axios";
-
+import user_padrao from "../../assets/user_padrao.png";
 function HeaderHome() {
   let navigate = useNavigate();
-  const [imgUser, setImgUser] = useState("");
+  const [imgUser, setImgUser] = useState('');
   let { id, nome, perfil } = getToken() ? JSON.parse(getToken()) : null;
 
   useEffect(() => {
-    async function fetchImage() {
+    /*async function fetchImage() {
       let {
         data: { image },
       } = await api.get(`/usuarios/avatar/${id}`);
-      setImgUser(image);
-    }
-    fetchImage();
+*/
+      setImgUser(user_padrao);
+     
+     
+  //  }
+  //  fetchImage();
   }, []);
 
   return (
     <header className={styles.container}>
       <div className={styles.content}>
-        <Link to="/">
+        <Link to='/home'>
           <h1>GameLab</h1>
         </Link>
         <div className={styles.areaUser}>
-          {perfil === "aluno" && (
-            <p style={{ marginRight: ".7rem" }}>
-              <Link to="/avisos">
-                Avisos <VscBellDot size={18} />
-              </Link>
-            </p>
-          )}
+    
           <p
             // className="dropdown-toggle"
             id="dropdownMenuButton1"

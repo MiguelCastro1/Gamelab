@@ -15,6 +15,7 @@ import { Button, Stack } from "@mui/material";
 import Modal from "@mui/material/Modal";
 import imagePadrao from "../../assets/user_padrao.png";
 
+
 const fields = [
   "nome",
   "email",

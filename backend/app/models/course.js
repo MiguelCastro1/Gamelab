@@ -43,7 +43,7 @@ const courseSchema = new Schema(
         status: {type: String},
         nota: {type : Number},
         entregaUri: {type: String},
-        dataEntrega: {type: String}
+        dataEntrega: {type: Schema.Types.Date}
       }]
     }],
 
@@ -51,7 +51,6 @@ const courseSchema = new Schema(
       titulo: {type: String, default: ""},
       conteudos: [
         {
-          id: {type: Schema.Types.ObjectId, default: new mongoose.Types.ObjectId()},
           uri: {type: String},
           visivel: {type: Boolean, default: true},
           tipo: {type: String ,  enum: ["link", "arquivo", "atividade"]},
@@ -62,7 +61,6 @@ const courseSchema = new Schema(
         }
       ]
     }], 
-    
     Ativo: {
       type: Boolean,
       default: true

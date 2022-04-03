@@ -1,14 +1,26 @@
+import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import styles from "./styles.module.scss";
-import imgUser from "../../assets/user_padrao.png";
 import { FiUser, FiLogOut } from "react-icons/fi";
 import { BiLogOut } from "react-icons/bi";
 import { VscBellDot } from "react-icons/vsc";
 import { getToken } from "../../services/auth";
+import api from "../../services/axios";
 
 function HeaderHome() {
   let navigate = useNavigate();
+  const [imgUser, setImgUser] = useState("");
   let { id, nome, perfil } = getToken() ? JSON.parse(getToken()) : null;
+
+  useEffect(() => {
+    async function fetchImage() {
+      let {
+        data: { image },
+      } = await api.get(`/usuarios/avatar/${id}`);
+      setImgUser(image);
+    }
+    fetchImage();
+  }, []);
 
   return (
     <header className={styles.container}>
@@ -32,7 +44,10 @@ function HeaderHome() {
           >
             {nome}
           </p>
-          <img src={imgUser} alt="usuário" />
+          <img
+            src={`http://localhost:5000/public/avatar/${imgUser}`}
+            alt="usuário"
+          />
           <ul
             className="dropdown-menu"
             aria-labelledby="dropdownMenuButton1"

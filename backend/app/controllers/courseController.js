@@ -82,7 +82,7 @@ exports.listCoursesFromTeacher = async (req, res) => {
 //listar cursos para estudante, dentre os quais está matriculado - permite pesquisa por nome do curso, e descrição.
 exports.listCoursesFromStudent = async (req, res) => {
   try {    
-    console.log('begin')
+  
     let token = req.headers.authorization.split(" ")[1];
     let studentId = mongoose.Types.ObjectId( parseJwt(token).id);
     let busca = req.query.pesquisa || "";

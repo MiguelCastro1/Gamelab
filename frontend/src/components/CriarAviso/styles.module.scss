@@ -1,0 +1,15 @@
+
+    .feed {
+
+
+      &::-webkit-scrollbar {
+        width: 7px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background-color: #ecebeb;
+        border-radius: 5px;
+      }
+    }
+    
+   

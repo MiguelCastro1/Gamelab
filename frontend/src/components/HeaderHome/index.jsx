@@ -40,7 +40,7 @@ function HeaderHome() {
           >
             <li>
               <p
-                onClick={() => {
+                onClick={() => { 
                   navigate(`/perfil/${id}`);
                 }}
               >

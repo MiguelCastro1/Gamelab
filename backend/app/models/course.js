@@ -62,6 +62,7 @@ const courseSchema = new Schema(
         }
       ]
     }], 
+    
     Ativo: {
       type: Boolean,
       default: true

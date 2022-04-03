@@ -1,15 +1,4 @@
 
-.container {
-    width: min(95vw, 1390px);
-    margin: 0 auto;
-    .content {
-      margin-top: 2rem;
-      display: grid;
-      max-width: 100%;
-      // grid-template-columns: 0.4fr minmax(400px, 2fr) 0.8fr;
-      grid-template-columns: 0.45fr 1.6fr 0.8fr;
-      grid-column-gap: 1rem;
-  
       .feed {
         box-shadow: var(--sombra);
         border: 1px solid var(--gray-100);
@@ -22,22 +11,19 @@
         max-height : auto;
         
 
-        header {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
+        h1 {
           margin-bottom: 1rem;
+          color: #131212; 
+          font-family: 'Droid serif', serif; 
+          font-size: 40px; 
+          font-weight: 400; 
+          font-style: italic; 
+          line-height: 44px; 
+          text-align: center;   
+        
+      }
   
-          h1 {
-            font-family: Inter, sans-serif;
-            font-weight: normal;
-            font-size: 2rem;
-            line-height: 2rem;
-            color: #111;
-            padding-bottom: 20px;
-          }
-  
-         }
+         
         .senha_h{
           color: blue;
           padding-top: 10px;
@@ -222,9 +208,7 @@
           }
         }
       }
-    }
-  }
-
+ 
   
   .reactCalendar {
     border-radius: 6px;

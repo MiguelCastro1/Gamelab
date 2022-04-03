@@ -7,11 +7,10 @@ import {FcLink} from "react-icons/fc";
 import {FcInspection} from "react-icons/fc";
 import {FcFile} from "react-icons/fc";
 
-function Secoes({titulo,conteudos, ...props }) {
+function Secoes({secoes,...props }) {
   const navigate = useNavigate()
 
-  /*const acao = (conteudo) => {
-
+  const acao = (conteudo) => {
     if(conteudo.tipo === 'pdf'){
       console.log(conteudo.tipo)
     }else if(conteudo.tipo === 'link'){
@@ -19,14 +18,16 @@ function Secoes({titulo,conteudos, ...props }) {
     }else if(conteudo.tipo === 'atividade'){
       console.log(conteudo.tipo)
     }
-  }*/
+  }
   
   return (
+
     <div className={styles.container}>
+      {secoes.map((secao) => (
       <div className={styles.secao}>
-        <h2>{titulo}</h2>
+        <h2>{secao.titulo}</h2>
         <div className={styles.conteudo}>
-          {conteudos.map((conteudo) => (
+          {secao.conteudos.map((conteudo) => (
             <div className={styles.conteudoInfo} >
               {conteudo.tipo == 'pdf' ?   
                 <FcFile size={25} /> :
@@ -39,7 +40,8 @@ function Secoes({titulo,conteudos, ...props }) {
           ))}
         </div>
       </div>
-  </div>
+      ))}
+    </div>
   );
 }
 

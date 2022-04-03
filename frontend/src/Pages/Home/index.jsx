@@ -1,51 +1,44 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { BiSearch } from "react-icons/bi";
-import { BsChevronCompactLeft, BsKanban } from "react-icons/bs";
-import { IoSchoolOutline } from "react-icons/io5";
+import { BsKanban } from "react-icons/bs";
+import {FcHome} from "react-icons/fc";
+import {IoSchoolOutline } from "react-icons/io5";
 import HeaderHome from "../../components/HeaderHome";
-import BoxTurma from "../../components/BoxTurma";
 import Calendar from "react-calendar";
 import styles from "./styles.module.scss";
 import imageAluno from "../../assets/animacao_megaman_-running.gif";
 import api from "../../services/axios";
 import ProgressBar from "../../components/ProgressBar";
-import { getToken } from "../../services/auth";
+import Button from '@mui/material/Button';
+import ContentHome from "../../components/ContentHome";
+import Kanban from "../../components/Kanban";
+import ProcurarCurso from "../../components/ProcurarCurso";
+import CriarCurso from "../../components/CriarCurso";
 
 function Home() {
   const [date, setDate] = useState(new Date());
+  const [pagina, setPagina] = useState('');
   const [searchString, setSearchString] = useState("");
-  const [turmas, setTurmas] = useState([]);
   const {perfil} = localStorage.getItem("gamelab") ? JSON.parse(localStorage.getItem("gamelab")): null;
-
-  /*async function fetchTurma() {
-      let { data } =
-        perfil === "professor"
-          ? await api.get(`/meuscursos?pesquisa=${searchString}`)
-          : await api.get(`/cursos?pesquisa=${searchString}`);
-      setTurmas([...data.doc]);
-  }*/
-
   const [resultados, setResultados] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
  
   useEffect(() => {
-    
     try {
       if( perfil === "professor"){
-
         api.get("/cursos/professor/MeusCursos")
         .then((data) => {
           setResultados(data.data.doc);
+          setPagina('home');
           console.log('done');
-       
         })
         .catch(err => console.log(err))
       }else{// if perfil == aluno
         api.get("/cursos/aluno/MeusCursos")
         .then((data) => {
           setResultados(data.data.doc);
-          //console.log(data.data.doc);
+          setPagina('home');
           console.log('done')
         })
         .catch(err => console.log(err))
@@ -87,45 +80,35 @@ function Home() {
                   }}
                 />
               </li>
-              <li>
-                <Link to="/kanban">
-                  Meu Kanban <BsKanban size={20} />
-                </Link>
-              </li>
-              <li>
-               <Link to= {perfil === "aluno" ? '/procurar-curso' : '/criar-curso'} >
-                {perfil === "aluno" ? 'Procurar Turma':'Criar Turma'} 
-                <IoSchoolOutline size={20}/>{" "} </Link>
-              </li>
+
+              <Button onClick={() => setPagina('kanban')}  variant="outlined" startIcon={<BsKanban />}>
+                Meu Kanban 
+              </Button>
+              {pagina === 'home' ? (
+                perfil === 'aluno' ? (
+                  <Button  onClick={() => setPagina('procurar-curso')} variant="outlined" startIcon={<IoSchoolOutline /> }>
+                    Procurar Curso
+                  </Button>
+                ) : (
+                  <Button  onClick={() => setPagina('cadastrar-curso')} variant="outlined" startIcon={<IoSchoolOutline /> }>
+                    Cadastrar 
+                  </Button>
+                )) : (
+                  <Button  onClick={() => setPagina('home')} variant="outlined" startIcon={<FcHome /> }>
+                  Home
+                  </Button>
+                )}
             </ul>
           </div>
 
           <div className={styles.feed}>
-            <header>
-              <h1>Minhas turmas</h1>
-            </header>
-            <div>
-            </div>
-            {searchString == "" //If
-                ? resultados.map((turma) => (
-                    <Link key={turma._id} to = {`/curso/${turma._id}`}>
-                      <BoxTurma
-                        nomeTurma={turma.nomeCurso}
-                        professor={turma.autorEmail}
-                        descricao={turma.descricao}
-                      />
-                    </Link>
-                  ))
-                : // Else
-                  searchResults.map((turma) => (
-                    <Link key={turma._id} to={`/curso/${turma._id}`}>
-                      <BoxTurma
-                        nomeTurma={turma.nomeCurso}
-                        professor={turma.autorEmail}
-                        descricao={turma.descricao}
-                      />
-                    </Link>
-                  ))}
+         
+            {pagina === 'home' && (searchString === '' ?  
+            <ContentHome resultados={resultados} /> : <ContentHome resultados={searchResults} />)}
+            {pagina === 'kanban' && <Kanban />}
+            {pagina === 'procurar-curso' && <ProcurarCurso />}
+            {pagina === 'cadastrar-curso' && <CriarCurso />}
+      
           </div>
 
           <div className={styles.sideBarRight}>
@@ -154,12 +137,6 @@ function Home() {
                 onChange={setDate}
                 value={date}
               />
-              {/* {perfil === "aluno" && (
-                <div>
-                  <h3>Avisos</h3>
-                  <h4>Sem avisos</h4>
-                </div>
-              )} */}
             </div>
           </div>
         </div>

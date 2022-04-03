@@ -1,30 +1,29 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { BsKanban} from "react-icons/bs";
 import HeaderHome from "../../components/HeaderHome";
-import Calendar from "react-calendar";
 import styles from "./styles.module.scss";
 import api from "../../services/axios";
-import ProgressBar from "../../components/ProgressBar";
-import Input from "../../components/Input";
-import { getToken } from "../../services/auth";
 import Secoes from "../../components/Secoes";
+import Participantes from "../../components/Participantes";
+import Atividade from "../../components/Atividade";
+import Notas from "../../components/Notas";
+import EditarDados from "../../components/EditarDados";
+import EditarConteudo from "../../components/EditarConteudo";
+import CriarAviso from "../../components/CriarAviso";
+import {getToken} from "../../services/auth";
 import monster from "../../assets/guerreiro-morto.gif";
 import ghost from "../../assets/ghost.gif";
+import {AiFillPlusSquare} from "react-icons/ai";
+import { BsKanban} from "react-icons/bs";
 import {SiGoogleclassroom} from "react-icons/si";
-import {FcHome} from "react-icons/fc";
-import {FcAreaChart, FcConferenceCall, FcDislike, FcApproval,
-   FcSupport, FcEditImage, FcAdvertising } from "react-icons/fc";
-import { toast } from 'react-toastify';
+import {FcHome, FcAreaChart, FcConferenceCall, FcDislike, FcApproval, FcSupport, FcEditImage, FcAdvertising, FcLeft } from "react-icons/fc";
+import {toast} from 'react-toastify';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import ShowMoreText from "react-show-more-text";
-import { ClassNames } from "@emotion/react";
-import { style } from "@mui/system";
+
 
 function Curso() {
   const atividades = [
@@ -39,6 +38,7 @@ function Curso() {
       imagem: ghost,
     }
   ]
+
   const secoes = [
     {
       titulo: 'Plano de Ensino',
@@ -76,11 +76,12 @@ function Curso() {
     }
   ]
 
-  let { id, perfil } = getToken() ? JSON.parse(getToken()) : null;
   const [curso, setCurso] = useState({});
+  const [pagina, setPagina] = useState('');
   const [loaded, setLoaded] = useState(false);
-  const {courseId } = useParams();
   const [open, setOpen] = useState(false);
+  const {courseId} = useParams();
+  let {id, perfil } = getToken() ? JSON.parse(getToken()) : null;
   const navigate = useNavigate()
   
   const handleClickOpen = () => {
@@ -133,8 +134,9 @@ function Curso() {
       .then((data) => {
         console.log(data.data.doc)
         setCurso(data.data.doc);
-        console.log('done')
         setLoaded(true);
+        setPagina('home');
+        console.log('done')
        })
       .catch(err => console.log(err))
     }catch (error) {
@@ -166,13 +168,17 @@ function Curso() {
               </li>
             </ul>
           </div>
-
-            <div className={styles.feed}>
-            <h1>  <SiGoogleclassroom size={25}/> {loaded ? curso.nomeCurso : ''}   </h1> 
-                {secoes.map((secao) => (
-                  <Secoes key = {secao.titulo} titulo = {secao.titulo} conteudos={secao.conteudos}/>
-                ))}
-            </div>
+          
+          <div className={styles.feed}>
+              <h1>  <SiGoogleclassroom size={25}/> {loaded ? curso.nomeCurso : ''}  </h1> 
+              {pagina === 'home' && <Secoes secoes={secoes} />}
+              {pagina === 'participantes' && loaded && <Participantes Alunos={curso.Alunos}/>}
+              {pagina === 'notas' && <Notas Alunos={curso.Alunos} />}
+              {pagina === 'atividade' && <Atividade atividade={atividades[0]} />}
+              {pagina === 'editar-dados' && <EditarDados curso={curso} />}
+              {pagina === 'editar-conteudo' && <EditarConteudo curso={curso} />}
+              {pagina === 'criar-aviso' && <CriarAviso courseId={courseId} />}
+           </div>
           
             <div className={styles.sideBarRight}>
             <div className={styles.formating} >
@@ -187,108 +193,140 @@ function Curso() {
                     className="content-css"
                     width={320}
                   >
-                  
                   {loaded ? curso.descricao : '' } 
                   </ShowMoreText>
                 </p> 
-                <p><span className={styles.tit}> Status: </span> {curso.Ativo ? 'Ativo': 'Ativo'} < FcApproval size={20}/> </p> 
+                <p><span className={styles.tit}> Status: </span> {loaded ? 'Ativo' : ''} < FcApproval size={20}/> </p> 
               </div> 
 
-              <div className={styles.botoes} >
-                {perfil === 'aluno' && (
-                  <ul>
-                    <li></li>
-                    <li>
-                      <Link to={`/participantes/${courseId}`}>
-                        {" "}
-                        <FcConferenceCall size={20} /> Ver Participantes {" "}
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to={`/notas-curso/${courseId}`}>
-                        {" "}
-                        <FcAreaChart size={20} />
-                        Ver Notas
-                        {" "}
-                      </Link>
-                    </li>
-                    <li>
-                      <Button  className={styles.botao} onClick={handleClickOpen}>
-                      <FcDislike size={20} /> Desinscrever-se  
-                      </Button>
-                      <Dialog open={open} onClose={handleClose} aria-labelledby="alert-dialog-title">
-                        <DialogTitle id="alert-dialog-title">
-                          {"Você deseja realmente se desmatricular?"}
-                        </DialogTitle>
-                        <DialogActions>
-                          <Button onClick={handleClose}  >Cancelar</Button>
-                          <Button onClick={unroll}>Confirmar</Button>
-                        </DialogActions>
-                      </Dialog>    
-                    </li>
-                  </ul>
+              {perfil === 'aluno' && (
+                <div className={styles.botoes} >
+                  {pagina === 'participantes' ? (
+                     <Button onClick={() => setPagina('home')}  variant="outlined" startIcon={<FcLeft />}>
+                     Voltar para curso
+                     </Button>
+                   
+                  ) : (
+                    <Button onClick={() => setPagina('participantes')}  variant="outlined" startIcon={<FcConferenceCall />}>
+                    Ver Partipantes
+                    </Button>
+                  )}
+                  
+                  {pagina === 'notas' ? (
+                    <Button onClick={() => setPagina('home')}  variant="outlined" startIcon={<FcLeft />}>
+                    Voltar para curso
+                    </Button>
+                  ) : (
+                    <Button  onClick={() => setPagina('notas')} variant="outlined" startIcon={<FcAreaChart /> }>
+                    Ver Notas
+                    </Button>
+                  )}
+
+                  <Button  onClick={() => handleClickOpen()} variant="outlined" startIcon={<FcDislike /> }>
+                  Desinscrever-se  
+                  </Button>
+                  <Dialog open={open} onClose={handleClose} aria-labelledby="alert-dialog-title">
+                    <DialogTitle id="alert-dialog-title">
+                      {"Você deseja realmente se desmatricular?"}
+                    </DialogTitle>
+                    <DialogActions>
+                      <Button onClick={handleClose}  >Cancelar</Button>
+                      <Button onClick={unroll}>Confirmar</Button>
+                    </DialogActions>
+                  </Dialog>    
+
+                  {pagina === 'atividade' && (
+                    <Button onClick={() => setPagina('home')}  variant="outlined" startIcon={<FcLeft />}>
+                    Voltar para curso
+                    </Button>
+                  )}
+                </div>
                 )}
 
-                {perfil === 'professor' && (
-                  <ul>
-                    <li></li>
-                    <li>
-                      <Link to={`/participantes/${courseId}`}>
-                        {" "}
-                        <FcSupport size={20} /> Editar dados{" "}
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to={`/participantes/${courseId}`}>
-                        {" "}
-                        <FcEditImage size={20} /> Adicionar/Editar Conteudo{" "}
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to={`/participantes/${courseId}`}>
-                        {" "}
-                        <FcConferenceCall size={20} /> Ver Participantes {" "}
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to={`/notas-curso/${courseId}`}>
-                        {" "}
-                        <FcAreaChart size={20} />
-                        Ver Notas
-                        {" "}
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to={`/participantes/${courseId}`}>
-                        {" "}
-                        <FcAdvertising size={20} /> Criar Avisos {" "}
-                      </Link>
-                    </li>
-                    <li>
-                      <Button  className={styles.botao} onClick={handleClickOpen}>
-                      <FcDislike size={20} /> Desinscrever-se  
-                      </Button>
-                      <Dialog open={open} onClose={handleClose} aria-labelledby="alert-dialog-title">
-                        <DialogTitle id="alert-dialog-title">
-                          {"Você deseja realmente se desmatricular?"}
-                        </DialogTitle>
-                        <DialogActions>
-                          <Button onClick={handleClose}  >Cancelar</Button>
-                          <Button onClick={deletar}>Confirmar</Button>
-                        </DialogActions>
-                      </Dialog>    
-                    </li>
-                  </ul>
-                )}
-              </div>
+              {perfil === 'professor' && (
+                <div className={styles.botoes} >
+                   {pagina === 'editar-dados' ? (
+                     <Button onClick={() => setPagina('home')}  variant="outlined" startIcon={<FcLeft />}>
+                     Voltar para curso
+                     </Button>
+                   
+                  ) : (
+                    <Button onClick={() => setPagina('editar-dados')}  variant="outlined" startIcon={<FcSupport />}>
+                    Editar dados
+                    </Button>
+                  )}
+                  
+                  {pagina === 'editar-conteudo' ? (
+                    <Button onClick={() => setPagina('home')}  variant="outlined" startIcon={<FcLeft />}>
+                    Voltar para curso
+                    </Button>
+                  ) : (
+                    <Button  onClick={() => setPagina('editar-conteudo')} variant="outlined" startIcon={<FcEditImage /> }>
+                    Adicionar/Editar Conteudo
+                    </Button>
+                  )}
 
+                  {pagina === 'participantes' ? (
+                     <Button onClick={() => setPagina('home')}  variant="outlined" startIcon={<FcLeft />}>
+                     Voltar para curso
+                     </Button>
+                   
+                  ) : (
+                    <Button onClick={() => setPagina('participantes')}  variant="outlined" startIcon={<FcConferenceCall />}>
+                    Ver Partipantes
+                    </Button>
+                  )}
+                  
+                  {pagina === 'notas' ? (
+                    <Button onClick={() => setPagina('home')}  variant="outlined" startIcon={<FcLeft />}>
+                    Voltar para curso
+                    </Button>
+                  ) : (
+                    <Button  onClick={() => setPagina('notas')} variant="outlined" startIcon={<FcAreaChart /> }>
+                    Ver Notas
+                    </Button>
+                  )}
+
+                  {pagina === 'criar-aviso' ? (
+                    <Button onClick={() => setPagina('home')}  variant="outlined" startIcon={<FcLeft />}>
+                    Voltar para curso
+                    </Button>
+                  ) : (
+                    <Button  onClick={() => setPagina('criar-aviso')} variant="outlined" startIcon={<FcAdvertising /> }>
+                     Criar Avisos
+                    </Button>
+                  )}
+
+                  <Button  onClick={() => handleClickOpen()} variant="outlined" startIcon={<FcDislike /> }>
+                  Excluir Curso 
+                  </Button>
+                  <Dialog open={open} onClose={handleClose} aria-labelledby="alert-dialog-title">
+                    <DialogTitle id="alert-dialog-title">
+                      {"Você deseja realmente se desmatricular?"}
+                    </DialogTitle>
+                    <DialogActions>
+                      <Button onClick={handleClose}  >Cancelar</Button>
+                      <Button onClick={deletar}>Confirmar</Button>
+                    </DialogActions>
+                  </Dialog>    
+
+                  {pagina === 'atividade' && (
+                    <Button onClick={() => setPagina('home')}  variant="outlined" startIcon={<FcLeft />}>
+                    Voltar para curso
+                    </Button>
+                  )}
+                </div>
+              )}
+      
               <div className={styles.atividades} >
                 <h3> Atividades </h3>
                 {atividades.map((atividade) => (
                   <div key = {atividade.titulo} className={styles.tarefa}>
                   <p style={{fontWeight: 'bolder'}}> {atividade.titulo} </p>
                     <p> Entrega : {atividade.dataFim}  </p> 
-                    <Link className={styles.moreDetails} to={`/curso/${courseId}/${atividade.titulo}`}>Mais Detalhes</Link>
+                    <Button onClick={() => setPagina('atividade')}  variant="outlined" startIcon={<AiFillPlusSquare />} >
+                     Mais Detalhes
+                     </Button>
                     {perfil === 'aluno' && 
                       <img
                         src={atividade.imagem}  
@@ -296,7 +334,7 @@ function Curso() {
                         width={115}
                         height={115}
                       />
-                  }
+                    }
                   </div>
                 ))}
               </div>

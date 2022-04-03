@@ -20,16 +20,18 @@
         overflow: auto;
         height: auto;
         max-height : auto;
-  
-          h1 {
-            font-family: Inter, sans-serif;
-            font-weight: normal;
-            font-size: xx-large;
-            line-height: 2rem;
-            color: #2b463c;
-            padding-bottom: 20px;
-            text-align: center;
-          } 
+        
+        h1 {
+          margin-bottom: 1rem;
+         color: #131212; 
+         font-family: 'Droid serif', serif; 
+         font-size: 36px; 
+         font-weight: 400; 
+         font-style: italic; 
+         line-height: 44px; 
+         text-align: center; 
+          
+        }
 
         .titulo {
           font-weight: normal;
@@ -90,6 +92,7 @@
            .dados {
             text-align: start;
             align-content: flex-start;
+            margin-bottom: 1rem;
             padding: 0.4rem;
             border: 1px solid var(--gray-100);
             font-weight: normal;
@@ -121,64 +124,39 @@
               padding: 0.3rem;
               
 
-              .moreDetails{
+              Button{
                 display: inline-flex;
                 margin-top: 1rem;
-                border: 1px solid;
-                border-color: rgb(184, 184, 184);
-                padding: 0.2rem;
+                font-size: small;
+                text-transform: initial;
+                margin-bottom: 0.2rem;
+                border: 1px solid var(--gray-100);
+                padding: 0.3rem;
+                color: #111;
+
+                &:hover {
+                  color:  var(--blue-700);
+                }
               }
             }
-
           }
 
            .botoes{
-            background: rgb(255, 254, 254);
+           // background: rgb(255, 254, 254);
            // border: 1px solid var(--gray-100);
-            padding: 0.5rem;
-           // margin-bottom: 0.5rem;
-            width: 100%;
             
-            ul {
-              list-style: none;
-              // color: var(--blue-700);
-           //   
+            margin-bottom: 1rem;
 
-            li{
-                display: flex;
-                align-items: flex-start;
-                justify-content: space-evenly;
-                gap: 10px;
-                width: 100%;
-                text-align: center;
-                margin-bottom: 0.4rem;
-                padding: 0.5rem;
-                border: 1px solid var(--gray-300);
-                border-radius: 4px;
-                cursor: pointer;
-                transition: margin-bottom 0.1s ease-in-out;
+            Button{
+              font-size: medium;
+              text-transform: initial;
+              margin-bottom: 0.2rem;
+              width: 100%;
+              border: 1px solid var(--gray-100);
+              color: #111;
 
-                .botao{
-                  text-transform: initial;
-                  font-size: medium;
-                  font-weight: normal;
-                  color: #111;
-                  padding: 0%;
-                  margin: 0%;
-                  //background-color: #ecececd5;
-                 // border: 1px solid var(--gray-100);
- 
-
-                }
-                &:hover {
-                  margin-bottom: 0.8rem;
-                }
-      
-                &:first-child {
-                  position: relative;
-                  padding: 0;
-                  border: none;
-                }
+              &:hover {
+                color:  var(--blue-700);
               }
             }
           }

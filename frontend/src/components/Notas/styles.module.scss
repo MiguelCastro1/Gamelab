@@ -1,0 +1,22 @@
+
+    .feed {
+      
+      .mainContent {
+       // background: white;
+        border: 1px solid var(--gray-100);
+        border-radius: 4px;
+  
+        .areaGraphic {
+          padding: 1rem;
+          //width: 75%;
+  
+          h1 {
+            font-weight: normal;
+            font-size: 2rem;
+            line-height: 2rem;
+          }
+        }
+      }
+    }
+    
+  

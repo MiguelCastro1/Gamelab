@@ -359,6 +359,11 @@
   "resolved" "https://registry.npmjs.org/@emotion/weak-memoize/-/weak-memoize-0.2.5.tgz"
   "version" "0.2.5"
 
+"@fontsource/roboto@^4.5.5":
+  "integrity" "sha512-Pe1p+gAO6K0aLxBXlLoJRHVx352tVc/v/7DOnvM3t+FYXb+KUga9aCD1NpnDfd0kKnWXqrZyAXguyyFWDDuphw=="
+  "resolved" "https://registry.npmjs.org/@fontsource/roboto/-/roboto-4.5.5.tgz"
+  "version" "4.5.5"
+
 "@jridgewell/resolve-uri@^3.0.3":
   "integrity" "sha512-VPeQ7+wH0itvQxnG+lIzWgkysKIr3L9sslimFW55rHMdGu/qCQ5z5h9zq4gI8uBtqkpHhsF4Z/OwExufUCThew=="
   "resolved" "https://registry.npmjs.org/@jridgewell/resolve-uri/-/resolve-uri-3.0.5.tgz"

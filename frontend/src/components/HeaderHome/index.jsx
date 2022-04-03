@@ -13,16 +13,14 @@ function HeaderHome() {
   let { id, nome, perfil } = getToken() ? JSON.parse(getToken()) : null;
 
   useEffect(() => {
-    /*async function fetchImage() {
+    async function fetchImage() {
       let {
         data: { image },
       } = await api.get(`/usuarios/avatar/${id}`);
-*/
-      setImgUser(user_padrao);
+      setImgUser(image);
      
-     
-  //  }
-  //  fetchImage();
+    }
+    fetchImage();
   }, []);
 
   return (

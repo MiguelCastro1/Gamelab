@@ -29,13 +29,13 @@ function Curso() {
   const atividades = [
     {
       titulo: "Matematica Lógica",
-      descricao: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Incidunt maxime ullam ipsum architecto repudiandae laborum ",      dataFim: "15/04/22 as 21:00",
+      descricao: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Incidunt maxime ullam ipsum architecto repudiandae laborum. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Incidunt maxime ullam ipsum architecto repudiandae laborum",      
       imagem: 0,
       dataEntrega: "15/04/22 as 21:00",
     },
     {
       titulo: "Programação Lógica",
-      descricao: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Incidunt maxime ullam ipsum architecto repudiandae laborum ",      dataFim: "15/04/22 as 21:00",
+      descricao: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Incidunt maxime ullam ipsum architecto repudiandae laborum. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Incidunt maxime ullam ipsum architecto repudiandae laborum ",    
       dataEntrega: "15/04/22 as 21:00",
       imagem: 1,
     }
@@ -171,7 +171,7 @@ function Curso() {
               {pagina === 'home' && <Secoes secoes={secoes} nomeCurso={curso.nomeCurso} />}
               {pagina === 'participantes' && loaded && <Participantes Alunos={curso.Alunos}/>}
               {pagina === 'notas' && <Notas Alunos={curso.Alunos} />}
-              {pagina === 'atividade' && <Atividade atividade={atividades[0]} />}
+              {pagina === 'atividade' && <Atividade atividade={atividades[1]} monstros={monstros} />}
               {pagina === 'editar-dados' && <EditarDados curso={courseId} />}
               {pagina === 'editar-conteudo' && <EditarConteudo curso={curso} />}
               {pagina === 'criar-aviso' && <CriarAviso courseId={courseId} />}

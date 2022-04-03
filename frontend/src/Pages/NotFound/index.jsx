@@ -18,7 +18,7 @@ function NotFound(){
 	    <div className={styles.mouth}></div>
     </div>
 
-    <h1>Oops! Aconteceu alguma coisa errada!</h1>
+    <h1>Oops! Página não encontrada!</h1>
     <Link className={styles.btn} to='/home'> Home </Link>
         
     </div>

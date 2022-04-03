@@ -4,9 +4,10 @@ const Schema = mongoose.Schema;
 
 const noticeSchema = new Schema(
     {
-        userId: {
+        courseId: {
             type: Schema.Types.ObjectId,
-            ref: "User"
+            ref: "Course",
+            required: true
         },
         titulo: {
             type: String,

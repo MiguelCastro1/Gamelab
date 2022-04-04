@@ -92,7 +92,7 @@ exports.listAll = async (req, res) => {
 
 exports.uploadAvatar = async (req, res) => {
   let userId = req.params.id;
-  console.log(path.resolve(req.file));
+ // console.log(path.resolve(req.file));
 
   try {
     if (req.file) {

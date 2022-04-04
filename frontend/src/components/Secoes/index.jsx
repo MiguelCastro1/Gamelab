@@ -28,7 +28,7 @@ function Secoes({secoes, nomeCurso, courseId, ...props }) {
 
 
       <h1>  <SiGoogleclassroom size={25}/> {nomeCurso}  </h1> 
-      {secoes.length === 0 && <h3>  Nenhum Conteudo </h3>}
+      {secoes.length === 0 && <h4>  Nenhum Conteudo </h4>}
       {secoes.length === 0 && <img src={nada} width={500}
                         height={500}  />}
      

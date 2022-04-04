@@ -4,7 +4,7 @@ import {FcUpload, FcSportsMode} from "react-icons/fc";
 import styles from "./styles.module.scss";
 import { useState } from "react";
 import DialogContentText from '@mui/material/DialogContentText';
-import comemoracao from "/home/natalia/Documentos/Gamelab/frontend/src/assets/brazil.gif";
+import comemoracao from "../../assets/brazil.gif";
 import {Button} from "@mui/material";
 import cool from "../../assets/cool.gif"
 import awesome from "../../assets/awesome.gif"

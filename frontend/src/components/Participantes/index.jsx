@@ -22,7 +22,7 @@ function Participantes({Alunos, ...props}) {
           <Link key={aluno.userId._id} to={`/perfil/${aluno.userId._id}`}>
           <div  className={styles.aluno}>
             <img 
-              src={`http://localhost:5000/public/avatar/${imgUser}`}  
+              src={`http://localhost:5000/public/avatar/${aluno.userId.imageAvatar}`}  
               alt="Perfil"
               width={50}
               height={50}

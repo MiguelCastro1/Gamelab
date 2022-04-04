@@ -29,16 +29,16 @@ function Curso() {
   const atividades = [
     {
       id: '1',
-      titulo: "Matematica Lógica",
+      titulo: "Atividade 01 - Vetores",
       descricao: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Incidunt maxime ullam ipsum architecto repudiandae laborum. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Incidunt maxime ullam ipsum architecto repudiandae laborum",      
       imagem: 0,
-      dataEntrega: "15/04/22 as 21:00",
-    },
+      dataEntrega: "05/04/2022 as 23 horas",
+    },  
     {
       id: '2',
-      titulo: "Programação Lógica",
+      titulo: "Atividade 02 - Vetores",
       descricao: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Incidunt maxime ullam ipsum architecto repudiandae laborum. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Incidunt maxime ullam ipsum architecto repudiandae laborum ",    
-      dataEntrega: "15/04/22 as 21:00",
+      dataEntrega: "05/04/2022 as 23 horas",
       imagem: 2,
     }
   ]
@@ -175,7 +175,7 @@ function Curso() {
               {loaded &&  pagina === 'notas' && <Notas Alunos={curso.Alunos} />}
               {loaded &&  pagina === 'editar-dados' && <EditarDados curso={courseId} />}
               {loaded &&  pagina === 'editar-conteudo' && <EditarConteudo curso={curso} />}
-              {loaded &&  pagina === 'criar-aviso' && <CriarAviso courseId={courseId} />}
+              {loaded &&  pagina === 'criar-aviso' && <CriarAviso courseId={courseId} Alunos={curso.Alunos} />}
            </div>
               
             <div className={styles.sideBarRight}>
@@ -321,7 +321,7 @@ function Curso() {
                 {atividades.map((atividade) => (
                   <div key = {atividade.titulo} className={styles.tarefa}>
                   <p style={{fontWeight: 'bolder'}}> {atividade.titulo} </p>
-                    <p> Entrega : {atividade.dataFim}  </p> 
+                    <p> Entrega : {atividade.dataEntrega}  </p> 
                     <Button onClick={() => navigate(`/curso/${courseId}/${atividade.id}`)}  variant="outlined" startIcon={<AiFillPlusSquare />} >
                      Mais Detalhes
                      </Button>

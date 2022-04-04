@@ -72,7 +72,7 @@ function Perfil() {
     async function fetchImage() {
       let {
         data: { image },
-      } = await api.get(`/usuarios/avatar/${id}`);
+      } = await api.get(`/usuarios/avatar/${userId}`);
       setImgUser(`http://localhost:5000/public/avatar/${image}`);
       setProfileImage(`http://localhost:5000/public/avatar/${image}`);
     }

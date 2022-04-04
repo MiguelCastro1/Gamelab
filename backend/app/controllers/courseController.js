@@ -20,7 +20,7 @@ exports.getCourse = async (req, res) => {
   try {
     let courseId = req.params.courseId;
     let fields1 = 'nome _id';
-    let fields2 = 'nome _id email';
+    let fields2 = 'nome _id email imageAvatar';
     let doc = await Course.findById(courseId)
       .populate( "autorId", fields1)
       .populate( "Alunos.userId", fields2);

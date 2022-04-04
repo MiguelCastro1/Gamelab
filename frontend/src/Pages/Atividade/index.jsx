@@ -20,17 +20,17 @@ function Atividade() {
   const monstros =  [monster, ghost, orc_gordo];
   const atividades = [
     {
-      id: '0',
-      titulo: "Matematica Lógica",
+      id: '1',
+      titulo: "Atividade 01 - Vetores",
       descricao: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Incidunt maxime ullam ipsum architecto repudiandae laborum. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Incidunt maxime ullam ipsum architecto repudiandae laborum",      
       imagem: 0,
-      dataEntrega: "15/04/22 as 21:00",
-    },
+      dataEntrega: "05/04/2022 as 23 horas",
+    },  
     {
-      id: '1',
-      titulo: "Programação Lógica",
+      id: '2',
+      titulo: "Atividade 02 - Vetores",
       descricao: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Incidunt maxime ullam ipsum architecto repudiandae laborum. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Incidunt maxime ullam ipsum architecto repudiandae laborum ",    
-      dataEntrega: "15/04/22 as 21:00",
+      dataEntrega: "05/04/2022 as 23 horas",
       imagem: 2,
     }
   ]

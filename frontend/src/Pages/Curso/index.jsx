@@ -5,7 +5,6 @@ import styles from "./styles.module.scss";
 import api from "../../services/axios";
 import Secoes from "../../components/Secoes";
 import Participantes from "../../components/Participantes";
-import Atividade from "../../components/Atividade";
 import Notas from "../../components/Notas";
 import EditarDados from "../../components/EditarDados";
 import EditarConteudo from "../../components/EditarConteudo";
@@ -15,29 +14,32 @@ import monster from "../../assets/guerreiro-morto.gif";
 import ghost from "../../assets/ghost.gif";
 import {AiFillPlusSquare} from "react-icons/ai";
 import { BsKanban} from "react-icons/bs";
-import {SiGoogleclassroom} from "react-icons/si";
 import {VscBellDot} from 'react-icons/vsc'
 import {FcHome, FcAreaChart, FcConferenceCall, FcDislike, FcApproval, FcSupport, FcEditImage, FcAdvertising, FcLeft } from "react-icons/fc";
 import {toast} from 'react-toastify';
 import {Button, Dialog, DialogActions, DialogTitle} from '@mui/material';
 import ShowMoreText from "react-show-more-text";
+import orc_gordo from "../../assets/orc_gordo.gif";
+
 
 
 
 function Curso() {
-  const monstros =  [monster,ghost];
+  const monstros =  [monster, ghost, orc_gordo];
   const atividades = [
     {
-      titulo: "Matematica Lógica",
+      id: '1',
+      titulo: "Atividade 01 - Vetores",
       descricao: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Incidunt maxime ullam ipsum architecto repudiandae laborum. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Incidunt maxime ullam ipsum architecto repudiandae laborum",      
       imagem: 0,
-      dataEntrega: "15/04/22 as 21:00",
-    },
+      dataEntrega: "05/04/2022 as 23 horas",
+    },  
     {
-      titulo: "Programação Lógica",
+      id: '2',
+      titulo: "Atividade 02 - Vetores",
       descricao: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Incidunt maxime ullam ipsum architecto repudiandae laborum. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Incidunt maxime ullam ipsum architecto repudiandae laborum ",    
-      dataEntrega: "15/04/22 as 21:00",
-      imagem: 1,
+      dataEntrega: "05/04/2022 as 23 horas",
+      imagem: 2,
     }
   ]
 
@@ -168,15 +170,14 @@ function Curso() {
           </div>
           
           <div className={styles.feed}>
-              {pagina === 'home' && <Secoes secoes={secoes} nomeCurso={curso.nomeCurso} />}
-              {pagina === 'participantes' && loaded && <Participantes Alunos={curso.Alunos}/>}
-              {pagina === 'notas' && <Notas Alunos={curso.Alunos} />}
-              {pagina === 'atividade' && <Atividade atividade={atividades[1]} monstros={monstros} />}
-              {pagina === 'editar-dados' && <EditarDados curso={courseId} />}
-              {pagina === 'editar-conteudo' && <EditarConteudo curso={curso} />}
-              {pagina === 'criar-aviso' && <CriarAviso courseId={courseId} />}
+              {loaded &&  pagina === 'home' && <Secoes secoes={curso.secoes} nomeCurso={curso.nomeCurso} courseId={courseId} />}
+              {loaded &&  pagina === 'participantes' && loaded && <Participantes Alunos={curso.Alunos}/>}
+              {loaded &&  pagina === 'notas' && <Notas Alunos={curso.Alunos} />}
+              {loaded &&  pagina === 'editar-dados' && <EditarDados curso={courseId} />}
+              {loaded &&  pagina === 'editar-conteudo' && <EditarConteudo curso={curso} />}
+              {loaded &&  pagina === 'criar-aviso' && <CriarAviso courseId={courseId} Alunos={curso.Alunos} />}
            </div>
-          
+              
             <div className={styles.sideBarRight}>
             <div className={styles.formating} >
               <div className={styles.dados}> 
@@ -188,7 +189,7 @@ function Curso() {
                     more="Ver mais"
                     less="Ver menos"
                     className="content-css"
-                    width={320}
+                    width={350}
                   >
                   {loaded ? curso.descricao : '' } 
                   </ShowMoreText>
@@ -320,8 +321,8 @@ function Curso() {
                 {atividades.map((atividade) => (
                   <div key = {atividade.titulo} className={styles.tarefa}>
                   <p style={{fontWeight: 'bolder'}}> {atividade.titulo} </p>
-                    <p> Entrega : {atividade.dataFim}  </p> 
-                    <Button onClick={() => setPagina('atividade')}  variant="outlined" startIcon={<AiFillPlusSquare />} >
+                    <p> Entrega : {atividade.dataEntrega}  </p> 
+                    <Button onClick={() => navigate(`/curso/${courseId}/${atividade.id}`)}  variant="outlined" startIcon={<AiFillPlusSquare />} >
                      Mais Detalhes
                      </Button>
                     {perfil === 'aluno' && 

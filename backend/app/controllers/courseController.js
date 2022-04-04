@@ -19,10 +19,11 @@ exports.createCourse = async (req, res) => {
 exports.getCourse = async (req, res) => {
   try {
     let courseId = req.params.courseId;
-    let fields = 'nome _id';
+    let fields1 = 'nome _id';
+    let fields2 = 'nome _id email imageAvatar';
     let doc = await Course.findById(courseId)
-      .populate( "autorId", fields)
-      .populate( "Alunos.userId", fields);
+      .populate( "autorId", fields1)
+      .populate( "Alunos.userId", fields2);
     res.status(200).json({ doc });
   } catch (error) {
     console.error(error);

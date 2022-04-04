@@ -16,6 +16,7 @@ import Curso from "./Pages/Curso";
 import Perfil from "./Pages/Perfil";
 import NotFound from "./Pages/NotFound";
 import ResetarSenha from "./Pages/ResetarSenha";
+import Atividade from "./Pages/Atividade";
 
 import { isAuthenticated } from "./services/auth";
 
@@ -37,6 +38,7 @@ export default function Rotas() {
         <Route path="*" element={<NotFound />} />
 
         <Route element={<RotasPrivadas />}>
+          <Route path="/curso/:courseId/:atividadeId" element={<Atividade />} />
           <Route path="/curso/:courseId" element={<Curso />} />
           <Route path="/perfil/:userId" element={<Perfil />} />
           <Route path="/:url" element={<Home />} />

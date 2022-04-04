@@ -117,7 +117,7 @@ exports.getImageAvatar = async (req, res) => {
   try {
     let userId = req.params.id;
     const { imageAvatar } = await User.findOne({ _id: userId });
-    console.log(path.resolve(imageAvatar));
+   // console.log(path.resolve(imageAvatar));
     res.json({ image: imageAvatar });
   } catch (error) {
     console.error(error);

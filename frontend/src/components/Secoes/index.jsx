@@ -8,16 +8,17 @@ import {FcLink} from "react-icons/fc";
 import {FcInspection} from "react-icons/fc";
 import {FcFile} from "react-icons/fc";
 
-function Secoes({secoes, nomeCurso, ...props }) {
+function Secoes({secoes, nomeCurso, courseId, ...props }) {
   const navigate = useNavigate()
 
   const acao = (conteudo) => {
     if(conteudo.tipo === 'pdf'){
-      console.log(conteudo.tipo)
+      window.open(conteudo.uri)
     }else if(conteudo.tipo === 'link'){
-      console.log(conteudo.tipo)
-    }else if(conteudo.tipo === 'atividade'){
-      console.log(conteudo.tipo)
+      window.open(conteudo.uri)
+    }else {
+      console.log('inin')
+      navigate(`/curso/${courseId}/${conteudo._id}  `) 
     }
   }
   
@@ -28,9 +29,9 @@ function Secoes({secoes, nomeCurso, ...props }) {
       {secoes.map((secao) => (
       <div className={styles.secao}>
         <h2>{secao.titulo}</h2>
-        <div className={styles.conteudo}>
+        <div className={styles.conteudo} >
           {secao.conteudos.map((conteudo) => (
-            <div className={styles.conteudoInfo} >
+            <div className={styles.conteudoInfo} onClick={()=> acao(conteudo)}>
               {conteudo.tipo == 'pdf' ?   
                 <FcFile size={25} /> :
               conteudo.tipo == 'link' ?

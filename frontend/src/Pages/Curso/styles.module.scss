@@ -64,19 +64,22 @@
        // background:  linear-gradient( rgb(0, 195, 255) 50px, green 50px, green 100px, yellow 100px, yellow 150px, blue 150px);
         border: 1px;
         display: flex;
-        background: white;
-        flex-direction: column;
-        align-items: center;
+        background: #e4e6f7;
         position: sticky;
         top: 70px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+       // max-height: 87vh;
        // z-index: -1;
 
   
         .formating {
           width: 100%;
-          padding: 0.5rem;
+        //  padding: 0.5rem;
           border: 1px solid var(--gray-100);
           border-radius: 4px;
+      
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -90,6 +93,7 @@
           }
 
            .dados {
+            background: white;
             text-align: start;
             align-content: flex-start;
             margin-bottom: 1rem;
@@ -106,7 +110,7 @@
            }
 
             .atividades {
-             
+              background: white;
            // border: 1px solid var(--gray-100);
             padding: 0.5rem;
             margin-bottom: 0.5rem;
@@ -142,12 +146,14 @@
           }
 
            .botoes{
-           // background: rgb(255, 254, 254);
+            background: white;
+         
            // border: 1px solid var(--gray-100);
             
             margin-bottom: 1rem;
 
             Button{
+              
               font-size: medium;
               text-transform: initial;
               margin-bottom: 0.2rem;

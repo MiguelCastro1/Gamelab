@@ -2,7 +2,18 @@ import { Link } from "react-router-dom";
 import userPhoto from "../../assets/user_padrao.png"
 import styles from "./styles.module.scss";
 import {FcConferenceCall} from 'react-icons/fc'
+import { useEffect, useState } from "react";
+import api from "../../services/axios";
+import { setNestedObjectValues } from "formik";
+
+
+
 function Participantes({Alunos, ...props}) {
+  const [imgUser, setImgUser] = useState({});
+
+  
+
+
   return (
 
       <div className={styles.feed}>
@@ -11,7 +22,7 @@ function Participantes({Alunos, ...props}) {
           <Link key={aluno.userId._id} to={`/perfil/${aluno.userId._id}`}>
           <div  className={styles.aluno}>
             <img 
-              src={userPhoto}  
+              src={`http://localhost:5000/public/avatar/${imgUser}`}  
               alt="Perfil"
               width={50}
               height={50}

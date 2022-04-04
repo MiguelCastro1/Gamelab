@@ -3,7 +3,10 @@ const { parseJwt } = require("../middlewares/decodedToken");
 const Notice = mongoose.model("Notice");
 const Course = mongoose.model("Course");
 
+
+
 exports.createNotice = async (req, res) => {
+    console.log("entrou")
     try {
         let document = await Notice.create({
             titulo: req.body.titulo,

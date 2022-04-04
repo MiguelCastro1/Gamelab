@@ -49,14 +49,12 @@
         border-left: 2px solid var(--purple-700);
       }
 
-      div {
-        text-align: end;
-      }
-
       a {
-        margin-top: 0.5rem;
+        margin-top: 1.3rem;
         font-size: 0.8rem;
+        margin-left: auto;
         color: blue;
+        display: inline-block;
 
         &:hover {
           text-decoration: underline;

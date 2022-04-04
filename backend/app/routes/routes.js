@@ -40,6 +40,10 @@ router.patch(
 );
 router.get("/usuarios/avatar/:id", Usuario.getImageAvatar);
 
+//Recuperar senha
+router.post("/envioemail", Usuario.sendmail);
+router.patch("/resetarsenha", Usuario.resetSenha);
+
 router.get("/script", Usuario.scriptUpdate);
 
 //Cursos

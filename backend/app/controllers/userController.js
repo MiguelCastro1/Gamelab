@@ -5,6 +5,7 @@ const { encrypt, compare } = require("../helpers/bcrypt");
 const jwt = require("jsonwebtoken");
 const path = require("path");
 const fs = require("fs");
+const nodemailer = require("nodemailer");
 
 exports.createUser = async (req, res) => {
   let entrada = {
@@ -91,6 +92,7 @@ exports.listAll = async (req, res) => {
 
 exports.uploadAvatar = async (req, res) => {
   let userId = req.params.id;
+  console.log(path.resolve(req.file));
 
   try {
     if (req.file) {
@@ -138,5 +140,144 @@ exports.scriptUpdate = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Erro ao executar script" });
+  }
+};
+
+exports.sendmail = async (req, res) => {
+  try {
+    let user = await User.findOne({ email: req.body.email });
+    if (user) {
+      let payload = {
+        id: user._id,
+        nome: user.nome,
+        email: user.email,
+      };
+
+      let token = jwt.sign(payload, process.env.SECRET_KEY);
+
+      await User.findOneAndUpdate(
+        { email: req.body.email },
+        { tokenRecuperarSenha: token }
+      );
+
+      const transporter = nodemailer.createTransport({
+        host: process.env.EMAIL_HOST,
+        port: process.env.EMAIL_PORT,
+        secure: false,
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASS,
+        },
+      });
+
+      transporter
+        .sendMail({
+          from: process.env.EMAIL_USER,
+          to: req.body.email,
+          subject: "Recuperação de senha - GameLab",
+          html: `<html lang="pt-br">
+        <head>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Document</title>
+            <style>
+                * {
+                    margin: 0;
+                    padding: 0;
+                    box-sizing: border-box;
+                }
+                p {
+                    color: #000;
+                }
+        
+                header {
+                    padding: 2rem 4rem;
+                    background: #00a7af
+                }
+        
+                .image {
+                   text-align: center;
+                }
+        
+                header img {
+                    width: 160px;
+                }
+    
+                h1 {
+                  font-size: 4rem;
+                  font-weight: 700;
+                  color: #363795
+                }
+        
+                h2 {
+                    padding: 10px 0 0 0;
+                    color: #fff;
+                    font-family: sans-serif;
+                    text-align: center;
+                }       
+                
+                .container p {
+                    padding-bottom: 10px;
+                }
+                .paragrafo {
+                    padding-bottom: 15px;
+                }
+                
+            </style>
+        
+        
+        </head>
+        <body>
+            <div class="container">
+                <h1>GameLab</h1>
+                <p>Caro(a) ${user.nome}</p>
+                <p class="paragrafo">
+                    Este é um email para a recuperação de senha.<br></br>
+                </p>
+                Acesse o link: <a href="http://localhost:3000/resetarsenha?_token=${token}">Recuperar senha</a>
+                <p>
+                    <br></br>
+                    Messagem automática, favor não responder este e-mail
+                </p>
+                
+            </div>
+        </body>
+        </html>`,
+        })
+        .then((info) => res.send(info))
+        .catch((err) => res.send(err));
+    } else {
+      res.status(500).json({ message: "Email não encontrado" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Email não encontrado" });
+  }
+};
+
+exports.resetSenha = async (req, res) => {
+  let { novasenha, token } = req.body;
+  console.log(req.body);
+
+  try {
+    let user = await User.findOne({ tokenRecuperarSenha: token });
+    console.log(user);
+    if (user) {
+      await User.findOneAndUpdate(
+        { tokenRecuperarSenha: token },
+        { senha: encrypt(novasenha) }
+      );
+      await User.findOneAndUpdate(
+        { tokenRecuperarSenha: token },
+        { tokenRecuperarSenha: "" }
+      );
+
+      res.json({ message: "Senha alterada com sucesso" });
+    } else {
+      res.status(401).json({ message: "Link expirado" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Link expirado" });
   }
 };

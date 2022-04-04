@@ -10,7 +10,17 @@
   margin-bottom: 0.8rem;
   //cursor: pointer;
   font-size: small;
-
+  h3{
+    margin-top: 3rem;
+  text-align: center;
+    width: 100%;
+    height: auto;
+    margin-bottom: 0px;
+  }
+  img{
+    width: 100%;
+    height: auto;
+  }
   .secao{
     // background:  linear-gradient( rgb(0, 195, 255) 50px, green 50px, green 100px, yellow 100px, yellow 150px, blue 150px);
      display: flex;

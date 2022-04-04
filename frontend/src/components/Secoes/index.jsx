@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import {FcLink} from "react-icons/fc";
 import {FcInspection} from "react-icons/fc";
 import {FcFile} from "react-icons/fc";
-
+import nada from '../../assets/passado.webp'
 function Secoes({secoes, nomeCurso, courseId, ...props }) {
   const navigate = useNavigate()
 
@@ -25,7 +25,13 @@ function Secoes({secoes, nomeCurso, courseId, ...props }) {
   return (
 
     <div className={styles.container}>
+
+
       <h1>  <SiGoogleclassroom size={25}/> {nomeCurso}  </h1> 
+      {secoes.length === 0 && <h3>  Nenhum Conteudo </h3>}
+      {secoes.length === 0 && <img src={nada} width={500}
+                        height={500}  />}
+     
       {secoes.map((secao) => (
       <div className={styles.secao}>
         <h2>{secao.titulo}</h2>

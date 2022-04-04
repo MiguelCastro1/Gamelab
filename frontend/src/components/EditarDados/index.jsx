@@ -89,7 +89,7 @@ function EditarDados({courseId, ...props}) {
               async function fetchItemsDetails() {
                 const { data } = await api.get(`cursos/${courseId}`);
                 fields.forEach((field) => {
-                  setFieldValue(field, data.doc[field], false);
+                  setFieldValue(field, data.data.doc[field], false);
                 });
               }
               fetchItemsDetails();

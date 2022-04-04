@@ -4,48 +4,100 @@
   flex-direction: column;
   align-items: initial;
   
-  .titulo{
-    display: inline-flex;
-    align-items: center;
-    margin-left: 3rem;
-    
-    h1{
+    .titulo{
+      display: inline-flex;
+      align-items: center;
+      margin-left: 3rem;
       
+      h1{
+        
       margin-left: 2rem;
-     text-align: center;
-     align-items: center;
-    }
-  }
-
+      text-align: initial;
+      align-items: center;
+      }
+    } 
       .descricao{
-        margin-top: 0.5rem;
-        div{
+      //  margin-top: 0.5rem;
         border: 1px solid var(--gray-100);
         margin-bottom: 0.5rem;
         border-radius: 4px;
+        min-height: 20vh;
         padding: 1rem;
-        text-align: center;
-
-          h2{
+        text-align: initial;
+          
+        h2{
             color: var(--blue-700);
             font-weight: normal;
             margin-bottom: 0.5rem;
-            text-align: center;
+            text-align: initial;
             font-size: large;
-          }
+        
+      }
+    }
+
+    .dados{
+      display: flex;
+
+      div{
+      //  margin-top: 0.5rem;
+      border: 1px solid var(--gray-100);
+      width: 100%;
+      margin-bottom: 0.4rem;
+      border-radius: 4px;
+      padding: 0.7rem;
+      text-align: initial;
+      align-items: center;
+
+      Button{
+          margin-left: 1rem;
+
+          background-color: white;
+      }
+          
+        h2{
+            color: var(--blue-700);
+            font-weight: normal;
+            margin-bottom: 0.5rem;
+            text-align: initial;
+            font-size: large;
         }
       }
+    }
+    .dados{
+      border: 1px solid white;
+             
+    }
+      Button{
+        display: inline-flex;
+        font-size: medium;
+        text-transform: initial;
+        margin-bottom: 0.2rem;
+        border: 1px solid var(--gray-100);
+        color: #111;
 
-      .anexo{
-
-      }
-
-        .enviar{
-          align-self: center;
-          margin-top: 3rem;
-         
+        &:hover {
+          color:  var(--blue-700);
+        }
       }
       
+
+      .enviar{
+       margin-top: 0.5rem;
+        align-self: center;
+        
+        Button{
+          margin-left: 1rem;
+          padding: 0.5rem;
+          font-size: large;
+          align-items: center;
+          color: rgb(22, 22, 22);
+          background-color: #90EE90;
+          
+        &:hover {
+          color:  var(--blue-700);
+        }
+      }
+    }
       &::-webkit-scrollbar {
         width: 7px;
       }

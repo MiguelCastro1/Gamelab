@@ -21,11 +21,10 @@ import {FcHome, FcAreaChart, FcConferenceCall, FcDislike, FcApproval, FcSupport,
 import {toast} from 'react-toastify';
 import {Button, Dialog, DialogActions, DialogTitle} from '@mui/material';
 import ShowMoreText from "react-show-more-text";
-
-
+import orc_gordo from "../../assets/orc_gordo.gif";
 
 function Curso() {
-  const monstros =  [monster,ghost];
+  const monstros =  [monster, ghost, orc_gordo];
   const atividades = [
     {
       titulo: "Matematica Lógica",
@@ -37,7 +36,7 @@ function Curso() {
       titulo: "Programação Lógica",
       descricao: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Incidunt maxime ullam ipsum architecto repudiandae laborum. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Incidunt maxime ullam ipsum architecto repudiandae laborum ",    
       dataEntrega: "15/04/22 as 21:00",
-      imagem: 1,
+      imagem: 2,
     }
   ]
 
@@ -171,12 +170,12 @@ function Curso() {
               {pagina === 'home' && <Secoes secoes={secoes} nomeCurso={curso.nomeCurso} />}
               {pagina === 'participantes' && loaded && <Participantes Alunos={curso.Alunos}/>}
               {pagina === 'notas' && <Notas Alunos={curso.Alunos} />}
-              {pagina === 'atividade' && <Atividade atividade={atividades[1]} monstros={monstros} />}
+              {pagina === 'atividade' && <Atividade atividade={atividades[0]} monstros={monstros} />}
               {pagina === 'editar-dados' && <EditarDados curso={courseId} />}
               {pagina === 'editar-conteudo' && <EditarConteudo curso={curso} />}
               {pagina === 'criar-aviso' && <CriarAviso courseId={courseId} />}
            </div>
-          
+              
             <div className={styles.sideBarRight}>
             <div className={styles.formating} >
               <div className={styles.dados}> 
@@ -188,7 +187,7 @@ function Curso() {
                     more="Ver mais"
                     less="Ver menos"
                     className="content-css"
-                    width={320}
+                    width={350}
                   >
                   {loaded ? curso.descricao : '' } 
                   </ShowMoreText>

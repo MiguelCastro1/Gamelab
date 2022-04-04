@@ -39,6 +39,7 @@ export default function Rotas() {
         <Route element={<RotasPrivadas />}>
           <Route path="/curso/:courseId" element={<Curso />} />
           <Route path="/perfil/:userId" element={<Perfil />} />
+
           <Route path="/:url" element={<Home />} />
          
         </Route>

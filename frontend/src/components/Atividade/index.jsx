@@ -4,7 +4,7 @@ import {FcUpload, FcSportsMode} from "react-icons/fc";
 import styles from "./styles.module.scss";
 import { useState } from "react";
 import DialogContentText from '@mui/material/DialogContentText';
-import comemoracao from "../../assets/brazil.gif";
+import comemoracao from "../../assets/comemora.gif";
 import {Button} from "@mui/material";
 import cool from "../../assets/cool.gif"
 import awesome from "../../assets/awesome.gif"
@@ -16,6 +16,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 function Atividade({atividade,monstros, ...props}) {
   const [open, setOpen] = useState(false);
 
+  
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -85,19 +86,20 @@ function Atividade({atividade,monstros, ...props}) {
        <Button  variant="outlined" onClick={handleClickOpen}>
            Enviar Atividade
         </Button>
-        <Dialog open={open} onClose={handleClose} aria-labelledby="alert-dialog-title">
-              <DialogTitle id="alert-dialog-title">
-                {"Você entregou a atividade!"}
+        <Dialog open={open} onClose={handleClose} aria-labelledby="alert-dialog-title" className="Dialog">
+              <DialogTitle id="alert-dialog-title" fontSize={16} textAlign={'center'} >
+              <p >Você entregou a atividade!</p>
               </DialogTitle>
-              <DialogContentText id="alert-dialog-description" className="alert-dialog-description">
+              <DialogContentText variant="outlined" id="alert-dialog-description"  textAlign={'center'} >
                 <img className="imagem"
-                src={comemoracao}  
-                alt="comemoração"  
-                width={115}
-                height={115}
-                >
-                </img>
+                  src={comemoracao}  
+                  alt="comemoração"  
+                  width={115}
+                  height={115}
+                  >
+                  </img>
               </DialogContentText>
+  
               <DialogActions>
                 <Button onClick={handleClose}>Confirmar</Button>
               </DialogActions>

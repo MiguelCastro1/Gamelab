@@ -88,6 +88,7 @@
        margin-top: 0.5rem;
         align-self: center;
         
+        
         Button{
           margin-left: 1rem;
           padding: 0.5rem;
@@ -95,7 +96,15 @@
           align-items: center;
           color: rgb(22, 22, 22);
           background-color: #90EE90;
+        }
+        p{
+          border: 20px;
+        }
+        img{
+          border: 20px;
+        }
         
+       
         .imagem{
           align-items: center;
           padding-top: 100px;
@@ -107,7 +116,7 @@
         &:hover {
           color:  var(--blue-700);
         }
-      }
+      
 
   
     }

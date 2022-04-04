@@ -1,14 +1,8 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import HeaderHome from "../../components/HeaderHome";
 import styles from "./styles.module.scss";
 import api from "../../services/axios";
-import Secoes from "../../components/Secoes";
-import Participantes from "../../components/Participantes";
-import Notas from "../../components/Notas";
-import EditarDados from "../../components/EditarDados";
-import EditarConteudo from "../../components/EditarConteudo";
-import CriarAviso from "../../components/CriarAviso";
 import {getToken} from "../../services/auth";
 import monster from "../../assets/guerreiro-morto.gif";
 import ghost from "../../assets/ghost.gif";
@@ -20,22 +14,20 @@ import {toast} from 'react-toastify';
 import {Button, Dialog, DialogActions, DialogTitle} from '@mui/material';
 import ShowMoreText from "react-show-more-text";
 import orc_gordo from "../../assets/orc_gordo.gif";
+import AtividadeCurso from "../../components/AtividadeCurso";
 
-
-
-
-function Curso() {
+function Atividade() {
   const monstros =  [monster, ghost, orc_gordo];
   const atividades = [
     {
-      id: '1',
+      id: '0',
       titulo: "Matematica Lógica",
       descricao: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Incidunt maxime ullam ipsum architecto repudiandae laborum. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Incidunt maxime ullam ipsum architecto repudiandae laborum",      
       imagem: 0,
       dataEntrega: "15/04/22 as 21:00",
     },
     {
-      id: '2',
+      id: '1',
       titulo: "Programação Lógica",
       descricao: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Incidunt maxime ullam ipsum architecto repudiandae laborum. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Incidunt maxime ullam ipsum architecto repudiandae laborum ",    
       dataEntrega: "15/04/22 as 21:00",
@@ -84,7 +76,8 @@ function Curso() {
   const [pagina, setPagina] = useState('');
   const [loaded, setLoaded] = useState(false);
   const [open, setOpen] = useState(false);
-  const {courseId} = useParams();
+  const atividade = {};
+  const {courseId, atividadeId} = useParams();
   let {id, perfil } = getToken() ? JSON.parse(getToken()) : null;
   const navigate = useNavigate()
   
@@ -132,6 +125,7 @@ function Curso() {
     }
   }
   
+ 
   useEffect(() => {
     try {
       api.get(`/cursos/${courseId}`)
@@ -139,7 +133,7 @@ function Curso() {
         console.log(data.data.doc)
         setCurso(data.data.doc);
         setLoaded(true);
-        setPagina('home');
+        setPagina('atividade');
         console.log('done')
        })
       .catch(err => console.log(err))
@@ -170,12 +164,10 @@ function Curso() {
           </div>
           
           <div className={styles.feed}>
-              {loaded &&  pagina === 'home' && <Secoes secoes={curso.secoes} nomeCurso={curso.nomeCurso} courseId={courseId} />}
-              {loaded &&  pagina === 'participantes' && loaded && <Participantes Alunos={curso.Alunos}/>}
-              {loaded &&  pagina === 'notas' && <Notas Alunos={curso.Alunos} />}
-              {loaded &&  pagina === 'editar-dados' && <EditarDados curso={courseId} />}
-              {loaded &&  pagina === 'editar-conteudo' && <EditarConteudo curso={curso} />}
-              {loaded &&  pagina === 'criar-aviso' && <CriarAviso courseId={courseId} />}
+            {// loaded && console.log( (curso.secoes.map( (secao => (secao.conteudos.filter(conteudo => conteudo._id === atividadeId))))))
+            }
+              {loaded &&  <AtividadeCurso atividade={(curso.secoes.map( (secao => (secao.conteudos.filter(conteudo => conteudo._id === atividadeId)))))[1][0]} monstro={monstros[0]} />
+              }
            </div>
               
             <div className={styles.sideBarRight}>
@@ -187,7 +179,7 @@ function Curso() {
                   <ShowMoreText
                     lines={2}
                     more="Ver mais"
-                    less="Ver menos"
+                    less="Ver menos"z
                     className="content-css"
                     width={350}
                   >
@@ -234,7 +226,7 @@ function Curso() {
                   </Dialog>    
 
                   {pagina === 'atividade' && (
-                    <Button onClick={() => setPagina('home')}  variant="outlined" startIcon={<FcLeft />}>
+                    <Button onClick={() => navigate(`/curso/${courseId}`)} variant="outlined" startIcon={<FcLeft />}>
                     Voltar para curso
                     </Button>
                   )}
@@ -309,7 +301,7 @@ function Curso() {
                   </Dialog>    
 
                   {pagina === 'atividade' && (
-                    <Button onClick={() => setPagina('home')}  variant="outlined" startIcon={<FcLeft />}>
+                    <Button onClick={() => navigate(`/curso/${courseId}`)}  variant="outlined" startIcon={<FcLeft />}>
                     Voltar para curso
                     </Button>
                   )}
@@ -321,8 +313,8 @@ function Curso() {
                 {atividades.map((atividade) => (
                   <div key = {atividade.titulo} className={styles.tarefa}>
                   <p style={{fontWeight: 'bolder'}}> {atividade.titulo} </p>
-                    <p> Entrega : {atividade.dataFim}  </p> 
-                    <Button onClick={() => navigate(`/curso/${courseId}/${atividade.id}`)}  variant="outlined" startIcon={<AiFillPlusSquare />} >
+                    <p> Entrega : {atividade.dataEntrega}  </p> 
+                    <Button onClick={() => navigate(`/curso/${courseId}/${atividadeId}`)}  variant="outlined" startIcon={<AiFillPlusSquare />} >
                      Mais Detalhes
                      </Button>
                     {perfil === 'aluno' && 
@@ -344,4 +336,4 @@ function Curso() {
   );
 }
 
-export default Curso;
+export default Atividade;

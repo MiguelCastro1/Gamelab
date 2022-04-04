@@ -43,7 +43,7 @@ function CriarAviso({courseId, ...props}) {
         await api.post("/avisos", object);
         console.log('done')
         toast.success("Aviso criado com Sucesso")
-        navigate("/home");
+        window.location.reload();
       } catch (error) {
         toast.error("Algum erro ocorreu")
         console.log(error);

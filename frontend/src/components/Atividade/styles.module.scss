@@ -4,6 +4,8 @@
   flex-direction: column;
   align-items: initial;
   
+
+
     .titulo{
       display: inline-flex;
       align-items: center;
@@ -47,6 +49,7 @@
       padding: 0.7rem;
       text-align: initial;
       align-items: center;
+    
 
       Button{
           margin-left: 1rem;
@@ -79,7 +82,7 @@
           color:  var(--blue-700);
         }
       }
-      
+    
 
       .enviar{
        margin-top: 0.5rem;
@@ -92,11 +95,21 @@
           align-items: center;
           color: rgb(22, 22, 22);
           background-color: #90EE90;
+        
+        .imagem{
+          align-items: center;
+          padding-top: 100px;
+          color: rgb(22, 22, 22);
+          background-color: #90EE90;
+        }
+  
           
         &:hover {
           color:  var(--blue-700);
         }
       }
+
+  
     }
       &::-webkit-scrollbar {
         width: 7px;

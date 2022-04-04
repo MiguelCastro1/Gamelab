@@ -6,7 +6,7 @@ import {
   Outlet,
 } from "react-router-dom";
 
-import EmailEnviado from "./Pages/EmailEnviado";
+import EnviarEmail from "./Pages/EnviarEmail";
 import EscolherPerfil from "./Pages/EscolherPerfil";
 import FormCadastro from "./Pages/FormCadastro";
 import Home from "./Pages/Home";
@@ -15,8 +15,7 @@ import Sobre from "./Pages/Sobre";
 import Curso from "./Pages/Curso";
 import Perfil from "./Pages/Perfil";
 import NotFound from "./Pages/NotFound";
-
-
+import ResetarSenha from "./Pages/ResetarSenha";
 
 import { isAuthenticated } from "./services/auth";
 
@@ -32,15 +31,15 @@ export default function Rotas() {
         <Route path="/login" element={<Login />} />
         <Route path="/cadastrar" element={<EscolherPerfil />} />
         <Route path="/cadastrar-perfil" element={<FormCadastro />} />
-        <Route path="/email" element={<EmailEnviado />} />
+        <Route path="/email" element={<EnviarEmail />} />
         <Route path="/sobre" element={<Sobre />} />
-        <Route path="*" element={<NotFound/>} />
+        <Route path="/resetarsenha" element={<ResetarSenha />} />
+        <Route path="*" element={<NotFound />} />
 
         <Route element={<RotasPrivadas />}>
           <Route path="/curso/:courseId" element={<Curso />} />
           <Route path="/perfil/:userId" element={<Perfil />} />
           <Route path="/:url" element={<Home />} />
-         
         </Route>
       </Routes>
     </BrowserRouter>

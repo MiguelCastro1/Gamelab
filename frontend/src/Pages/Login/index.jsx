@@ -6,7 +6,7 @@ import Header from "../../components/Header";
 import gamelabLogin from "../../assets/image-gamelab.svg";
 import styles from "./styles.module.scss";
 import Input from "../../components/Input";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import api from "../../services/axios";
 import ErrorNotificationLogin from "../../components/ErrorNotificationLogin";
 
@@ -36,7 +36,7 @@ export default function Login() {
         email,
         token,
       };
-      console.log(dados)
+      console.log(dados);
       localStorage.setItem("gamelab", JSON.stringify(dados));
       navigate("/home");
     } catch (error) {
@@ -86,9 +86,11 @@ export default function Login() {
                     placeholder=" "
                     onChange={handleChange}
                   />
-                  <div>
-                    <a href="#">Esqueceu a senha?</a>
-                  </div>
+                  {/* <div className={styles.link}> */}
+                  <Link to="/email">
+                    <span>Esqueceu a senha?</span>
+                  </Link>
+                  {/* </div> */}
                   {/* <div>{erro && <div className={styles.erro}> Email ou senha incorretos </div>}</div> */}
                   <button type="submit">Entrar</button>
                 </Form>

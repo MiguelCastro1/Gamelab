@@ -16,13 +16,15 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
 
 
-function CriarAviso({courseId, ...props}) {
+function CriarAviso({courseId, Alunos, ...props}) {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const formSchema = Yup.object().shape({
     titulo: Yup.string().required("Campo obrigatório"),
     conteudo: Yup.string().required("Campo obrigatório"),
   });
+
+  
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -33,22 +35,31 @@ function CriarAviso({courseId, ...props}) {
   };
 
   const handleSubmit = async (values, actions) => {
-      let object = {
-        ...values,
-        courseId: courseId
-      };
-      console.log(object);
+    let emails = []
+    console.log(Alunos[1].userId.email)
+    console.log(Alunos.length)
+    for(let i = 0; i<Alunos.length;i++){
+      emails.push(Alunos[i].userId.email)
+    }
+
     
-      try {
-        await api.post("/avisos", object);
-        console.log('done')
-        toast.success("Aviso criado com Sucesso")
-        navigate("/home");
-      } catch (error) {
-        toast.error("Algum erro ocorreu")
-        console.log(error);
-      }
+    let object = {
+      ...values,
+      courseId: courseId,
+      emails: emails
     };
+    console.log(object)
+    
+    try {
+      await api.post("/avisos", object);
+      console.log('done')
+      toast.success("Aviso criado com Sucesso")
+      navigate("/home");
+    } catch (error) {
+      toast.error("Algum erro ocorreu")
+      console.log(error);
+    }
+  };
   return (
 
       <div className={styles.feed}>

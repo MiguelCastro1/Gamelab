@@ -173,7 +173,7 @@ function Curso() {
               {pagina === 'atividade' && <Atividade atividade={atividades[0]} monstros={monstros} />}
               {pagina === 'editar-dados' && <EditarDados curso={courseId} />}
               {pagina === 'editar-conteudo' && <EditarConteudo curso={curso} />}
-              {pagina === 'criar-aviso' && <CriarAviso courseId={courseId} />}
+              {pagina === 'criar-aviso' && <CriarAviso courseId={courseId} Alunos={curso.Alunos} />}
            </div>
               
             <div className={styles.sideBarRight}>

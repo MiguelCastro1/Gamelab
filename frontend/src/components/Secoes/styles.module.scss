@@ -4,48 +4,55 @@
   padding: 0.5rem;
   // box-shadow: var(--sombra);
   background: white;
-  
+
   border-radius: 4px;
   transition: margin-left 0.1s linear;
   margin-bottom: 0.8rem;
   //cursor: pointer;
   font-size: small;
-  h3{
-    margin-top: 3rem;
-  text-align: center;
+  h3 {
+    // margin-top: 3rem;
+    text-align: center;
     width: 100%;
     height: auto;
     margin-bottom: 0px;
   }
-  img{
+  img {
     width: 100%;
     height: auto;
   }
-  .secao{
+  .secao {
     // background:  linear-gradient( rgb(0, 195, 255) 50px, green 50px, green 100px, yellow 100px, yellow 150px, blue 150px);
-     display: flex;
-     align-items: center;
-     flex-direction: column;
-     border: 1px solid #87a8daa4;
-     border-radius: 4px;
-     margin-bottom: 1rem;
-     align-items: flex-start;
-     width: 100%;
-     padding: 1rem;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    border: 1px solid #87a8daa4;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    align-items: flex-start;
+    width: 100%;
+    padding: 1rem;
+    position: relative;
 
-         
-     h1 {
-      margin-bottom: 1rem;
-     color: #131212; 
-     font-family: 'Droid serif', serif; 
-     font-size: 36px; 
-     font-weight: 400; 
-     font-style: italic; 
-     line-height: 44px; 
-     text-align: center; 
-      
+    .iconEdit {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      font-size: 1.2rem;
+      color: var(--blue-700);
     }
-     
+
+    h1 {
+      margin-bottom: 1rem;
+      color: #131212;
+      font-family: "Droid serif", serif;
+      font-size: 36px;
+      font-weight: 400;
+      font-style: italic;
+      line-height: 44px;
+      text-align: center;
+    }
+
     h3 {
       color: black;
       font-weight: normal;
@@ -55,16 +62,16 @@
 
     h2 {
       color: var(--blue-700);
-      font-weight: normal;  
+      font-weight: normal;
       font-size: x-large;
       margin-bottom: 1rem;
     }
 
-    .conteudo{
-     // align-items: flex-start;
+    .conteudo {
+      // align-items: flex-start;
       text-align: start;
-     //background-color: rgb(123, 148, 194);
-      .conteudoInfo{
+      //background-color: rgb(123, 148, 194);
+      .conteudoInfo {
         display: flex;
         align-content: flex-start;
         padding: 0.5rem;
@@ -79,14 +86,13 @@
         &:hover {
           margin-bottom: 0.8rem;
         }
-        
       }
     }
   }
 
-//  &:hover {
-//    margin-left: 0.35rem;
-//  }
+  //  &:hover {
+  //    margin-left: 0.35rem;
+  //  }
 }
 
 @media (max-width: 1300px) {

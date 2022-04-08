@@ -12,7 +12,7 @@ import { FiEdit2 } from "react-icons/fi";
 
 function Secoes({ secoes, nomeCurso, courseId, ...props }) {
   const navigate = useNavigate();
-  const [isEdit, setEdit] = useState(true);
+  const [isEdit, setEdit] = useState(false);
   const [open, setOpen] = useState(false);
 
   const acao = (conteudo) => {

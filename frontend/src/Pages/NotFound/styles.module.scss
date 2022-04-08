@@ -1,5 +1,5 @@
 .container{
-$gb: #F2EEE8;
+$gb: #855000;
 $wh: #FFFFFF;
 $dark: #383A41;
 $red: #EB6D6D;
@@ -189,7 +189,7 @@ h1 {
   	}
 	
 	&:hover {
-		background-color: rgba($blue,0.8);
+	//	background-color: rgba($blue,0.8);
 		transition: all .2s linear;
 	}
 }

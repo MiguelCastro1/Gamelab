@@ -91,8 +91,8 @@ function Curso() {
 
   const [curso, setCurso] = useState({});
   const [pagina, setPagina] = useState("");
-  const [loaded, setLoaded] = useState(false);
   const [open, setOpen] = useState(false);
+  const [loaded, setLoaded] = useState(false);
   const [atividades, setAtividades] = useState([]);
   const {courseId} = useParams();
   let {id, perfil } = getToken() ? JSON.parse(getToken()) : null;
@@ -144,30 +144,29 @@ function Curso() {
     }
   };
 
-  const handleEdit = () => {};
-
-  useEffect(() => {
-    console.log('begin')
-    try {
-      api.get(`/cursos/${courseId}`)
-      .then((data) => {
-        console.log(data.data.doc)
-        setCurso(data.data.doc);
-        setLoaded(true);
-        setPagina('home');
-        setAtividades(curso.secoes.map((secao => (secao.conteudos.filter(conteudo => conteudo.tipo=== 'Atividade')))).filter(atividade => atividade.length > 0))
-        console.log(atividades)
-        console.log('done')
-       })
-      .catch(err => console.log(err))
-    }catch (error) {
-      console.log(error);
-    }
+  useEffect(() =>  {
+    const f = () => {
+      try {
+        api.get(`/cursos/${courseId}`)
+        .then((data) => {
+          setCurso(data.data.doc);
+          setPagina('home');
+          setLoaded(true);
+          setAtividades(curso.secoes.map((secao => (secao.conteudos.filter(conteudo => conteudo.tipo=== 'Atividade')))).filter(atividade => atividade.length > 0)[0]);
+          console.log('done')
+        })
+        .catch(err => console.log(err))
+      }catch (error) {
+        console.log(error);
+      }
+    };
+    f();
   }, []);
 
-  return (
+  return ( 
     <>
       <HeaderHome />
+    
       <div className={styles.container}>
         <div className={styles.content}>
           <div className={styles.sideBarLeft}>
@@ -199,24 +198,24 @@ function Curso() {
           </div>
 
           <div className={styles.feed}>
-            {loaded && pagina === "home" && (
+            {pagina === "home" && (
               <Secoes
                 secoes={curso.secoes}
                 nomeCurso={curso.nomeCurso}
                 courseId={courseId}
               />
             )}
-            {loaded && pagina === "participantes" && loaded && (
+            {pagina === "participantes" && (
               <Participantes Alunos={curso.Alunos} />
             )}
-            {loaded && pagina === "notas" && <Notas Alunos={curso.Alunos} />}
-            {loaded && pagina === "editar-dados" && (
+            {pagina === "notas" && <Notas Alunos={curso.Alunos} />}
+            {pagina === "editar-dados" && (
               <EditarDados curso={courseId} />
             )}
-            {loaded && pagina === "editar-conteudo" && (
+            {pagina === "editar-conteudo" && (
               <EditarConteudo curso={curso} />
             )}
-            {loaded && pagina === "criar-aviso" && (
+            {pagina === "criar-aviso" && (
               <CriarAviso courseId={courseId} Alunos={curso.Alunos} />
             )}
           </div>
@@ -227,7 +226,7 @@ function Curso() {
                 <h3> Dados da turma </h3>
                 <p>
                   <span className={styles.tit}> Professor: </span>{" "}
-                  {loaded ? curso.autorId.nome : ""}{" "}
+                  {loaded && curso.autorId.nome}{" "}
                 </p>
                 <p>
                   <span className={styles.tit}> Descrição: </span>
@@ -236,14 +235,14 @@ function Curso() {
                     more="Ver mais"
                     less="Ver menos"
                     className="content-css"
-                    width={350}
+                    width={400}
                   >
-                    {loaded ? curso.descricao : ""}
+                    {curso.descricao }
                   </ShowMoreText>
                 </p>
                 <p>
                   <span className={styles.tit}> Status: </span>{" "}
-                  {loaded ? "Ativo" : ""} <FcApproval size={20} />{" "}
+                  {"Ativo"} <FcApproval size={20} />{" "}
                 </p>
               </div>
 
@@ -445,7 +444,7 @@ function Curso() {
 
               <div className={styles.atividades}>
                 <h3> Atividades </h3>
-                {atividades &&  atividades[0].map((atividade) => (
+                {atividades.map((atividade) => (
                   <div key = {atividade.titulo} className={styles.tarefa}>
                   <p style={{fontWeight: 'bolder'}}> {atividade.titulo} </p>
                     <p> Entrega : {'-'}  </p> 
@@ -454,7 +453,7 @@ function Curso() {
                      </Button>
                     {perfil === 'aluno' && ( 
                       <img
-                        src={monstros[0]}  
+                        src={monstros[0]}   
                         alt="Monstro"  
                         width={115}
                         height={115}
@@ -467,8 +466,11 @@ function Curso() {
           </div>
         </div>
       </div>
+   
     </>
+    
   );
+  
 }
 
 export default Curso;

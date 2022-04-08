@@ -78,7 +78,7 @@ function EditarDados({courseId, ...props}) {
           {function ShowForm({ values, handleChange, setFieldValue }) {
             useEffect(() => {
               async function fetchItemsDetails() {
-                const { data } = await api.get(`cursos/${courseId}`);
+                const { data } = await api.get(`cursos/update/${courseId}`);
                 console.log(data)
                 fields.forEach((field) => {
                   setFieldValue(field, data.doc[field], false);

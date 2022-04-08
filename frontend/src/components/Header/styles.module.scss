@@ -5,15 +5,16 @@
   .content {
     width: min(90vw, 1120px);
     margin: 0 auto;
+    font-weight: bolder;
     height: 100%;
-
+    font-size: larger;
     display: flex;
     align-items: center;
     justify-content: flex-end;
     gap: 10px;
 
     a:first-child {
-      font-size: 0.85rem;
+     // font-size: 0.85rem;
       position: relative;
       transition: all 0.3s linear;
 
@@ -40,7 +41,7 @@
 
     button {
       padding: 0.5rem 0.75rem;
-      font-size: 0.85rem;
+    //  font-size: 0.85rem;
       background: transparent;
       border: 1px solid var(--purple-700);
       color: var(--blue-700);

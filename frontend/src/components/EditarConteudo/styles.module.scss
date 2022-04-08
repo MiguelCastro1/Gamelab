@@ -1,15 +1,105 @@
+.container {
+  //max-width: 96%;
+  border-radius: 4px;
+  padding: 0.5rem;
+  // box-shadow: var(--sombra);
+  background: white;
+  
+  border-radius: 4px;
+  transition: margin-left 0.1s linear;
+  margin-bottom: 0.8rem;
+  //cursor: pointer;
+  font-size: small;
+  h4{
+    margin-top: 3rem;
+  text-align: center;
+    width: 100%;
+    height: auto;
+    margin-bottom: 0px;
+  }
+  img{
+    width: 100%;
+    height: auto;
+  }
+  .secao{
+    // background:  linear-gradient( rgb(0, 195, 255) 50px, green 50px, green 100px, yellow 100px, yellow 150px, blue 150px);
+     display: flex;
+     align-items: center;
+     flex-direction: column;
+     border: 1px solid #87a8daa4;
+     border-radius: 4px;
+     margin-bottom: 1rem;
+     align-items: flex-start;
+     width: 100%;
+     padding: 1rem;
 
-    .feed {
+         
+     h1 {
+      margin-bottom: 1rem;
+     color: #131212; 
+     font-family: 'Droid serif', serif; 
+     font-size: 36px; 
+     font-weight: 400; 
+     font-style: italic; 
+     line-height: 44px; 
+     text-align: center; 
+      
+    }
+     
+    h3 {
+      color: black;
+      font-weight: normal;
+      font-size: large;
+      margin-left: 0.5rem;
+    }
 
+    h2 {
+      color: var(--blue-700);
+      font-weight: normal;  
+      font-size: x-large;
+      margin-bottom: 1rem;
+    }
 
-      &::-webkit-scrollbar {
-        width: 7px;
-      }
+    .conteudo{
+     // align-items: flex-start;
+      text-align: start;
+     //background-color: rgb(123, 148, 194);
+      .conteudoInfo{
+        display: flex;
+        align-content: flex-start;
+        padding: 0.5rem;
+        margin-bottom: 0.6rem;
+        //width: 580px;
+        //border: px solid var(--gray-300);
+        gap: 10px;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: margin-bottom 0.1s ease-in-out;
 
-      &::-webkit-scrollbar-thumb {
-        background-color: #ecebeb;
-        border-radius: 5px;
+        &:hover {
+          margin-bottom: 0.8rem;
+        }
+        
       }
     }
-    
-   
+  }
+
+//  &:hover {
+//    margin-left: 0.35rem;
+//  }
+}
+
+@media (max-width: 1300px) {
+  .container {
+    max-width: 100%;
+
+    &:hover {
+      margin-left: 0;
+      section {
+        h3 {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}

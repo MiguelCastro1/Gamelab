@@ -84,7 +84,7 @@ function Perfil() {
     setIsEdit(!isEdit);
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (values) => {
     try {
       await api.patch(`usuarios/${userId}`, values);
       setIsEdit(true);

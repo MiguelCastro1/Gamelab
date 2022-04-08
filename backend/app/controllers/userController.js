@@ -92,7 +92,11 @@ exports.listAll = async (req, res) => {
 
 exports.uploadAvatar = async (req, res) => {
   let userId = req.params.id;
+<<<<<<< HEAD
+  // console.log(path.resolve(req.file));
+=======
  // console.log(path.resolve(req.file));
+>>>>>>> 465b2e8bc3b7ab5e382bee09c6c1416eda41f734
 
   try {
     if (req.file) {
@@ -117,7 +121,7 @@ exports.getImageAvatar = async (req, res) => {
   try {
     let userId = req.params.id;
     const { imageAvatar } = await User.findOne({ _id: userId });
-   // console.log(path.resolve(imageAvatar));
+    // console.log(path.resolve(imageAvatar));
     res.json({ image: imageAvatar });
   } catch (error) {
     console.error(error);

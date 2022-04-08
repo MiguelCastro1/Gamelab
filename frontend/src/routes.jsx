@@ -29,6 +29,7 @@ export default function Rotas() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<Navigate to="/home" />} />
         <Route path="/login" element={<Login />} />
         <Route path="/cadastrar" element={<EscolherPerfil />} />
         <Route path="/cadastrar-perfil" element={<FormCadastro />} />

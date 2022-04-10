@@ -36,9 +36,8 @@ function Secoes({ secoes, nomeCurso, courseId, ...props }) {
         {" "}
         <SiGoogleclassroom size={25} /> {nomeCurso}{" "}
       </h1>
-      {secoes.length === 0 && <h3> Nenhum Conteudo </h3>}
+      {secoes.length === 0 && <span> Nenhum Conteudo </span>}
       {secoes.length === 0 && <img src={nada} width={500} height={500} />}
-
       {secoes.map((secao, index) => (
         <div className={styles.secao}>
           <h2>{secao.titulo}</h2>

@@ -79,6 +79,7 @@ function EditarDados({courseId, ...props}) {
             useEffect(() => {
               async function fetchItemsDetails() {
                 const { data } = await api.get(`cursos/update/${courseId}`);
+                console.log('fetched data');
                 console.log(data)
                 fields.forEach((field) => {
                   setFieldValue(field, data.doc[field], false);

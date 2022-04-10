@@ -33,62 +33,6 @@ import orc_gordo from "../../assets/orc_gordo.gif";
 
 function Curso() {
   const monstros = [monster, ghost, orc_gordo];
-  const atividades2 = [
-    {
-      id: "1",
-      titulo: "Atividade 01 - Vetores",
-      descricao:
-        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Incidunt maxime ullam ipsum architecto repudiandae laborum. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Incidunt maxime ullam ipsum architecto repudiandae laborum",
-      imagem: 0,
-      dataEntrega: "05/04/2022 as 23 horas",
-    },
-    {
-      id: "2",
-      titulo: "Atividade 02 - Vetores",
-      descricao:
-        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Incidunt maxime ullam ipsum architecto repudiandae laborum. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Incidunt maxime ullam ipsum architecto repudiandae laborum ",
-      dataEntrega: "05/04/2022 as 23 horas",
-      imagem: 2,
-    },
-  ];
-
-  const secoes = [
-    {
-      titulo: "Plano de Ensino",
-      conteudos: [
-        {
-          tipo: "pdf",
-          titulo: "Plano de Ensino 2022",
-          visivel: true,
-        },
-      ],
-    },
-    {
-      titulo: "Modulo 1: Vetores",
-      conteudos: [
-        {
-          tipo: "pdf",
-          titulo: "Aula 01 - Introdução a vetores",
-          visivel: true,
-        },
-        {
-          tipo: "link",
-          titulo: "Playlist de Vetores",
-          visivel: true,
-        },
-        {
-          tipo: "Atividade",
-          titulo: "Atividade 01 - Vetores",
-          visivel: true,
-        },
-      ],
-    },
-    {
-      titulo: "Modulo 2: Matrizes",
-      conteudos: [],
-    },
-  ];
-
   const [curso, setCurso] = useState({});
   const [pagina, setPagina] = useState("");
   const [open, setOpen] = useState(false);
@@ -144,6 +88,7 @@ function Curso() {
     }
   };
 
+
   useEffect(() =>  {
     const f = () => {
       try {
@@ -152,7 +97,6 @@ function Curso() {
           setCurso(data.data.doc);
           setPagina('home');
           setLoaded(true);
-          setAtividades(curso.secoes.map((secao => (secao.conteudos.filter(conteudo => conteudo.tipo=== 'Atividade')))).filter(atividade => atividade.length > 0)[0]);
           console.log('done')
         })
         .catch(err => console.log(err))
@@ -163,10 +107,17 @@ function Curso() {
     f();
   }, []);
 
+  useEffect(() =>  {
+    const f = () => {
+      if(Object.keys(curso).length > 0 && curso.secoes.length > 0) 
+      setAtividades(curso.secoes.map((secao => (secao.conteudos.filter(conteudo => conteudo.tipo=== 'Atividade')))).filter(atividade => atividade.length > 0)[0]);
+    }
+    f();
+  }, [curso]);
+
   return ( 
     <>
-      <HeaderHome />
-    
+       <HeaderHome />
       <div className={styles.container}>
         <div className={styles.content}>
           <div className={styles.sideBarLeft}>
@@ -210,10 +161,10 @@ function Curso() {
             )}
             {pagina === "notas" && <Notas Alunos={curso.Alunos} />}
             {pagina === "editar-dados" && (
-              <EditarDados curso={courseId} />
+              <EditarDados courseId={courseId} />
             )}
             {pagina === "editar-conteudo" && (
-              <EditarConteudo curso={curso} />
+              <EditarConteudo courseId={courseId} />
             )}
             {pagina === "criar-aviso" && (
               <CriarAviso courseId={courseId} Alunos={curso.Alunos} />

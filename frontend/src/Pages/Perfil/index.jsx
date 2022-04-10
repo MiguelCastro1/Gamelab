@@ -53,7 +53,7 @@ const style = {
   boxShadow: 24,
 };
 
-function Perfil() {
+function Perfil({courseId, ...props}) {
   let navigate = useNavigate();
   const [flagReset, setFlagReset] = useState(false);
   const [isEdit, setIsEdit] = useState(true);

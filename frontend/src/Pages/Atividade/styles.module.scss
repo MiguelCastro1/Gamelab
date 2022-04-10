@@ -7,7 +7,7 @@
     display: grid;
     max-width: 100%;
     // grid-template-columns: 0.4fr minmax(400px, 2fr) 0.8fr;
-    grid-template-columns: 0.45fr 1.6fr 0.8fr;
+    grid-template-columns: 0.4fr 1.6fr 0.7fr;
     grid-column-gap: 1rem;
 
     .feed {
@@ -149,7 +149,7 @@
         }
 
          .botoes{
-          background: white;
+          
           width: 100%;
           padding: 0px;
          // border: 1px solid var(--gray-100);
@@ -157,7 +157,7 @@
           margin-bottom: 1rem;
 
           Button{
-            
+            background: white;  
             font-size: medium;
             text-transform: initial;
             margin-bottom: 0.2rem;

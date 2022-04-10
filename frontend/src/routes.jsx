@@ -42,7 +42,7 @@ export default function Rotas() {
           <Route path="/curso/:courseId/:atividadeId" element={<Atividade />} />
           <Route path="/curso/:courseId" element={<Curso />} />
           <Route path="/perfil/:userId" element={<Perfil />} />
-          <Route path="*" element={<NotFound />} />''
+          <Route path="*" element={<NotFound />} />
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
           <Route path="/kanban" element={<Home />} />

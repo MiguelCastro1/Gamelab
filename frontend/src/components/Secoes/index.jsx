@@ -1,19 +1,15 @@
-import { useState } from "react";
+
 import styles from "./styles.module.scss";
 import { useNavigate } from "react-router-dom";
 import { SiGoogleclassroom } from "react-icons/si";
-import api from "../../services/axios";
-import { toast } from "react-toastify";
 import { FcLink } from "react-icons/fc";
 import { FcInspection } from "react-icons/fc";
 import { FcFile } from "react-icons/fc";
 import nada from "../../assets/passado.webp";
-import { FiEdit2 } from "react-icons/fi";
 
 function Secoes({ secoes, nomeCurso, courseId, ...props }) {
   const navigate = useNavigate();
-  const [isEdit, setEdit] = useState(false);
-  const [open, setOpen] = useState(false);
+
 
   const acao = (conteudo) => {
     if (conteudo.tipo === "pdf") {
@@ -24,10 +20,6 @@ function Secoes({ secoes, nomeCurso, courseId, ...props }) {
       console.log("inin");
       navigate(`/curso/${courseId}/${conteudo._id}  `);
     }
-  };
-
-  const handleParcial = (id) => {
-    console.log(secoes[id]);
   };
 
   return (
@@ -41,14 +33,6 @@ function Secoes({ secoes, nomeCurso, courseId, ...props }) {
       {secoes.map((secao, index) => (
         <div className={styles.secao}>
           <h2>{secao.titulo}</h2>
-          {isEdit && (
-            <div
-              className={styles.iconEdit}
-              onClick={() => handleParcial(index)}
-            >
-              <FiEdit2 />
-            </div>
-          )}
           <div className={styles.conteudo}>
             {secao.conteudos.map((conteudo) => (
               <div

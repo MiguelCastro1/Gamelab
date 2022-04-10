@@ -164,7 +164,10 @@ function Curso() {
               <EditarDados courseId={courseId} />
             )}
             {pagina === "editar-conteudo" && (
-              <EditarConteudo courseId={courseId} />
+              <EditarConteudo  
+              Secoes={curso.secoes}
+              nomeCurso={curso.nomeCurso}
+              courseId={courseId} />
             )}
             {pagina === "criar-aviso" && (
               <CriarAviso courseId={courseId} Alunos={curso.Alunos} />

@@ -4,89 +4,158 @@
   padding: 0.5rem;
   // box-shadow: var(--sombra);
   background: white;
-  
+
   border-radius: 4px;
   transition: margin-left 0.1s linear;
   margin-bottom: 0.8rem;
   //cursor: pointer;
   font-size: small;
-  h4{
-    margin-top: 3rem;
-  text-align: center;
-    width: 100%;
-    height: auto;
-    margin-bottom: 0px;
-  }
-  img{
-    width: 100%;
-    height: auto;
-  }
-  .secao{
+
+  .secao {
     // background:  linear-gradient( rgb(0, 195, 255) 50px, green 50px, green 100px, yellow 100px, yellow 150px, blue 150px);
-     display: flex;
-     align-items: center;
-     flex-direction: column;
-     border: 1px solid #87a8daa4;
-     border-radius: 4px;
-     margin-bottom: 1rem;
-     align-items: flex-start;
-     width: 100%;
-     padding: 1rem;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    border: 1px solid #87a8daa4;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    align-items: flex-start;
+    width: 100%;
+    padding: 1rem;
+    position: relative;
 
-         
-     h1 {
-      margin-bottom: 1rem;
-     color: #131212; 
-     font-family: 'Droid serif', serif; 
-     font-size: 36px; 
-     font-weight: 400; 
-     font-style: italic; 
-     line-height: 44px; 
-     text-align: center; 
-      
-    }
-     
-    h3 {
-      color: black;
-      font-weight: normal;
-      font-size: large;
-      margin-left: 0.5rem;
-    }
+    .info{
 
-    h2 {
-      color: var(--blue-700);
-      font-weight: normal;  
-      font-size: x-large;
-      margin-bottom: 1rem;
+
+      h2 {
+        color: var(--blue-700);
+        font-weight: normal;
+        font-size: x-large;
+      }
+
+      div{
+        position: absolute;
+        right: 10px;
+        top: 12px;
+        .iconEdit {
+          margin-left: 0.5rem;
+          font-size: 1.2rem;
+          color: var(--blue-700);
+        }
+      }
     }
 
-    .conteudo{
-     // align-items: flex-start;
+    
+      h1 {
+        margin-bottom: 1rem;
+        color: #131212;
+        font-family: "Droid serif", serif;
+        font-size: 36px;
+        font-weight: 400;
+        font-style: italic;
+        line-height: 44px;
+        text-align: center;
+      }
+
+
+    .conteudo {
+      // align-items: flex-start;
       text-align: start;
-     //background-color: rgb(123, 148, 194);
-      .conteudoInfo{
+      //background-color: rgb(123, 148, 194);
+      .conteudoInfo {
         display: flex;
         align-content: flex-start;
         padding: 0.5rem;
         margin-bottom: 0.6rem;
-        //width: 580px;
-        //border: px solid var(--gray-300);
         gap: 10px;
         cursor: pointer;
         border-radius: 4px;
         transition: margin-bottom 0.1s ease-in-out;
 
+        
+      h3 {
+        color: black;
+        font-weight: normal;
+        font-size: large;
+        margin-left: 0.5rem;
+      }
+
+        div{
+          position: absolute;
+          right: 10px;
+          .iconEdit {
+            margin-left: 0.5rem;
+            font-size: 1.2rem;
+            color: var(--blue-700);
+          }
+        }
+
+      &:first-child{
+        margin-top: 1rem;
+      }
         &:hover {
           margin-bottom: 0.8rem;
         }
-        
+      }
+    }
+
+    Button{
+      background: white;
+      font-size: medium;
+      text-transform: initial;
+      width: 100%;
+      color: #131212;
+      border: 1px solid var(--gray-100);
+
+      &:hover {
+        color: var(--blue-700);
       }
     }
   }
 
-//  &:hover {
-//    margin-left: 0.35rem;
-//  }
+  Button{
+    background: white;
+    font-size: large;
+    text-transform: initial;
+    width: 100%;
+    color: #131212;
+
+    &:hover {
+      color: var(--blue-700);
+    }
+  }
+
+  .foot{
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: row-reverse;
+    button {
+      margin-left: 1rem;
+      height: 3rem;
+      width: 20%;
+      border: none;
+      border-radius: 4px;
+      font-weight: bold;
+      font-size: 1rem;
+      transition: hover 0.3s linear;
+    }
+
+.cancelar {        
+
+      background-color: var(--gray-300);
+      &:hover {
+        color: var(--preto);
+      }
+    }
+
+    .salvar {
+      background: var(--blue-700);
+      color: white;
+      &:hover {
+        background: var(--blue-500);
+      }
+    }
+  }
 }
 
 @media (max-width: 1300px) {

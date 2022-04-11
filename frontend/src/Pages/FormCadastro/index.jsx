@@ -5,7 +5,7 @@ import HeaderAuth from "../../components/HeaderAuth";
 import Input from "../../components/Input";
 import { useTypePerfil } from "../../Context/PerfilContext";
 import styles from "./styles.module.scss";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 import aluno from "../../assets/aluno.svg";
 import professor from "../../assets/professor.svg";
 import { useState } from "react";
@@ -14,7 +14,7 @@ import api from "../../services/axios";
 const formSchema = Yup.object().shape({
   email: Yup.string().email("Email Invalido").required("Campo obrigatório"),
   senha: Yup.string()
-    .min(8, "Senha precisa de mais de 8 letras")
+    .min(8, "Senha deve possuir ao menos 8 caracteres")
     .required("Campo obrigatório"),
   dataNascimento: Yup.string().required("Campo obrigatório"),
   nome: Yup.string().max(100, "Limite atingido").required("Campo obrigatório"),
@@ -41,16 +41,17 @@ function FormCadastro() {
       paisOrigem: "",
       dataIngresso: "",
       descricaoPerfil: "",
+      imageAvatar: "",
     };
-    console.log(perfil)
-    console.log(object);
+    // console.log(perfil);
+    // console.log(object);
     try {
       await api.post("/usuarios", object);
-      toast.success("Cadastro Concluido com Sucesso")
+      toast.success("Cadastro Concluído com Sucesso");
       navigate("/login");
     } catch (error) {
       console.log(error);
- 
+
       setErro("Email já cadastrado");
     }
   };
@@ -139,8 +140,10 @@ function FormCadastro() {
                       estilo={{ marginTop: "0" }}
                     />
                   </div>
-                  {/* {erro && <div className={styles.erro}> {erro} </div>} */}
-                  <button type="submit">Cadastrar</button>
+                  <div className={styles.footerCadastro}>
+                    <span>Todos os campos são obrigatórios</span>
+                    <button type="submit">Cadastrar</button>
+                  </div>
                 </div>
               </main>
             </Form>

@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const path = require("path");
 const app = express();
 
 require("dotenv/config");
@@ -8,6 +9,8 @@ require("dotenv/config");
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use("/public", express.static(path.join(__dirname, "public")));
 
 mongoose.connect(process.env.ATLAS_URI, {
   useNewUrlParser: true,
@@ -24,6 +27,7 @@ mongoose.connection.on("error", (err) => {
 
 require("./app/models/user");
 require("./app/models/course");
+require("./app/models/notice");
 
 const routes = require("./app/routes/routes");
 

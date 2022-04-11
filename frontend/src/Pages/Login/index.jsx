@@ -6,9 +6,10 @@ import Header from "../../components/Header";
 import gamelabLogin from "../../assets/image-gamelab.svg";
 import styles from "./styles.module.scss";
 import Input from "../../components/Input";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import api from "../../services/axios";
 import ErrorNotificationLogin from "../../components/ErrorNotificationLogin";
+import { MdOutlineVisibility, MdOutlineVisibilityOff } from "react-icons/md";
 
 const formSchema = Yup.object().shape({
   email: Yup.string().email("Email Invalido").required("Campo obrigatório"),
@@ -19,6 +20,7 @@ export default function Login() {
   let navigate = useNavigate();
 
   const [erro, setErro] = useState(false);
+  const [isPass, setIsPass] = useState(false);
 
   const handleSubmit = async (values, actions) => {
     try {
@@ -36,9 +38,8 @@ export default function Login() {
         email,
         token,
       };
-      console.log(dados)
       localStorage.setItem("gamelab", JSON.stringify(dados));
-      navigate("/");
+      navigate("/home");
     } catch (error) {
       setErro(true);
       console.log(error);
@@ -54,7 +55,7 @@ export default function Login() {
           <p>Crie sua turma e faça seus alunos se divertirem.</p>
         </section>
         <div
-          style={{ height: erro ? "23.8rem" : "22rem" }}
+          style={{ height: erro ? "25rem" : "22rem" }}
           className={styles.content}
         >
           <div className={styles.boxForm}>
@@ -79,16 +80,32 @@ export default function Login() {
                     onChange={handleChange}
                     placeholder=" "
                   />
-                  <Input
-                    name="senha"
-                    label={"Senha"}
-                    type="password"
-                    placeholder=" "
-                    onChange={handleChange}
-                  />
-                  <div>
-                    <a href="#">Esqueceu a senha?</a>
+                  <div className={styles.togglePass}>
+                    <Input
+                      name="senha"
+                      label={"Senha"}
+                      type={!isPass ? "password" : "text"}
+                      placeholder=" "
+                      onChange={handleChange}
+                      estilo={{ marginTop: "2.9rem" }}
+                    />
+                    <div
+                      className={styles.boxIcon}
+                      onClick={() => setIsPass(!isPass)}
+                    >
+                      {!isPass ? (
+                        <MdOutlineVisibilityOff />
+                      ) : (
+                        <MdOutlineVisibility />
+                      )}
+                    </div>
                   </div>
+
+                  {/* <div className={styles.link}> */}
+                  <Link to="/email">
+                    <span>Esqueceu a senha?</span>
+                  </Link>
+                  {/* </div> */}
                   {/* <div>{erro && <div className={styles.erro}> Email ou senha incorretos </div>}</div> */}
                   <button type="submit">Entrar</button>
                 </Form>

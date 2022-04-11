@@ -1,17 +1,22 @@
 import { useEffect, useState } from "react";
 import HeaderHome from "../../components/HeaderHome";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import imgUser from "../../assets/user_padrao.png";
 import Input from "../../components/Input";
 import styles from "./styles.module.scss";
 import { FiEdit2, FiArrowLeft } from "react-icons/fi";
-import { toast } from 'react-toastify';
-//import { parseJwt } from "../../services/decodedToken";
-import { getToken } from "../../services/auth";
+import { BiImageAdd } from "react-icons/bi";
+import { toast } from "react-toastify";
+import Box from "@mui/material/Box";
 import api from "../../services/axios";
 import TextArea from "../../components/TextArea";
+import { Button, Stack } from "@mui/material";
+import Modal from "@mui/material/Modal";
+import imagePadrao from "../../assets/user_padrao.png";
+import FileUploadIcon from "@mui/icons-material/FileUpload";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { useTypePerfil } from "../../Context/PerfilContext";
 
 const fields = [
   "nome",
@@ -36,32 +41,99 @@ const formSchema = Yup.object().shape({
   cidade: Yup.string(),
   paisOrigem: Yup.string(),
   dataIngresso: Yup.string(),
-  descricaoPerfil: Yup.string()
+  descricaoPerfil: Yup.string(),
 });
 
-function Perfil() {
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  borderRadius: "10px",
+  boxShadow: 24,
+};
+
+function Perfil({courseId, ...props}) {
   let navigate = useNavigate();
+  let { id } = localStorage.getItem("gamelab")
+    ? JSON.parse(localStorage.getItem("gamelab"))
+    : null;
+  const { userId } = useParams();
   const [flagReset, setFlagReset] = useState(false);
   const [isEdit, setIsEdit] = useState(true);
-  const [file, setFile] = useState([true]);
+  const [open, setOpen] = useState(false);
+  const [imgUser, setImgUser] = useState("");
+  const [profileImage, setProfileImage] = useState("");
+  const [updatedImage, setUpdatedImage] = useState("");
+  const { flagResetImage, setFlagResetImage } = useTypePerfil();
 
-  const {id} = localStorage.getItem("gamelab")? JSON.parse(localStorage.getItem("gamelab")): null;
+  useEffect(() => {
+    async function fetchImage() {
+      let {
+        data: { image },
+      } = await api.get(`/usuarios/avatar/${userId}`);
+      let nameImage = image.split("avatar/");
+      console.log("atualizou");
+      setImgUser(`http://localhost:5000/public/avatar/${nameImage}`);
+      setProfileImage(`http://localhost:5000/public/avatar/${nameImage}`);
+    }
+    fetchImage();
+  }, [flagResetImage]);
 
   const handleCancel = () => {
     setFlagReset(!flagReset);
-    setIsEdit(!setIsEdit)
+    setIsEdit(!isEdit);
   };
 
   const handleSubmit = async (values) => {
-    console.log(values);
     try {
-      await api.patch(`usuarios/${id}`, values);
+      await api.patch(`usuarios/${userId}`, values);
       setIsEdit(true);
-      toast.success('Campos editados com sucesso')
+      toast.success("Campos editados com sucesso");
     } catch (error) {
       console.log(error);
-      toast.success('Erro ao editar seus dados')
+      toast.error("Erro ao editar seus dados");
     }
+  };
+
+  const handleSubmitImage = async () => {
+    try {
+      let data = new FormData();
+      data.append("file", updatedImage);
+      await api.patch(`usuarios/avatar/${userId}`, data);
+      toast.success("Imagem alterada com sucesso");
+      setFlagResetImage(!flagResetImage);
+      setOpen(false);
+    } catch (error) {
+      console.log(error);
+      toast.error("Erro ao alterar a imagem");
+    }
+  };
+
+  const imageHandler = (e) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (reader.readyState === 2) {
+        setProfileImage(reader.result);
+      }
+    };
+    reader.readAsDataURL(e.target.files[0]);
+    setUpdatedImage(e.target.files[0]);
+  };
+
+  const handleOpen = () => setOpen(true);
+
+  const handleClose = () => {
+    setProfileImage(imgUser);
+    setOpen(false);
+  };
+
+  const removeProfileImage = () => {
+    setProfileImage(imagePadrao);
+    setUpdatedImage(imagePadrao);
   };
 
   return (
@@ -87,7 +159,7 @@ function Perfil() {
           {function ShowForm({ values, handleChange, setFieldValue }) {
             useEffect(() => {
               async function fetchItemsDetails() {
-                const { data } = await api.get(`usuarios/${id}`);
+                const { data } = await api.get(`usuarios/${userId}`);
                 fields.forEach((field) => {
                   setFieldValue(field, data.doc[field], false);
                 });
@@ -97,29 +169,88 @@ function Perfil() {
 
             return (
               <Form>
+                <Modal
+                  open={open}
+                  onClose={handleClose}
+                  aria-labelledby="modal-modal-title"
+                  aria-describedby="modal-modal-description"
+                >
+                  <Box sx={style}>
+                    <div className={styles.modalContent}>
+                      <header>
+                        <h3>Alterar foto de perfil</h3>
+                      </header>
+                      <main>
+                        <img src={profileImage} alt="imagem de usuário" />
+                        <Stack direction="row" spacing={1}>
+                          {!imgUser.includes("user_padrao.png") && (
+                            <Button
+                              variant="outlined"
+                              onClick={removeProfileImage}
+                              endIcon={<DeleteIcon />}
+                            >
+                              Remover
+                            </Button>
+                          )}
+                          <label htmlFor="contained-button-file">
+                            <input
+                              accept="image/*"
+                              id="contained-button-file"
+                              type="file"
+                              style={{ display: "none" }}
+                              onChange={(e) => imageHandler(e)}
+                            />
+                            <Button
+                              variant="contained"
+                              component="span"
+                              endIcon={<FileUploadIcon />}
+                            >
+                              Upload
+                            </Button>
+                          </label>
+                        </Stack>
+                      </main>
+                      <footer className={styles.footer}>
+                        <button
+                          className={styles.cancelar}
+                          onClick={handleClose}
+                        >
+                          Cancelar
+                        </button>
+                        <button
+                          className={styles.salvar}
+                          onClick={handleSubmitImage}
+                        >
+                          Salvar
+                        </button>
+                      </footer>
+                    </div>
+                  </Box>
+                </Modal>
                 <main className={styles.content}>
                   <header>
-                    <div className={styles.icons} onClick={() => navigate("/")}>
-                      <FiArrowLeft size="1.3rem" />
+                    <div className={styles.icons} onClick={() => navigate(-1)}>
+                      <FiArrowLeft size="1.6rem" />
                     </div>
-                    <div
-                      onClick={() => setIsEdit(!isEdit)}
-                      className={styles.icons}
-                    >
-                      <FiEdit2 size="1.3rem" />
-                    </div>
+                    {id === userId && (
+                      <div
+                        onClick={() => setIsEdit(!isEdit)}
+                        className={styles.icons}
+                      >
+                        <FiEdit2 size="1.6rem" />
+                      </div>
+                    )}
                   </header>
                   <section>
-                    <div
-                      className={styles.formContent}
-                    >
-                      <img src={imgUser} alt="imagem usuário" />
-                      <div className={styles.submitImage}>
-                        <p>
-                          Alterar imagem <FiEdit2 />
-                        </p>
-                        <input type="file" value="" onChange={e =>  setFile(e.target.value)} />
-                      </div>  
+                    <div className={styles.formContent}>
+                      <div>
+                        <img src={imgUser} alt="usuário" />
+                        {!isEdit && (
+                          <div className={styles.addImage} onClick={handleOpen}>
+                            <BiImageAdd />
+                          </div>
+                        )}
+                      </div>
                     </div>
                     <div>
                       <Input
@@ -132,6 +263,7 @@ function Perfil() {
                         autoFocus={true}
                         estilo={{ marginBottom: "2.7rem" }}
                       />
+
                       <div className={styles.lineForm}>
                         <Input
                           label="Número de Matrícula"
@@ -201,19 +333,21 @@ function Perfil() {
                     </div>
                   </section>
                   <footer>
-                        <button
-                            style={{ opacity: !isEdit ? "1": 0}}
-                          className={styles.cancelar}
-                          onClick={handleCancel}
-                          type="button"
-                        >
-                          Cancelar
-                        </button>
-                        <button 
-                          style={{ opacity: !isEdit ? "1": 0}}
-                          className={styles.salvar} type="submit">
-                          Salvar
-                        </button>
+                    <button
+                      style={{ opacity: !isEdit ? "1" : 0 }}
+                      className={styles.cancelar}
+                      onClick={handleCancel}
+                      type="button"
+                    >
+                      Cancelar
+                    </button>
+                    <button
+                      style={{ opacity: !isEdit ? "1" : 0 }}
+                      className={styles.salvar}
+                      type="submit"
+                    >
+                      Salvar
+                    </button>
                   </footer>
                 </main>
               </Form>

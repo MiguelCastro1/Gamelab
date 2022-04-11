@@ -20,6 +20,7 @@ const userSchema = new Schema(
     },
     instituicao: {
       type: String,
+      default: "",
       trim: true,
     },
     dataNascimento: {
@@ -44,6 +45,15 @@ const userSchema = new Schema(
       type: String,
     },
     descricaoPerfil: {
+      type: String,
+    },
+    imageAvatar: {
+      type: String,
+    },
+    pathImageAvatar: {
+      type: String,
+    },
+    tokenRecuperarSenha: {
       type: String,
     },
   },

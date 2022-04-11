@@ -6,19 +6,17 @@ import {
   Outlet,
 } from "react-router-dom";
 
-import EmailEnviado from "./Pages/EmailEnviado";
+import EnviarEmail from "./Pages/EnviarEmail";
 import EscolherPerfil from "./Pages/EscolherPerfil";
 import FormCadastro from "./Pages/FormCadastro";
 import Home from "./Pages/Home";
 import Login from "./Pages/Login";
-import DetalheTurma from "./Pages/DetalheTurma";
 import Sobre from "./Pages/Sobre";
-import CriarCurso from "./Pages/CriarCurso";
-import Kanban from "./Pages/Kanban";
-import Avisos from "./Pages/Avisos";
 import Curso from "./Pages/Curso";
 import Perfil from "./Pages/Perfil";
-import Procurar from "./Pages/Procurar";
+import NotFound from "./Pages/NotFound";
+import ResetarSenha from "./Pages/ResetarSenha";
+import Atividade from "./Pages/Atividade";
 
 import { isAuthenticated } from "./services/auth";
 
@@ -31,22 +29,27 @@ export default function Rotas() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<Navigate to="/home" />} />
         <Route path="/login" element={<Login />} />
         <Route path="/cadastrar" element={<EscolherPerfil />} />
         <Route path="/cadastrar-perfil" element={<FormCadastro />} />
-        <Route path="/email" element={<EmailEnviado />} />
+        <Route path="/email" element={<EnviarEmail />} />
         <Route path="/sobre" element={<Sobre />} />
-        <Route path="*" element={<h1>Not Found</h1>} />
+        <Route path="/resetarsenha" element={<ResetarSenha />} />
+        <Route path="*" element={<NotFound />} />
 
         <Route element={<RotasPrivadas />}>
+          <Route path="/curso/:courseId/:atividadeId" element={<Atividade />} />
+          <Route path="/curso/:courseId" element={<Curso />} />
+          <Route path="/perfil/:userId" element={<Perfil />} />
+          <Route path="*" element={<NotFound />} />
           <Route path="/" element={<Home />} />
-          <Route path="/detalhes" element={<DetalheTurma />} />
-          <Route path="/kanban" element={<Kanban />} />
-          <Route path="/criar-curso" element={<CriarCurso />} />
-          <Route path="/avisos" element={<Avisos />} />
-          <Route path="/curso/:id" element={<Curso />} />
-          <Route path="/perfil" element={<Perfil />} />
-          <Route path="/procurar-curso" element={<Procurar />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/kanban" element={<Home />} />
+          <Route path="/avisos" element={<Home />} />
+          <Route path="/procurar-curso" element={<Home />} />
+          <Route path="/cadastrar-curso" element={<Home />} />
+         
         </Route>
       </Routes>
     </BrowserRouter>

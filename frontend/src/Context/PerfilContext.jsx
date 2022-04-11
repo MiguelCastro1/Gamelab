@@ -4,12 +4,15 @@ const PerfilContext = createContext();
 
 export default function PerfilProvider({ children }) {
   const [perfil, setPerfil] = useState({});
+  const [flagResetImage, setFlagResetImage] = useState(false);
 
   return (
     <PerfilContext.Provider
       value={{
         perfil,
-        setPerfil
+        setPerfil,
+        flagResetImage,
+        setFlagResetImage,
       }}
     >
       {children}
@@ -18,6 +21,7 @@ export default function PerfilProvider({ children }) {
 }
 
 export function useTypePerfil() {
-  const { perfil, setPerfil }= useContext(PerfilContext);
-  return { perfil, setPerfil };
+  const { perfil, setPerfil, flagResetImage, setFlagResetImage } =
+    useContext(PerfilContext);
+  return { perfil, setPerfil, flagResetImage, setFlagResetImage };
 }

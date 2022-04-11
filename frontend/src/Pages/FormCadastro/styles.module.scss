@@ -26,6 +26,7 @@
     }
 
     .formContent {
+      background: white;
       padding: 3rem 2rem 2rem;
       box-shadow: var(--sombra);
       border: 1px solid var(--gray-100);
@@ -46,25 +47,35 @@
       color: red;
     }
 
-    button {
-      margin-top: 2.7rem;
-      margin-left: auto;
-      height: 3rem;
-      width: 20%;
-      border: none;
-      border-radius: 4px;
-      background: var(--blue-700);
-      color: white;
-      font-weight: bold;
-
+    .footerCadastro {
       display: flex;
+      justify-items: space-between;
       align-items: center;
-      justify-content: center;
-      font-size: 1rem;
-      transition: all 0.3s linear;
 
-      &:hover {
-        background: var(--blue-500);
+      span {
+        font-size: 0.9rem;
+        color: var(--preto);
+      }
+
+      button {
+        margin-left: auto;
+        height: 3rem;
+        width: 20%;
+        border: none;
+        border-radius: 4px;
+        background: var(--blue-700);
+        color: white;
+        font-weight: bold;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        transition: all 0.3s linear;
+
+        &:hover {
+          background: var(--blue-500);
+        }
       }
     }
   }

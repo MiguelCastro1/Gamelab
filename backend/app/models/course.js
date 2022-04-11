@@ -6,20 +6,21 @@ const courseSchema = new Schema(
   {
     nomeCurso: {
       type: String,
-      required: true,
+      required: true
     },
     materia: {
       type: String,
+      default: ""
       // required: true,
     },
     descricao: {
       type: String,
-      required: true,
+      required: true
     },
     autorEmail: {
       type: String,
       required: true,
-      lowercase: true,
+      lowercase: true
     },
     autorId: {
       type: Schema.Types.ObjectId, ref: "User",
@@ -31,13 +32,35 @@ const courseSchema = new Schema(
     },
     codigo: {
       type: String,
+      default: ""
     //  unique: true,
      // required: true,
     },
     Alunos: [{
       userId: { type: Schema.Types.ObjectId, ref: "User"},
-      notas: { type: Array}
+      notas: [{
+        atividadeId: { type: Schema.Types.ObjectId},
+        status: {type: String},
+        nota: {type : Number},
+        entregaUri: {type: String},
+        dataEntrega: {type: Schema.Types.Date}
+      }]
     }],
+
+    secoes: [{
+      titulo: {type: String, default: ""},
+      conteudos: [
+        {
+          uri: {type: String},
+          visivel: {type: Boolean, default: true},
+          tipo: {type: String ,  enum: ["link", "arquivo", "atividade"]},
+          titulo: {type: String},
+          descricao: {type: String},
+          dataInicio: {type: Schema.Types.Date},
+          dataEntrega: {type: Schema.Types.Date},
+        }
+      ]
+    }], 
     Ativo: {
       type: Boolean,
       default: true

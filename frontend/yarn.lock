@@ -403,13 +403,13 @@
     "react-is" "^17.0.2"
 
 "@mui/icons-material@^5.6.0":
-  version "5.6.0"
-  resolved "https://registry.yarnpkg.com/@mui/icons-material/-/icons-material-5.6.0.tgz#bce757f7c7a8eb31b238311a15fa0a0bcdf9ec39"
-  integrity sha512-2GDGt+/BbwM3oVkF84b9FFKQdQ9TxBJIRnTwT99vO2mimdfJaojxMRB2lkysm9tUY4HOf0yoU6O//X6GTC0Zhw==
+  "integrity" "sha512-I1x8u+FRLOmoJpRJASMx9UG+jZrSkNLyRQmBXivQQwXu3m3iasMoaKYhhI0J18t8+FWktbkNTp63oEUHE9Gw0Q=="
+  "resolved" "https://registry.npmjs.org/@mui/icons-material/-/icons-material-5.6.1.tgz"
+  "version" "5.6.1"
   dependencies:
     "@babel/runtime" "^7.17.2"
 
-"@mui/material@latest":
+"@mui/material@^5.0.0", "@mui/material@latest":
   "integrity" "sha512-bJSYgymgSZ7btPTNnWFrr2EmGoVQc4A/0WLfP/ESY2dxnhnbFDwt7twiOKmJp3u84YXriEDt5v9EZQLf7A+y0Q=="
   "resolved" "https://registry.npmjs.org/@mui/material/-/material-5.5.1.tgz"
   "version" "5.5.1"
@@ -535,7 +535,7 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@^16.8.6 || ^17.0.0":
+"@types/react@*", "@types/react@^16.8.6 || ^17.0.0", "@types/react@^17.0.0 || ^18.0.0":
   "integrity" "sha512-chYZ9ogWUodyC7VUTRBfblysKLjnohhFY9bGLwvnUFFy48+vB9DikmB3lW0qTFmBcKSzmdglcvkHK71IioOlDA=="
   "resolved" "https://registry.npmjs.org/@types/react/-/react-17.0.41.tgz"
   "version" "17.0.41"
@@ -1216,7 +1216,7 @@
     "loose-envify" "^1.4.0"
     "prop-types" "^15.6.2"
 
-"react@*", "react@^16.3.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17.0.0", "react@^16.8.3 || ^17 || ^18", "react@^16.8.5 || ^17.0.0", "react@^17.0.0", "react@^17.0.2", "react@>= 16.x.x", "react@>=0.13", "react@>=16", "react@>=16.6.0", "react@>=16.8", "react@>=16.8.0", "react@17.0.2":
+"react@*", "react@^16.3.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17.0.0", "react@^16.8.3 || ^17 || ^18", "react@^16.8.5 || ^17.0.0", "react@^17.0.0", "react@^17.0.0 || ^18.0.0", "react@^17.0.2", "react@>= 16.x.x", "react@>=0.13", "react@>=16", "react@>=16.6.0", "react@>=16.8", "react@>=16.8.0", "react@17.0.2":
   "integrity" "sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA=="
   "resolved" "https://registry.npmjs.org/react/-/react-17.0.2.tgz"
   "version" "17.0.2"

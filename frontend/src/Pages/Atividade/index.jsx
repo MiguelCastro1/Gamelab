@@ -60,14 +60,24 @@ function Atividade() {
              <Button  onClick={() => navigate('/home')} variant="outlined" startIcon={<FcHome /> }>
                   Home
               </Button>
-              <Button onClick={() => navigate('/kanban')}  variant="outlined" startIcon={<BsKanban />}>
-                Meu Kanban 
+              {false && (
+              <Button
+                onClick={() => navigate("/kanban")}
+                variant="outlined"
+                startIcon={<BsKanban />}
+              >
+                Meu Kanban
               </Button>
-             {perfil === 'aluno' && (
-                <Button  onClick={() => navigate('/avisos')} variant="outlined" startIcon={<VscBellDot /> }>
+              )}
+              {false && perfil === "aluno" && (
+                <Button
+                  onClick={() => navigate("/avisos")}
+                  variant="outlined"
+                  startIcon={<VscBellDot />}
+                >
                   Avisos
                 </Button>
-             )}
+              )}
             </ul>
           </div>
           

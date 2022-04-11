@@ -129,6 +129,7 @@ function Curso() {
               >
                 Home
               </Button>
+              {false && (
               <Button
                 onClick={() => navigate("/kanban")}
                 variant="outlined"
@@ -136,7 +137,8 @@ function Curso() {
               >
                 Meu Kanban
               </Button>
-              {perfil === "aluno" && (
+              )}
+              {false && perfil === "aluno" && (
                 <Button
                   onClick={() => navigate("/avisos")}
                   variant="outlined"

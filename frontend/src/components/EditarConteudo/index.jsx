@@ -68,16 +68,12 @@ function EditarConteudo({ Secoes, nomeCurso, courseId, ...props }) {
       toast.error("Erro ao editar seus dados");
     }
   };
-  
+
   const deletar = (secao, conteudo) => {
     try {
       /*
-      if(values.secao === secoes.length) {
-        setSecoes([...secoes, {'titulo': values.titulo, 'conteudos':[]}]);
-      }else if(values.conteudo === -1){
-
-      }else if(secoes[secao].conteudos.length === conteudo){
-       
+      if(values.conteudo === -1){
+    
       }else{
      
       }*/

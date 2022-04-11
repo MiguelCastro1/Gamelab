@@ -26,15 +26,21 @@ function Home() {
   const [resultados, setResultados] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
   const {url} = useParams();
-
+  //const url = window.location.href;
+  //console.log(url);
+  
   useEffect(() => {
     try {
+  
       if( perfil === "professor"){
         api.get("/cursos/professor/MeusCursos")
         .then((data) => {
           setResultados(data.data.doc);
-          if(url !== undefined)
-            setPagina(url); 
+         // if(url !== undefined)
+         //   setPagina(url);
+         // else
+            setPagina("home");
+
           console.log('done');
         })
         .catch(err => console.log(err))
@@ -42,10 +48,12 @@ function Home() {
         api.get("/cursos/aluno/MeusCursos")
         .then((data) => {
           setResultados(data.data.doc);
-          if(url !== undefined)
-            setPagina(url);
-            else
+   
+         // if(url !== undefined)
+         //   setPagina(url);
+         // else
             setPagina("home");
+
           console.log('done')
         })
         .catch(err => console.log(err))
@@ -118,7 +126,6 @@ function Home() {
           </div>
 
           <div className={styles.feed}>
-            {console.log(pagina)}
             {pagina === 'home' && (searchString === '' ?  
             <ContentHome resultados={resultados} /> : <ContentHome resultados={searchResults} />)}
             {pagina === 'kanban' && <Kanban />}

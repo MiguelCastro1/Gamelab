@@ -140,8 +140,10 @@ function FormCadastro() {
                       estilo={{ marginTop: "0" }}
                     />
                   </div>
-                  {/* {erro && <div className={styles.erro}> {erro} </div>} */}
-                  <button type="submit">Cadastrar</button>
+                  <div className={styles.footerCadastro}>
+                    <span>Todos os campos são obrigatórios</span>
+                    <button type="submit">Cadastrar</button>
+                  </div>
                 </div>
               </main>
             </Form>

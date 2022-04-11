@@ -1,16 +1,18 @@
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import styles from "./styles.module.scss";
+import { useTypePerfil } from "../../Context/PerfilContext";
 import { FiUser, FiLogOut } from "react-icons/fi";
 import { BiLogOut } from "react-icons/bi";
 import { VscBellDot } from "react-icons/vsc";
 import { getToken } from "../../services/auth";
 import api from "../../services/axios";
-import user_padrao from "../../assets/user_padrao.png";
+
 function HeaderHome() {
   let navigate = useNavigate();
-  const [imgUser, setImgUser] = useState('');
   let { id, nome, perfil } = getToken() ? JSON.parse(getToken()) : null;
+  const [imgUser, setImgUser] = useState("");
+  const { flagResetImage } = useTypePerfil();
 
   useEffect(() => {
     async function fetchImage() {
@@ -18,19 +20,17 @@ function HeaderHome() {
         data: { image },
       } = await api.get(`/usuarios/avatar/${id}`);
       setImgUser(image);
-     
     }
     fetchImage();
-  }, []);
+  }, [flagResetImage]);
 
   return (
     <header className={styles.container}>
       <div className={styles.content}>
-        <Link to='/home'>
+        <Link to="/home">
           <h1>GameLab</h1>
         </Link>
         <div className={styles.areaUser}>
-    
           <p
             // className="dropdown-toggle"
             id="dropdownMenuButton1"
@@ -50,7 +50,7 @@ function HeaderHome() {
           >
             <li>
               <p
-                onClick={() => { 
+                onClick={() => {
                   navigate(`/perfil/${id}`);
                 }}
               >

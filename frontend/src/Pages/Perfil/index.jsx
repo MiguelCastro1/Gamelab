@@ -14,6 +14,9 @@ import TextArea from "../../components/TextArea";
 import { Button, Stack } from "@mui/material";
 import Modal from "@mui/material/Modal";
 import imagePadrao from "../../assets/user_padrao.png";
+import FileUploadIcon from "@mui/icons-material/FileUpload";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { useTypePerfil } from "../../Context/PerfilContext";
 
 const fields = [
   "nome",
@@ -55,28 +58,30 @@ const style = {
 
 function Perfil({courseId, ...props}) {
   let navigate = useNavigate();
+  let { id } = localStorage.getItem("gamelab")
+    ? JSON.parse(localStorage.getItem("gamelab"))
+    : null;
+  const { userId } = useParams();
   const [flagReset, setFlagReset] = useState(false);
   const [isEdit, setIsEdit] = useState(true);
-  const [file, setFile] = useState([true]);
-  const { userId } = useParams();
   const [open, setOpen] = useState(false);
   const [imgUser, setImgUser] = useState("");
   const [profileImage, setProfileImage] = useState("");
   const [updatedImage, setUpdatedImage] = useState("");
-  let { id } = localStorage.getItem("gamelab")
-    ? JSON.parse(localStorage.getItem("gamelab"))
-    : null;
+  const { flagResetImage, setFlagResetImage } = useTypePerfil();
 
   useEffect(() => {
     async function fetchImage() {
       let {
         data: { image },
       } = await api.get(`/usuarios/avatar/${userId}`);
-      setImgUser(`http://localhost:5000/public/avatar/${image}`);
-      setProfileImage(`http://localhost:5000/public/avatar/${image}`);
+      let nameImage = image.split("avatar/");
+      console.log("atualizou");
+      setImgUser(`http://localhost:5000/public/avatar/${nameImage}`);
+      setProfileImage(`http://localhost:5000/public/avatar/${nameImage}`);
     }
     fetchImage();
-  }, []);
+  }, [flagResetImage]);
 
   const handleCancel = () => {
     setFlagReset(!flagReset);
@@ -100,6 +105,8 @@ function Perfil({courseId, ...props}) {
       data.append("file", updatedImage);
       await api.patch(`usuarios/avatar/${userId}`, data);
       toast.success("Imagem alterada com sucesso");
+      setFlagResetImage(!flagResetImage);
+      setOpen(false);
     } catch (error) {
       console.log(error);
       toast.error("Erro ao alterar a imagem");
@@ -180,6 +187,7 @@ function Perfil({courseId, ...props}) {
                             <Button
                               variant="outlined"
                               onClick={removeProfileImage}
+                              endIcon={<DeleteIcon />}
                             >
                               Remover
                             </Button>
@@ -192,24 +200,29 @@ function Perfil({courseId, ...props}) {
                               style={{ display: "none" }}
                               onChange={(e) => imageHandler(e)}
                             />
-                            <Button variant="contained" component="span">
+                            <Button
+                              variant="contained"
+                              component="span"
+                              endIcon={<FileUploadIcon />}
+                            >
                               Upload
                             </Button>
                           </label>
                         </Stack>
                       </main>
-                      <footer>
-                        <Stack direction="row" spacing={1}>
-                          <Button variant="outlined" onClick={handleClose}>
-                            Cancelar
-                          </Button>
-                          <Button
-                            variant="contained"
-                            onClick={handleSubmitImage}
-                          >
-                            Salvar
-                          </Button>
-                        </Stack>
+                      <footer className={styles.footer}>
+                        <button
+                          className={styles.cancelar}
+                          onClick={handleClose}
+                        >
+                          Cancelar
+                        </button>
+                        <button
+                          className={styles.salvar}
+                          onClick={handleSubmitImage}
+                        >
+                          Salvar
+                        </button>
                       </footer>
                     </div>
                   </Box>

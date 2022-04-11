@@ -55,7 +55,10 @@ function EnviarEmail() {
                   />
                   <button
                     className={styles.button}
-                    style={{ opacity: loading ? 0.65 : 1 }}
+                    style={{
+                      opacity: loading ? 0.65 : 1,
+                      cursor: loading ? "wait" : "pointer",
+                    }}
                   >
                     {loading ? "Enviando..." : "Enviar"}
                   </button>

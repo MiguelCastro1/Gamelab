@@ -95,14 +95,28 @@ exports.uploadAvatar = async (req, res) => {
 
   try {
     if (req.file) {
+      let userAvatar = await User.findOne({ _id: userId });
+      if (userAvatar.pathImageAvatar) {
+        fs.unlink(userAvatar.pathImageAvatar, (err) => {
+          if (err) {
+            // res.status(500).json({ message: "Erro ao alterar a imagem" });
+            return;
+          }
+        });
+      }
       await User.findOneAndUpdate(
         { _id: userId },
-        { imageAvatar: req.file.filename }
+        {
+          imageAvatar: req.file.filename,
+          pathImageAvatar: req.file.path,
+        }
       );
     } else {
       await User.findOneAndUpdate(
         { _id: userId },
-        { imageAvatar: "user_padrao.png" }
+        {
+          imageAvatar: "user_padrao.png",
+        }
       );
     }
     res.send("imagem alterada com sucesso");
@@ -196,26 +210,19 @@ exports.sendmail = async (req, res) => {
                 }
         
                 .image {
-                   text-align: center;
                 }
+
+                .image img {
+                  width: 300px;
+                  pointer-events:none;
+                }                
         
-                header img {
-                    width: 160px;
-                }
-    
-                h1 {
-                  font-size: 4rem;
+                h2 {
+                  font-size: 3rem;
                   font-weight: 700;
                   color: #363795
                 }
         
-                h2 {
-                    padding: 10px 0 0 0;
-                    color: #fff;
-                    font-family: sans-serif;
-                    text-align: center;
-                }       
-                
                 .container p {
                     padding-bottom: 10px;
                 }
@@ -224,22 +231,23 @@ exports.sendmail = async (req, res) => {
                 }
                 
             </style>
-        
-        
         </head>
         <body>
             <div class="container">
-                <h1>GameLab</h1>
-                <p>Caro(a) ${user.nome}</p>
-                <p class="paragrafo">
-                    Este é um email para a recuperação de senha.<br></br>
-                </p>
+              <p class="image">
+                <img src="https://i.ibb.co/0ZCCPVL/Reset-password-cuate.png" alt="Reset-password-cuate" border="0" />
+              </p>  
+              <p>Caro(a) ${user.nome}</p>
+              <p class="paragrafo">
+                Este é um email para a recuperação de senha.<br></br>
+              </p>
                 Acesse o link: <a href="http://localhost:3000/resetarsenha?_token=${token}">Recuperar senha</a>
-                <p>
-                    <br></br>
-                    Messagem automática, favor não responder este e-mail
-                </p>
-                
+              <p>
+                <br></br>
+                Messagem automática, favor não responder este e-mail
+                <br></br>
+              </p>
+              <h2>GameLab</h2>
             </div>
         </body>
         </html>`,

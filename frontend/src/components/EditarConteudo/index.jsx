@@ -90,7 +90,7 @@ function EditarConteudo({ Secoes, nomeCurso, courseId, ...props }) {
   const handleSubmit = async (values) => {
     console.log(values)
     try {
-      /*
+      
       if(values.secao === secoes.length) {
         setSecoes([...secoes, {'titulo': values.titulo, 'conteudos':[]}]);
       }else if(values.conteudo === -1){
@@ -99,7 +99,7 @@ function EditarConteudo({ Secoes, nomeCurso, courseId, ...props }) {
        
       }else{
      
-      }*/
+      }
       console.log(secoes)
       setOpen(false);
      // toast.success("Campos editados com sucesso");

@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 
 const formSchema = Yup.object().shape({
   novasenha: Yup.string()
-    .min(8, "Senha precisa de mais de 8 letras")
+    .min(8, "Senha deve possuir ao menos 8 caracteres")
     .required("Campo obrigatório"),
   confirmar: Yup.string()
     .required("Campo obrigatório")

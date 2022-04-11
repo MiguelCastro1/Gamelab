@@ -14,7 +14,7 @@ import api from "../../services/axios";
 const formSchema = Yup.object().shape({
   email: Yup.string().email("Email Invalido").required("Campo obrigatório"),
   senha: Yup.string()
-    .min(8, "Senha precisa de mais de 8 letras")
+    .min(8, "Senha deve possuir ao menos 8 caracteres")
     .required("Campo obrigatório"),
   dataNascimento: Yup.string().required("Campo obrigatório"),
   nome: Yup.string().max(100, "Limite atingido").required("Campo obrigatório"),

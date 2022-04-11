@@ -1,11 +1,14 @@
 
     .feed {
-
+      h1{
+        margin:1rem;
+      }
 
       header {
         margin-bottom: 3rem;
         display: flex;
         justify-content: space-between;
+       
   
         .icons {
           height: 2rem;

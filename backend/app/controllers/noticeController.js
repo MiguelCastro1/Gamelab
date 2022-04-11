@@ -13,7 +13,7 @@ const transporter = nodemailer.createTransport({
 });
 
 exports.createNotice = async (req, res) => {
-    console.log("entrou")
+
     const mailOptions = {
     from: 'gamelabicomp@gmail.com',
     to: req.body.emails,

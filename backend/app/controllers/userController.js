@@ -92,7 +92,6 @@ exports.listAll = async (req, res) => {
 
 exports.uploadAvatar = async (req, res) => {
   let userId = req.params.id;
-  console.log(req.file);
 
   try {
     if (req.file) {

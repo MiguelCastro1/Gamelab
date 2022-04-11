@@ -6,7 +6,7 @@
     margin-top: 2rem;
     display: grid;
     max-width: 100%;
-    grid-template-columns: 0.45fr 1.6fr 0.8fr;
+    grid-template-columns: 0.45fr 1.6fr 0.7fr;
     grid-column-gap: 1rem;
 
     .feed {
@@ -16,7 +16,7 @@
       border-radius: 4px;
       margin-bottom: 1rem;
       padding: 1rem 1rem 1rem 1.2rem;
-      height: 100vh;
+    //  height: 100vh;
 
       .areaSearch {
         display: none;

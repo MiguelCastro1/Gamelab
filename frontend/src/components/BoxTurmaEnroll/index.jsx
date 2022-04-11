@@ -34,7 +34,7 @@ function BoxTurmaEnroll({ course_id, nomeTurma, professor, descricao, senha_curs
         .then((data) => {
           toast("Matriculado com sucesso!");
           console.log('done');
-          window.location.reload();
+          navigate(`/curso/${course_id}`)
         })
         .catch((err) =>  {
           toast.error("Algum Erro ocorreu") 
@@ -51,7 +51,7 @@ function BoxTurmaEnroll({ course_id, nomeTurma, professor, descricao, senha_curs
           .then((data) => {
             toast("Matriculado com sucesso!");
             console.log('done')
-            window.location.reload();
+            navigate(`/curso/${course_id}`)
           })
           .catch((erro) => {
             toast.error("Algum Erro ocorreu") 

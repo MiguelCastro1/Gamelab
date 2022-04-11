@@ -7,7 +7,7 @@
     display: grid;
     max-width: 100%;
     // grid-template-columns: 0.4fr minmax(400px, 2fr) 0.8fr;
-    grid-template-columns: 0.45fr 1.6fr 0.8fr;
+    grid-template-columns: 0.4fr 1.6fr 0.7fr;
     grid-column-gap: 1rem;
 
     .feed {
@@ -63,8 +63,10 @@
      // background-color: white;
      // background:  linear-gradient( rgb(0, 195, 255) 50px, green 50px, green 100px, yellow 100px, yellow 150px, blue 150px);
       border: 1px;
+     // padding: 0.5rem;
       display: flex;
-      background: #e4e6f7;
+     // min-width: 200px;
+    //  background: rgba(7, 130, 245, 0.15);
       position: sticky;
       top: 70px;
       display: flex;
@@ -75,9 +77,10 @@
 
 
       .formating {
+        margin-bottom: 0px;
         width: 100%;
       //  padding: 0.5rem;
-        border: 1px solid var(--gray-100);
+     //   border: 1px solid var(--gray-100);
         border-radius: 4px;
     
         display: flex;
@@ -146,14 +149,15 @@
         }
 
          .botoes{
-          background: white;
-       
+          
+          width: 100%;
+          padding: 0px;
          // border: 1px solid var(--gray-100);
           
           margin-bottom: 1rem;
 
           Button{
-            
+            background: white;  
             font-size: medium;
             text-transform: initial;
             margin-bottom: 0.2rem;

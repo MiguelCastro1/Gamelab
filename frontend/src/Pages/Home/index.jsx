@@ -33,7 +33,8 @@ function Home() {
         api.get("/cursos/professor/MeusCursos")
         .then((data) => {
           setResultados(data.data.doc);
-          setPagina(url);
+          if(url !== undefined)
+            setPagina(url); 
           console.log('done');
         })
         .catch(err => console.log(err))
@@ -41,8 +42,10 @@ function Home() {
         api.get("/cursos/aluno/MeusCursos")
         .then((data) => {
           setResultados(data.data.doc);
-          setPagina(url);
-        
+          if(url !== undefined)
+            setPagina(url);
+            else
+            setPagina("home");
           console.log('done')
         })
         .catch(err => console.log(err))

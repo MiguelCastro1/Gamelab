@@ -12,7 +12,7 @@ function ContentHome({resultados, ...props}) {
             <Link key={turma._id} to = {`/curso/${turma._id}`}>
               <BoxTurma
                 nomeTurma={turma.nomeCurso}
-                professor={turma.autorEmail}
+                professor={turma.autorId.nome}
                 descricao={turma.descricao}
               />
             </Link>

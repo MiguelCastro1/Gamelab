@@ -56,7 +56,7 @@ const style = {
   boxShadow: 24,
 };
 
-function Perfil() {
+function Perfil({courseId, ...props}) {
   let navigate = useNavigate();
   let { id } = localStorage.getItem("gamelab")
     ? JSON.parse(localStorage.getItem("gamelab"))
@@ -88,7 +88,7 @@ function Perfil() {
     setIsEdit(!isEdit);
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (values) => {
     try {
       await api.patch(`usuarios/${userId}`, values);
       setIsEdit(true);

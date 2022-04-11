@@ -1,19 +1,10 @@
 import { useEffect, useState } from "react";
-import HeaderHome from "../../components/HeaderHome";
-import { useNavigate, useParams } from "react-router-dom";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import Input from "../../components/Input";
 import styles from "./styles.module.scss";
-import { FiEdit2, FiArrowLeft } from "react-icons/fi";
-import { BiImageAdd } from "react-icons/bi";
 import { toast } from "react-toastify";
-import Box from "@mui/material/Box";
 import api from "../../services/axios";
-import TextArea from "../../components/TextArea";
-import { Button, Stack } from "@mui/material";
-import Modal from "@mui/material/Modal";
-import imagePadrao from "../../assets/user_padrao.png";
 
 const fields = [
   'nomeCurso',
@@ -27,7 +18,7 @@ const fields = [
 const formSchema = Yup.object().shape({
   nomeCurso: Yup.string().max(100, "Limite atingido").required("Campo obrigatório"),
   materia: Yup.string().max(100, "Limite atingido"),
-  descricao: Yup.string().max(100, "Limite atingido").required("Campo obrigatório"),
+  descricao: Yup.string().required("Campo obrigatório"),
   codigo: Yup.string().max(10, "Limite atingido"),
   senha: Yup.string().max(10, "Limite atingido"),
   ativo: Yup.string().max(10, "Limite atingido")
@@ -56,7 +47,7 @@ function EditarDados({courseId, ...props}) {
     setIsEdit(!isEdit);
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (values) => {
     try {
       await api.patch(`cursos/${courseId}`, values);
       setIsEdit(true);
@@ -87,9 +78,11 @@ function EditarDados({courseId, ...props}) {
           {function ShowForm({ values, handleChange, setFieldValue }) {
             useEffect(() => {
               async function fetchItemsDetails() {
-                const { data } = await api.get(`cursos/${courseId}`);
+                const { data } = await api.get(`cursos/update/${courseId}`);
+                console.log('fetched data');
+                console.log(data)
                 fields.forEach((field) => {
-                  setFieldValue(field, data.data.doc[field], false);
+                  setFieldValue(field, data.doc[field], false);
                 });
               }
               fetchItemsDetails();
@@ -107,7 +100,6 @@ function EditarDados({courseId, ...props}) {
                         onChange={handleChange}
                         type="text"
                         autoFocus={true}
-                        estilo={{ marginBottom: "2.7rem" }}
                       />
                        <Input
                         label="Materia"
@@ -141,16 +133,16 @@ function EditarDados({courseId, ...props}) {
                       <Input
                         label="Status"
                         name="ativo"
-                        value={values.ativo}
-                        type="text"
-                        onChange={handleChange}
-                        disabled={isEdit}
+                        value={values.status}
+                        type="checkbox"
+                        onClick ={handleChange}
+                       
                       />
                     </div>
                   </section>
                   <footer>
                     <button
-                      style={{ opacity: !isEdit ? "1" : 0 }}
+                      style={{ opacity: "1" }}
                       className={styles.cancelar}
                       onClick={handleCancel}
                       type="button"
@@ -158,7 +150,7 @@ function EditarDados({courseId, ...props}) {
                       Cancelar
                     </button>
                     <button
-                      style={{ opacity: !isEdit ? "1" : 0 }}
+                      style={{ opacity: "1" }}
                       className={styles.salvar}
                       type="submit"
                     >

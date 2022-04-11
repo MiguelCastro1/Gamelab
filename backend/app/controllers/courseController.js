@@ -16,6 +16,7 @@ exports.createCourse = async (req, res) => {
   }
 };
 
+
 exports.getCourse = async (req, res) => {
   try {
     let courseId = req.params.courseId;
@@ -24,6 +25,16 @@ exports.getCourse = async (req, res) => {
     let doc = await Course.findById(courseId)
       .populate( "autorId", fields1)
       .populate( "Alunos.userId", fields2);
+    res.status(200).json({ doc });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+exports.getCourseUpdate = async (req, res) => {
+  try {
+    let courseId = req.params.courseId;
+    let doc = await Course.findById(courseId)
     res.status(200).json({ doc });
   } catch (error) {
     console.error(error);
@@ -54,6 +65,7 @@ exports.update = async (req, res) => {
 exports.listCoursesFromTeacher = async (req, res) => {
   let token = req.headers.authorization.split(" ")[1];
   let autor = parseJwt(token).email;
+  let fields1 = 'nome _id';
   try {
     let busca = req.query.pesquisa || "";
     let fields = {
@@ -66,7 +78,7 @@ exports.listCoursesFromTeacher = async (req, res) => {
       ],
       // para o professor enxergar apenas os cursos criados por ele
       autorEmail: autor,
-    });
+    }).populate( "autorId", fields1);
     let encontrados = Object.keys(doc).length;
     // let newDoc = doc.filter(({ autorEmail }) => autorEmail === autor);
     res.status(200).json({
@@ -83,7 +95,7 @@ exports.listCoursesFromTeacher = async (req, res) => {
 //listar cursos para estudante, dentre os quais está matriculado - permite pesquisa por nome do curso, e descrição.
 exports.listCoursesFromStudent = async (req, res) => {
   try {    
-  
+    let fields1 = 'nome _id';
     let token = req.headers.authorization.split(" ")[1];
     let studentId = mongoose.Types.ObjectId( parseJwt(token).id);
     let busca = req.query.pesquisa || "";
@@ -96,7 +108,7 @@ exports.listCoursesFromStudent = async (req, res) => {
         { descricao: { $regex: "(?i).*" + busca + ".*(?i)" } },
       ],
       "Alunos.userId": studentId
-    });
+    }).populate( "autorId", fields1);
    // console.log(doc)
     let encontrados = Object.keys(doc).length;
     res.status(200).json({

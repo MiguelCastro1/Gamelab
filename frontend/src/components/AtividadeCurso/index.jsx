@@ -81,7 +81,7 @@ function AtividadeCurso({atividade,monstro, ...props}) {
           src={status[0]}  
           alt="Monstro"  
           width={120}
-          height={120}
+          height={110}
         />
        <Button  variant="outlined" onClick={handleClickOpen}>
            Enviar Atividade

@@ -13,6 +13,7 @@
   .title {
     display: flex;
     justify-content: space-between;
+    //font-size: medium;
     align-items: baseline;
 
     h1 {
@@ -20,10 +21,14 @@
       background-clip: text;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      font-size: 4rem;
+      font-size: 5rem;
       font-weight: 700;
       animation: slideInX 0.6s ease-in-out;
       padding-top: 2rem;
+    }
+
+    p{
+      font-size: 1.2rem;
     }
   }
 

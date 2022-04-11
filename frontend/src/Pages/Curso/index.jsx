@@ -33,70 +33,15 @@ import orc_gordo from "../../assets/orc_gordo.gif";
 
 function Curso() {
   const monstros = [monster, ghost, orc_gordo];
-  const atividades = [
-    {
-      id: "1",
-      titulo: "Atividade 01 - Vetores",
-      descricao:
-        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Incidunt maxime ullam ipsum architecto repudiandae laborum. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Incidunt maxime ullam ipsum architecto repudiandae laborum",
-      imagem: 0,
-      dataEntrega: "05/04/2022 as 23 horas",
-    },
-    {
-      id: "2",
-      titulo: "Atividade 02 - Vetores",
-      descricao:
-        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Incidunt maxime ullam ipsum architecto repudiandae laborum. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Incidunt maxime ullam ipsum architecto repudiandae laborum ",
-      dataEntrega: "05/04/2022 as 23 horas",
-      imagem: 2,
-    },
-  ];
-
-  const secoes = [
-    {
-      titulo: "Plano de Ensino",
-      conteudos: [
-        {
-          tipo: "pdf",
-          titulo: "Plano de Ensino 2022",
-          visivel: true,
-        },
-      ],
-    },
-    {
-      titulo: "Modulo 1: Vetores",
-      conteudos: [
-        {
-          tipo: "pdf",
-          titulo: "Aula 01 - Introdução a vetores",
-          visivel: true,
-        },
-        {
-          tipo: "link",
-          titulo: "Playlist de Vetores",
-          visivel: true,
-        },
-        {
-          tipo: "Atividade",
-          titulo: "Atividade 01 - Vetores",
-          visivel: true,
-        },
-      ],
-    },
-    {
-      titulo: "Modulo 2: Matrizes",
-      conteudos: [],
-    },
-  ];
-
   const [curso, setCurso] = useState({});
   const [pagina, setPagina] = useState("");
-  const [loaded, setLoaded] = useState(false);
   const [open, setOpen] = useState(false);
-  const { courseId } = useParams();
-  let { id, perfil } = getToken() ? JSON.parse(getToken()) : null;
-  const navigate = useNavigate();
-
+  const [loaded, setLoaded] = useState(false);
+  const [atividades, setAtividades] = useState([]);
+  const {courseId} = useParams();
+  let {id, perfil } = getToken() ? JSON.parse(getToken()) : null;
+  const navigate = useNavigate()
+  
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -143,28 +88,36 @@ function Curso() {
     }
   };
 
-  const handleEdit = () => {};
 
-  useEffect(() => {
-    try {
-      api
-        .get(`/cursos/${courseId}`)
+  useEffect(() =>  {
+    const f = () => {
+      try {
+        api.get(`/cursos/${courseId}`)
         .then((data) => {
-          console.log(data.data.doc);
           setCurso(data.data.doc);
+          setPagina('home');
           setLoaded(true);
-          setPagina("home");
-          console.log("done");
+          console.log('done')
         })
-        .catch((err) => console.log(err));
-    } catch (error) {
-      console.log(error);
-    }
+        .catch(err => console.log(err))
+      }catch (error) {
+        console.log(error);
+      }
+    };
+    f();
   }, []);
 
-  return (
+  useEffect(() =>  {
+    const f = () => {
+      if(Object.keys(curso).length > 0 && curso.secoes.length > 0) 
+      setAtividades(curso.secoes.map((secao => (secao.conteudos.filter(conteudo => conteudo.tipo=== 'Atividade')))).filter(atividade => atividade.length > 0)[0]);
+    }
+    f();
+  }, [curso]);
+
+  return ( 
     <>
-      <HeaderHome />
+       <HeaderHome />
       <div className={styles.container}>
         <div className={styles.content}>
           <div className={styles.sideBarLeft}>
@@ -196,24 +149,27 @@ function Curso() {
           </div>
 
           <div className={styles.feed}>
-            {loaded && pagina === "home" && (
+            {pagina === "home" && (
               <Secoes
                 secoes={curso.secoes}
                 nomeCurso={curso.nomeCurso}
                 courseId={courseId}
               />
             )}
-            {loaded && pagina === "participantes" && loaded && (
+            {pagina === "participantes" && (
               <Participantes Alunos={curso.Alunos} />
             )}
-            {loaded && pagina === "notas" && <Notas Alunos={curso.Alunos} />}
-            {loaded && pagina === "editar-dados" && (
-              <EditarDados curso={courseId} />
+            {pagina === "notas" && <Notas Alunos={curso.Alunos} />}
+            {pagina === "editar-dados" && (
+              <EditarDados courseId={courseId} />
             )}
-            {loaded && pagina === "editar-conteudo" && (
-              <EditarConteudo curso={curso} />
+            {pagina === "editar-conteudo" && (
+              <EditarConteudo  
+              Secoes={curso.secoes}
+              nomeCurso={curso.nomeCurso}
+              courseId={courseId} />
             )}
-            {loaded && pagina === "criar-aviso" && (
+            {pagina === "criar-aviso" && (
               <CriarAviso courseId={courseId} Alunos={curso.Alunos} />
             )}
           </div>
@@ -224,7 +180,7 @@ function Curso() {
                 <h3> Dados da turma </h3>
                 <p>
                   <span className={styles.tit}> Professor: </span>{" "}
-                  {loaded ? curso.autorId.nome : ""}{" "}
+                  {loaded && curso.autorId.nome}{" "}
                 </p>
                 <p>
                   <span className={styles.tit}> Descrição: </span>
@@ -233,14 +189,14 @@ function Curso() {
                     more="Ver mais"
                     less="Ver menos"
                     className="content-css"
-                    width={350}
+                    width={400}
                   >
-                    {loaded ? curso.descricao : ""}
+                    {curso.descricao }
                   </ShowMoreText>
                 </p>
                 <p>
                   <span className={styles.tit}> Status: </span>{" "}
-                  {loaded ? "Ativo" : ""} <FcApproval size={20} />{" "}
+                  {"Ativo"} <FcApproval size={20} />{" "}
                 </p>
               </div>
 
@@ -443,22 +399,16 @@ function Curso() {
               <div className={styles.atividades}>
                 <h3> Atividades </h3>
                 {atividades.map((atividade) => (
-                  <div key={atividade.titulo} className={styles.tarefa}>
-                    <p style={{ fontWeight: "bolder" }}> {atividade.titulo} </p>
-                    <p> Entrega : {atividade.dataEntrega} </p>
-                    <Button
-                      onClick={() =>
-                        navigate(`/curso/${courseId}/${atividade.id}`)
-                      }
-                      variant="outlined"
-                      startIcon={<AiFillPlusSquare />}
-                    >
-                      Mais Detalhes
-                    </Button>
-                    {perfil === "aluno" && (
+                  <div key = {atividade.titulo} className={styles.tarefa}>
+                  <p style={{fontWeight: 'bolder'}}> {atividade.titulo} </p>
+                    <p> Entrega : {'-'}  </p> 
+                    <Button onClick={() => navigate(`/curso/${courseId}/${atividade._id}`)}  variant="outlined" startIcon={<AiFillPlusSquare />} >
+                     Mais Detalhes
+                     </Button>
+                    {perfil === 'aluno' && ( 
                       <img
-                        src={monstros[atividade.imagem]}
-                        alt="Monstro"
+                        src={monstros[0]}   
+                        alt="Monstro"  
                         width={115}
                         height={115}
                       />
@@ -470,8 +420,11 @@ function Curso() {
           </div>
         </div>
       </div>
+   
     </>
+    
   );
+  
 }
 
 export default Curso;

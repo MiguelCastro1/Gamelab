@@ -27,6 +27,11 @@ const Aviso = require("../controllers/noticeController");
 require("../middlewares/autenticador");
 
 //Usuário
+
+router.post("/teste", (req, res) => {
+  res.send("teste!!");
+});
+
 router.post("/login", Usuario.login);
 router.post("/usuarios", Usuario.createUser);
 router.get("/usuarios", auth, Usuario.listAll);

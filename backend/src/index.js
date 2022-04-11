@@ -10,7 +10,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/public", express.static(path.join(__dirname, "public")));
+app.use("/public", express.static(path.join(__dirname, "..", "public")));
 
 mongoose.connect(process.env.ATLAS_URI, {
   useNewUrlParser: true,
@@ -25,11 +25,11 @@ mongoose.connection.on("error", (err) => {
   console.error(`❌ Erro na conexão ao banco de dados: ${err.message}`);
 });
 
-require("./app/models/user");
-require("./app/models/course");
-require("./app/models/notice");
+require("./models/user");
+require("./models/course");
+require("./models/notice");
 
-const routes = require("./app/routes/routes");
+const routes = require("./routes/routes");
 
 app.use("/", routes);
 

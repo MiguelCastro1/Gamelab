@@ -43,10 +43,11 @@ function CriarCurso() {
       console.log(object);
     
       try {
-        await api.post("/cursos", object);
+       const { data} =  await api.post("/cursos", object);
         console.log('done')
         toast.success("Curso criado com Sucesso")
-        navigate(`/curso/${course_id}`)
+        console.log(data.document._id)
+        navigate(`/curso/${data.document._id}`)
       } catch (error) {
         toast.error("Algum erro ocorreu")
         console.log(error);

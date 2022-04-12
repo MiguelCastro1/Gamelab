@@ -16,7 +16,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 function AtividadeCurso({atividade,monstro, ...props}) {
   const [open, setOpen] = useState(false);
 
-  
+  console.log(atividade)
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -27,7 +27,6 @@ function AtividadeCurso({atividade,monstro, ...props}) {
 
   const status = [samurai,cool,awesome]
   return (
-
       <div className={styles.feed}>
         <div className={styles.titulo}>
       <img
@@ -45,7 +44,7 @@ function AtividadeCurso({atividade,monstro, ...props}) {
         <div className={styles.dados}>           
         <div>
             <h2>Data de Entrega: </h2>
-            <p>{'05/04/2022 as 23 horas'}</p>
+            <p>{atividade.dataEntrega}</p>
           </div>
           <div>
             <h2>Tempo Restante: </h2>

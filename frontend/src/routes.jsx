@@ -17,7 +17,7 @@ import Perfil from "./Pages/Perfil";
 import NotFound from "./Pages/NotFound";
 import ResetarSenha from "./Pages/ResetarSenha";
 import Atividade from "./Pages/Atividade";
-
+import EditarCurso from "./Pages/EditarCurso";
 import { isAuthenticated } from "./services/auth";
 
 const RotasPrivadas = () => {
@@ -40,6 +40,7 @@ export default function Rotas() {
 
         <Route element={<RotasPrivadas />}>
           <Route path="/curso/:courseId/:atividadeId" element={<Atividade />} />
+          <Route path="/curso/:courseId/editar-conteudo" element={<EditarCurso />} />
           <Route path="/curso/:courseId" element={<Curso />} />
           <Route path="/perfil/:userId" element={<Perfil />} />
           <Route path="*" element={<NotFound />} />

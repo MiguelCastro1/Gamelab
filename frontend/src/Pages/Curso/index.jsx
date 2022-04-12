@@ -7,7 +7,6 @@ import Secoes from "../../components/Secoes";
 import Participantes from "../../components/Participantes";
 import Notas from "../../components/Notas";
 import EditarDados from "../../components/EditarDados";
-import EditarConteudo from "../../components/EditarConteudo";
 import CriarAviso from "../../components/CriarAviso";
 import { getToken } from "../../services/auth";
 import monster from "../../assets/guerreiro-morto.gif";
@@ -107,10 +106,15 @@ function Curso() {
     f();
   }, []);
 
+
   useEffect(() =>  {
+    console.log("efect")
     const f = () => {
-      if(Object.keys(curso).length > 0 && curso.secoes.length > 0) 
-      setAtividades(curso.secoes.map((secao => (secao.conteudos.filter(conteudo => conteudo.tipo=== 'Atividade')))).filter(atividade => atividade.length > 0)[0]);
+      if(Object.keys(curso).length > 0 && curso.secoes.length > 0) {
+        let inter = curso.secoes.map((secao => (secao.conteudos.filter(conteudo => conteudo.tipo=== 'Atividade')))).filter(atividade => atividade.length > 0);
+        if(inter.length > 0)
+        setAtividades(inter[0])
+      }
     }
     f();
   }, [curso]);
@@ -149,11 +153,13 @@ function Curso() {
               )}
             </ul>
           </div>
-
+          {console.log(pagina)}
+          {console.log({...curso})}
           <div className={styles.feed}>
             {pagina === "home" && (
+              
               <Secoes
-                secoes={curso.secoes}
+                secoes={[...curso.secoes]}
                 nomeCurso={curso.nomeCurso}
                 courseId={courseId}
               />
@@ -164,12 +170,6 @@ function Curso() {
             {pagina === "notas" && <Notas Alunos={curso.Alunos} />}
             {pagina === "editar-dados" && (
               <EditarDados courseId={courseId} />
-            )}
-            {pagina === "editar-conteudo" && (
-              <EditarConteudo  
-              Secoes={curso.secoes}
-              nomeCurso={curso.nomeCurso}
-              courseId={courseId} />
             )}
             {pagina === "criar-aviso" && (
               <CriarAviso courseId={courseId} Alunos={curso.Alunos} />
@@ -303,7 +303,7 @@ function Curso() {
                     </Button>
                   ) : (
                     <Button
-                      onClick={() => setPagina("editar-conteudo")}
+                      onClick={() => navigate(`/curso/${courseId}/editar-conteudo`)}
                       variant="outlined"
                       startIcon={<FcEditImage />}
                     >

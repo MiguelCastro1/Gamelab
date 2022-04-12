@@ -52,9 +52,11 @@ exports.delete = async (req, res) => {
 }
 
 exports.update = async (req, res) => {
+  console.log(req.body)
   let courseId = req.params.courseId;
   try {
     let doc = await Course.findOneAndUpdate({ _id: courseId }, req.body);
+    console.log({doc})
     res.status(200).json({ doc });
   } catch (error) {
     console.error(error);

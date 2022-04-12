@@ -12,12 +12,11 @@ function Secoes({ secoes, nomeCurso, courseId, ...props }) {
 
 
   const acao = (conteudo) => {
-    if (conteudo.tipo === "pdf") {
+    if (conteudo.tipo === "arquivo") {
       window.open(conteudo.uri);
     } else if (conteudo.tipo === "link") {
       window.open(conteudo.uri);
     } else {
-      console.log("inin");
       navigate(`/curso/${courseId}/${conteudo._id}  `);
     }
   };
@@ -30,7 +29,7 @@ function Secoes({ secoes, nomeCurso, courseId, ...props }) {
       </h1>
       {secoes.length === 0 && <span> Nenhum Conteudo </span>}
       {secoes.length === 0 && <img src={nada} width={500} height={500} />}
-      {secoes.map((secao, index) => (
+      {secoes.map((secao) => (
         <div className={styles.secao}>
           <h2>{secao.titulo}</h2>
           <div className={styles.conteudo}>
@@ -39,7 +38,7 @@ function Secoes({ secoes, nomeCurso, courseId, ...props }) {
                 className={styles.conteudoInfo}
                 onClick={() => acao(conteudo)}
               >
-                {conteudo.tipo == "pdf" ? (
+                {conteudo.tipo == "arquivo" ? (
                   <FcFile size={25} />
                 ) : conteudo.tipo == "link" ? (
                   <FcLink size={25} />

@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./styles.module.scss";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { SiGoogleclassroom } from "react-icons/si";
+import {BiTrash} from "react-icons/bi";
 import api from "../../services/axios";
 import { toast } from "react-toastify";
 import {RiDeleteBin5Line, RiAddCircleLine} from "react-icons/ri";
@@ -14,14 +15,14 @@ import { FiEdit2 } from "react-icons/fi";
 import { Button, Modal, Box, Typography,Dialog, DialogTitle, DialogActions} from "@mui/material";
 import * as Yup from "yup";
 
-function EditarConteudo({ Secoes, nomeCurso, courseId, ...props }) {
+function EditarConteudoCurso({_secoes, nomeCurso, courseId, ...props }) {
   const navigate = useNavigate();
-  const [secoes, setSecoes] = useState(Secoes);
-  const [flagReset, setFlagReset] = useState(true);
+  const [secoes, setSecoes] = useState(_secoes);
+  const [reload, setReload] = useState([]);
   const [open, setOpen] = useState(false);
   const [open2, setOpen2] = useState(false);
   const [campos, setCampos] = useState({});
-  
+
   const fields = [
     'secao',
     'conteudo',
@@ -47,7 +48,7 @@ function EditarConteudo({ Secoes, nomeCurso, courseId, ...props }) {
     p: 5,
   };
 
-  const handleCancel = () => setFlagReset(!flagReset);
+  const Cancelar = () => {setSecoes([..._secoes]); toast.success("Campos editados resetados");}
 
   const handleOpen = () => setOpen(true);
 
@@ -57,30 +58,39 @@ function EditarConteudo({ Secoes, nomeCurso, courseId, ...props }) {
 
   const handleClose2 = () => setOpen2(false);
 
-  const handleSave= async () => {
+  const Salvar = async () => {
 
     try {
-    //  await api.patch(`cursos/${courseId}`, values);
-      toast.error("Funcao ainda nao implementada");
-      //toast.success("Campos editados com sucesso");
+      await api.patch(`cursos/${courseId}`, {secoes: secoes});
+      toast.success("Campos editados salvos com sucesso");
+      navigate(`/curso/${courseId}`);
     } catch (error) {
-      console.log(error);
+      console.log(error); 
       toast.error("Erro ao editar seus dados");
     }
   };
 
   const deletar = (secao, conteudo) => {
     try {
-      /*
-      if(values.conteudo === -1){
-    
-      }else{
-     
-      }*/
-      setOpen(false);
-      setOpen2(false);
-    // toast.success("Campos editados com sucesso");
-    toast.error("Funcao ainda nao implementada");
+      //excuir  secao
+      if(conteudo === -1){
+        console.log('1')
+        let s = [...secoes]
+        s.splice(secao, 1);
+        console.log({s})
+        setSecoes(s)
+      //editar conteudo
+      }else {
+        console.log('2')
+        let s = [...secoes]
+        s[secao].conteudos.splice(conteudo, 1);  
+        setSecoes(s)
+      }
+
+     setOpen2(false);
+     setOpen(false);
+     toast.success("Campos editados com sucesso");
+     //toast.error("Funcao ainda nao implementada");
     } catch (error) {
       console.log(error);
       toast.error("Erro ao editar seus dados");
@@ -88,22 +98,43 @@ function EditarConteudo({ Secoes, nomeCurso, courseId, ...props }) {
   }
 
   const handleSubmit = async (values) => {
-    console.log(values)
-    try {
-      
-      if(values.secao === secoes.length) {
-        setSecoes([...secoes, {'titulo': values.titulo, 'conteudos':[]}]);
-      }else if(values.conteudo === -1){
+    let object ={
+      ...values
+    };
 
-      }else if(secoes[secao].conteudos.length === conteudo){
-       
+    delete object.secao;
+    delete object.conteudo;
+    console.log({object})
+    try {
+      //adicionar nova secao
+      if(values.secao === secoes.length) {
+        console.log('1')
+        setSecoes([...secoes, {'titulo': values.titulo, 'conteudos':[]}]);
+      //editar titulo da secao
+      }else if(values.conteudo === -1){
+        console.log('2')
+        let s = [...secoes]
+        s[values.secao].titulo = values.titulo
+        setSecoes(s)
+
+      //editar conteudo
+      }else if(secoes[values.secao].conteudos.length > values.conteudo){
+        console.log('3')
+        let s = [...secoes]
+        let _id = s[values.secao].conteudos[values.conteudo]._id
+        s[values.secao].conteudos[values.conteudo] = {...object, _id}      
+        setSecoes(s)
+      //adicionar novo conteudo
       }else{
-     
+        console.log('4')
+        let s = [...secoes]
+        s[values.secao].conteudos = [...s[values.secao].conteudos, object] 
+        setSecoes(s)
       }
-      console.log(secoes)
-      setOpen(false);
-     // toast.success("Campos editados com sucesso");
-     toast.error("Funcao ainda nao implementada");
+
+     setOpen(false);
+     toast.success("Campos editados com sucesso");
+     //toast.error("Funcao ainda nao implementada");
     } catch (error) {
       console.log(error);
       toast.error("Erro ao editar seus dados");
@@ -137,7 +168,7 @@ function EditarConteudo({ Secoes, nomeCurso, courseId, ...props }) {
       {console.log(secoes)}
       {secoes.map((secao, sindex) => (
         <div className={styles.secao}> 
-          <div className={styles.info}>
+          <div className={styles.info}> 
               <h2>{secao.titulo}</h2>
               <div>
                 <FiEdit2 className={styles.iconEdit} onClick={() => DefiniCampos(sindex, -1)}/>
@@ -148,7 +179,7 @@ function EditarConteudo({ Secoes, nomeCurso, courseId, ...props }) {
             {secao.conteudos.map((conteudo, cindex) => (
               <div
                 className={styles.conteudoInfo}>
-                {conteudo.tipo == "pdf" ? (
+                {conteudo.tipo == "arquivo" ? (
                   <FcFile size={25} />
                 ) : conteudo.tipo == "link" ? (
                   <FcLink size={25} />
@@ -179,8 +210,25 @@ function EditarConteudo({ Secoes, nomeCurso, courseId, ...props }) {
       >
         Adicionar Seção
        </Button>
+       
+    <div className={styles.foot}>
+      <Button
+        className={styles.salvar}
+        onClick={Salvar}
+      >
+        Salvar
+      </Button>
+      <Button
+        className={styles.cancelar}
+        onClick={Cancelar}
+      >
+        Resetar
+      </Button> 
+  
+    </div>
 
-        <div> 
+
+    <div> 
             <Modal
               open={open}
               onClose={handleClose}
@@ -191,13 +239,13 @@ function EditarConteudo({ Secoes, nomeCurso, courseId, ...props }) {
                 <Formik initialValues={{
                   secao: campos.secao,
                   conteudo: campos.conteudo,
-                  tipo: campos.tipo,
-                  titulo: campos.titulo,
-                  uri: campos.uri,
-                  visivel: campos.visivel,
-                  descricao: campos.descricao,
-                  dataInicio: campos.dataInicio,
-                  dataEntrega: campos.dataEntrega,
+                  tipo: campos.tipo !== undefined ? campos.tipo : "link",
+                  titulo: campos.titulo !== undefined ? campos.titulo : "",
+                  uri: campos.uri !== undefined ? campos.uri : "",
+                  visivel: campos.visivel !== undefined ? campos.visivel : true,
+                  descricao: campos.descricao !== undefined ? campos.descricao : "",
+                  dataInicio: campos.dataInicio !== undefined ? campos.dataInicio : "",
+                  dataEntrega: campos.dataEntrega !== undefined ? campos.dataEntrega : "",
                 }}
                 onSubmit = {handleSubmit}
                 validationSchema={formSchema}
@@ -207,13 +255,6 @@ function EditarConteudo({ Secoes, nomeCurso, courseId, ...props }) {
                   {({handleSubmit,values, ...props}) => (
                      <Form>
                     
-                    <Input
-                    name="titulo"
-                    label={"Titulo"}
-                    value={values.titulo}
-                    type="text"
-                    />
-
                     {values.conteudo !== -1 && (
                      <Input
                     name="tipo"
@@ -222,7 +263,14 @@ function EditarConteudo({ Secoes, nomeCurso, courseId, ...props }) {
                     type="text"
                     />
                     )}
-                    
+
+                    <Input
+                    name="titulo"
+                    label={"Titulo"}
+                    value={values.titulo}
+                    type="text"
+                    />     
+                                   
                     {values.conteudo !== -1 && (
                     <Input
                     name="uri"
@@ -231,14 +279,7 @@ function EditarConteudo({ Secoes, nomeCurso, courseId, ...props }) {
                     type="text"
                     />
                     )}
-                    {false && (
-                    <Input
-                    name="visivel"
-                    label={"Vísivel"}
-                    value={values.visivel}
-                    type="text"
-                    />
-                    )}
+                   
                     {values.conteudo !== -1 &&  values.tipo === 'Atividade' && (
                     <Input
                     name="descricao"
@@ -247,17 +288,30 @@ function EditarConteudo({ Secoes, nomeCurso, courseId, ...props }) {
                     type="text"
                     />
                     )}
+
                     {values.conteudo !== -1 && values.tipo === 'Atividade' &&(
                     <Input
                     name="dataEntrega"
                     label={"Data de Entrega"}
                     value={values.dataEntrega}
-                    type="text"
+                    type="date"
                     />
                     )}
+
+                    { values.conteudo !== -1 && (
+                      <Input
+                      name="visivel"
+                      label={"Vísivel"}
+                      value={values.visivel}
+                      type="text"
+                      />
+                      )}
+                      
                   <Button onClick={handleClose}>Cancelar</Button>
                   <Button  type="submit" onClick={handleSubmit}>Confirmar</Button>
-                  <Button  onClick={() => setOpen2(true)}>Excluir</Button>
+                  <Button style={{color:'#ef856b', marginLeft:'12px'}} onClick={() => setOpen2(true)} startIcon={<BiTrash size={20}/>}>
+                    Excluir
+                  </Button>
                   <Dialog open={open2} onClose={handleClose2} aria-labelledby="alert-dialog-title">
                     <DialogTitle id="alert-dialog-title">
                       {"Você deseja realmente Excluir?"}
@@ -274,27 +328,8 @@ function EditarConteudo({ Secoes, nomeCurso, courseId, ...props }) {
               </Box>
             </Modal>
           </div>
-          <div>
-         
-          <div className={styles.foot}>
-          <button
-            style={{ opacity: "1" }}
-            className={styles.salvar}
-            onclick={() => handleSave}
-          >
-            Salvar
-          </button>
-          <button
-            style={{ opacity: "1" }}
-            className={styles.cancelar}
-            onClick={() => handleCancel}
-          >
-            Cancelar
-          </button> 
-        </div>
-        </div>
     </div>
   );
 }
 
-export default EditarConteudo;
+export default EditarConteudoCurso;

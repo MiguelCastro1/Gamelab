@@ -9,7 +9,7 @@ import nada from "../../assets/passado.webp";
 
 function Secoes({ secoes, nomeCurso, courseId, ...props }) {
   const navigate = useNavigate();
-
+  console.log(secoes)
 
   const acao = (conteudo) => {
     if (conteudo.tipo === "arquivo") {
@@ -34,18 +34,22 @@ function Secoes({ secoes, nomeCurso, courseId, ...props }) {
           <h2>{secao.titulo}</h2>
           <div className={styles.conteudo}>
             {secao.conteudos.map((conteudo) => (
-              <div
-                className={styles.conteudoInfo}
-                onClick={() => acao(conteudo)}
-              >
-                {conteudo.tipo == "arquivo" ? (
-                  <FcFile size={25} />
-                ) : conteudo.tipo == "link" ? (
-                  <FcLink size={25} />
-                ) : (
-                  <FcInspection size={25} />
-                )}
-                <h3>{conteudo.titulo}</h3>
+              <div> 
+              {conteudo.visivel && (
+                <div
+                  className={styles.conteudoInfo}
+                  onClick={() => acao(conteudo)}
+                >
+                  {conteudo.tipo == "arquivo" ? (
+                    <FcFile size={25} />
+                  ) : conteudo.tipo == "link" ? (
+                    <FcLink size={25} />
+                  ) : (
+                    <FcInspection size={25} />
+                  )}
+                  <h3>{conteudo.titulo}</h3>
+                </div>
+              )}
               </div>
             ))}
           </div>

@@ -228,7 +228,7 @@ function EditarConteudoCurso({_secoes, nomeCurso, courseId, ...props }) {
     </div>
 
 
-    <div> 
+    <div className={styles.modal}> 
             <Modal
               open={open}
               onClose={handleClose}
@@ -254,11 +254,12 @@ function EditarConteudoCurso({_secoes, nomeCurso, courseId, ...props }) {
               
                   {({handleSubmit,values, ...props}) => (
                      <Form>
-                    
+                    {console.log(values)}
+ 
                     {values.conteudo !== -1 && (
-                     <Input
+                    <Input
                     name="tipo"
-                    label={"Tipo de conteudo"}
+                    label={"arquivo"}
                     value={values.tipo}
                     type="text"
                     />
@@ -294,7 +295,7 @@ function EditarConteudoCurso({_secoes, nomeCurso, courseId, ...props }) {
                     name="dataEntrega"
                     label={"Data de Entrega"}
                     value={values.dataEntrega}
-                    type="date"
+                    type="datetime-local"
                     />
                     )}
 

@@ -1,8 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import userPhoto from "../../assets/user_padrao.png"
 import {FcUpload, FcSportsMode} from "react-icons/fc";
 import styles from "./styles.module.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DialogContentText from '@mui/material/DialogContentText';
 import comemoracao from "../../assets/comemora.gif";
 import {Button} from "@mui/material";
@@ -12,20 +12,37 @@ import samurai from "../../assets/samurai.gif"
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
+import api from "../../services/axios";
 
-function AtividadeCurso({atividade,monstro, ...props}) {
+function AtividadeCurso({atividade,monstro, alunos, courseId, ...props}) {
+  const navigate = useNavigate()
   const [open, setOpen] = useState(false);
+  const data = atividade.dataEntrega ? Date.parse(atividade.dataEntrega) : '';
+  const status = [samurai,cool,awesome]
+  const data_ati = new Date(data);
+  const data_curr = new Date();
+  const diffTime = Math.abs(data_ati - data_curr);
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)); 
+  const diffDays_real = diffTime / (1000 * 60 * 60 * 24);
+  const {id} = localStorage.getItem("gamelab") ? JSON.parse(localStorage.getItem("gamelab")): null;
+  let aluno = alunos.filter(aluno => aluno.userId._id === id)
+  let aluno_found = false;
+  console.log(diffDays_real)
 
-  console.log(atividade)
-  const handleClickOpen = () => {
+   const handleClickOpen = () => {
     setOpen(true);
   };
 
   const handleClose = () => {
     setOpen(false);
+   // navigate(`curso/${courseId}`);
   };
 
-  const status = [samurai,cool,awesome]
+  if(aluno.length > 0){
+    aluno = aluno[0];
+    aluno_found = true;
+  }
+
   return (
       <div className={styles.feed}>
         <div className={styles.titulo}>
@@ -44,26 +61,27 @@ function AtividadeCurso({atividade,monstro, ...props}) {
         <div className={styles.dados}>           
         <div>
             <h2>Data de Entrega: </h2>
-            <p>{atividade.dataEntrega}</p>
+            <p>{data_ati.toLocaleDateString()}</p>
+          </div>
+          <div>
+            <h2>Hora de Entrega: </h2>
+            <p>{data_ati.toLocaleTimeString()}</p>
           </div>
           <div>
             <h2>Tempo Restante: </h2>
-            <p>{"26 horas"}</p>
+            <p>{diffDays} Dias</p>
           </div>
-          <div>
-            <h2>Última modificação: </h2>
-            <p>Nada enviado</p>
-          </div>
+        
         </div>
         <div className={styles.dados}>           
-
           <div>
             <h2>Status: </h2>
-            <p>Nada enviado</p>
+            <p>{aluno_found && aluno.notas.status ? aluno.notas.status : "Nâo Enviado"}
+            </p>
           </div>
           <div>
             <h2>Nota: </h2>
-            <p>Não avaliado</p>
+            <p>{aluno_found && aluno.notas.nota ? aluno.notas.nota : "Nâo Avaliado"}</p>
           </div>
           
           <div className={styles.anexo} style={{backgroundColor: '#ADD8E6'}}>
@@ -100,7 +118,7 @@ function AtividadeCurso({atividade,monstro, ...props}) {
               </DialogContentText>
   
               <DialogActions>
-                <Button onClick={handleClose}>Confirmar</Button>
+                <Button onClick={handleClose}>Voltar</Button>
               </DialogActions>
             </Dialog>
        </div>

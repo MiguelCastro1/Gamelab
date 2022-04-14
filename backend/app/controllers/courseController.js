@@ -226,4 +226,20 @@ exports.listAll = async (req, res) => {
   }
 };
 
-
+exports.getCourseDeliveries = async (req, res) => {
+  try {
+    let courseId = req.params.courseId;
+    let userId = req.params.userId;
+    let fields1 = 'Alunos';
+    let doc = await Course.findOne(
+      { 
+        '_id' : courseId,
+        'Alunos' : { $elemMatch : { userId: userId}}
+      }, 
+      fields1
+    );
+    res.status(200).json({ doc });
+  } catch (error) {
+    console.error(error);
+  }
+};

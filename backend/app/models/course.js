@@ -38,8 +38,7 @@ const courseSchema = new Schema(
     },
     Alunos: [{
       userId: { type: Schema.Types.ObjectId, ref: "User"},
-      notas: [{
-        atividadeId: { type: Schema.Types.ObjectId},
+      atividades: [{
         status: {type: String},
         nota: {type : Number},
         entregaUri: {type: String},

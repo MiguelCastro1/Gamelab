@@ -82,7 +82,13 @@ function Atividade() {
           </div>
           
           <div className={styles.feed}>
-              {atividades.length > 0 &&  <AtividadeCurso atividade={atividades.filter(atividade => atividade._id === atividadeId)[0]} monstro={monstros[0]} />
+              {atividades.length > 0 &&  
+                <AtividadeCurso 
+                  atividade={atividades.filter(atividade => atividade._id === atividadeId)[0]}
+                  monstro={monstros[0]} 
+                  alunos = {curso.Alunos} 
+                  courseId={courseId}
+                />
               }
            </div>
               

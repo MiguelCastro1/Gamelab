@@ -12,7 +12,7 @@ const fields = [
   'descricao',
   'codigo',
   'senha',
-  'ativo',
+  'Ativo',
 ];
 
 const formSchema = Yup.object().shape({
@@ -70,7 +70,7 @@ function EditarDados({courseId, ...props}) {
             descricao: "",
             codigo: "",
             senha: "",
-            ativo: "",
+            Ativo: "",
           }}
           onSubmit={handleSubmit}
           validationSchema={formSchema}
@@ -133,8 +133,8 @@ function EditarDados({courseId, ...props}) {
                       <Input
                         label="Status"
                         name="ativo"
-                        value={values.status}
-                        type="checkbox"
+                        value={values.Ativo}
+                        type="text"
                         onClick ={handleChange}
                        
                       />

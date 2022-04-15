@@ -21,7 +21,8 @@ function AtividadeCurso({atividade,monstro, alunos, courseId, ...props}) {
   const status = [samurai,cool,awesome]
   const data_ati = new Date(data);
   const data_curr = new Date();
-  const diffTime = Math.abs(data_ati - data_curr);
+
+  const diffTime = data_ati >= data_curr ? Math.abs(data_ati - data_curr) : -1 * Math.abs(data_curr - data_ati) ;
   const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)); 
   const diffDays_real = diffTime / (1000 * 60 * 60 * 24);
   const {id} = localStorage.getItem("gamelab") ? JSON.parse(localStorage.getItem("gamelab")): null;

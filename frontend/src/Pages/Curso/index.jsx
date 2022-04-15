@@ -378,7 +378,7 @@ function Curso() {
                     aria-labelledby="alert-dialog-title"
                   >
                     <DialogTitle id="alert-dialog-title">
-                      {"Você deseja realmente se desmatricular?"}
+                      {"Você deseja realmente excluir o curso?"}
                     </DialogTitle>
                     <DialogActions>
                       <Button onClick={handleClose}>Cancelar</Button>

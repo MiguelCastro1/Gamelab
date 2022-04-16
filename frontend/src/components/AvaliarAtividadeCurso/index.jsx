@@ -14,7 +14,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
 import api from "../../services/axios";
 
-function AtividadeCurso({atividade,monstro, alunos, courseId, ...props}) {
+function AvaliarAtividadeCurso({atividade,monstro, alunos, courseId, ...props}) {
   const navigate = useNavigate()
   const [open, setOpen] = useState(false);
   const data = atividade.dataEntrega ? Date.parse(atividade.dataEntrega) : '';
@@ -28,7 +28,7 @@ function AtividadeCurso({atividade,monstro, alunos, courseId, ...props}) {
   const {id, perfil} = localStorage.getItem("gamelab") ? JSON.parse(localStorage.getItem("gamelab")): null;
   let aluno = alunos.filter(aluno => aluno.userId._id === id)
   let aluno_found = false;
-
+  console.log(diffDays_real)
 
    const handleClickOpen = () => {
     setOpen(true);
@@ -47,14 +47,12 @@ function AtividadeCurso({atividade,monstro, alunos, courseId, ...props}) {
   return (
       <div className={styles.feed}>
         <div className={styles.titulo}>
-        {perfil === 'aluno' &&
-        <img
-            src={monstro}  
-            alt="Monstro"  
-            width={115}
-            height={115}
-          />
-        }
+      <img
+          src={monstro}  
+          alt="Monstro"  
+          width={115}
+          height={115}
+        />
        <h1>{atividade.titulo}</h1>
        </div>
        <div className={styles.descricao}>
@@ -132,4 +130,4 @@ function AtividadeCurso({atividade,monstro, alunos, courseId, ...props}) {
   );
 }
 
-export default AtividadeCurso;
+export default AvaliarAtividadeCurso;

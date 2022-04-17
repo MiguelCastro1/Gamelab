@@ -60,6 +60,7 @@ router.get("/cursos/aluno/MeusCursos", auth, Curso.listCoursesFromStudent);
 router.get("/cursos/update/:courseId", auth, Curso.getCourseUpdate);
 router.get("/cursos/:courseId", auth, Curso.getCourse);
 router.get("/cursos/:courseId/entregas/:userId", auth, Curso.getCourseDeliveries);
+router.patch("/cursos/:courseId/entregas/:userId", auth, Curso.updateDeliverie);
 
 router.patch("/cursos/:courseId", auth, Curso.update);
 router.delete("/cursos/:courseId", auth, Curso.delete);

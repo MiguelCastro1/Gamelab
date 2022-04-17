@@ -243,3 +243,40 @@ exports.getCourseDeliveries = async (req, res) => {
     console.error(error);
   }
 };
+
+//atualiza todo content para atividade( content._id) para um aluno( userId) de uma turma( courseId)
+exports.updateDeliverie = async (req, res) => {
+  try {
+    let courseId = mongoose.Types.ObjectId( req.params.courseId);
+    let userId = mongoose.Types.ObjectId( req.params.userId);
+
+    let content = {
+      _id: new mongoose.Types.ObjectId( req.body._id),
+      status: req.body.status,
+      nota: req.body.nota,
+      entregaUri: req.body.entregaUri,
+      dataEntrega: new Date( req.body.dataEntrega)
+    }
+    console.log( content);
+
+    let doc = await Course.updateOne(
+      { 
+        '_id' : courseId
+      }, 
+      {
+        'Alunos' : [
+          {
+            'userId' : userId,
+            'atividades' : [
+              content
+            ]
+          }
+        ]
+      }
+    );
+
+    res.status(200).json({ doc });
+  } catch (error) {
+    console.error(error);
+  }
+};

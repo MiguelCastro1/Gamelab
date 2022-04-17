@@ -39,8 +39,15 @@ const courseSchema = new Schema(
     Alunos: [{
       userId: { type: Schema.Types.ObjectId, ref: "User"},
       atividades: [{
-        status: {type: String},
-        nota: {type : Number},
+        status: {
+          type: String,
+          enum: [ "entregue", "avaliado"]
+        },
+        nota: {
+          type : Number,
+          min: 0.0,
+          max: 10.0
+        },
         entregaUri: {type: String},
         dataEntrega: {type: Schema.Types.Date}
       }]

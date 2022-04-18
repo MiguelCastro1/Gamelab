@@ -12,7 +12,8 @@ import {Form, Formik} from 'formik';
 import Input from "../../components/Input";
 import { FcFile } from "react-icons/fc";
 import { FiEdit2 } from "react-icons/fi";
-import { Button, Modal, Box, Typography,Dialog, DialogTitle, DialogActions} from "@mui/material";
+import { Button, Modal, Box, Typography,Dialog, DialogTitle, DialogActions,
+        Radio ,RadioGroup, FormControlLabel , FormControl , FormLabel  } from "@mui/material";
 import * as Yup from "yup";
 
 function EditarConteudoCurso({_secoes, nomeCurso, courseId, ...props }) {
@@ -43,7 +44,7 @@ function EditarConteudoCurso({_secoes, nomeCurso, courseId, ...props }) {
     transform: 'translate(-50%, -50%)',
     width: 400,
     bgcolor: 'background.paper',
-    border: '2px solid #000',
+    border: '2px solid grey',
     boxShadow: 24,
     p: 5,
   };
@@ -252,17 +253,25 @@ function EditarConteudoCurso({_secoes, nomeCurso, courseId, ...props }) {
                 
                 >
               
-                  {({handleSubmit,values, ...props}) => (
+                  {({handleSubmit,values,setFieldValue, ...props}) => (
                      <Form>
-                    {console.log(values)}
- 
+                    {console.log({values})}
                     {values.conteudo !== -1 && (
-                    <Input
-                    name="tipo"
-                    label={"arquivo"}
-                    value={values.tipo}
-                    type="text"
-                    />
+                   
+                      <FormControl  value={styles.yipo}>
+                        <FormLabel id="demo-radio-buttons-group-label">Tipo</FormLabel>
+                        <RadioGroup
+                        row
+                          aria-labelledby="demo-radio-buttons-group-label"
+                          defaultValue="female"
+                          name="radio-buttons-group"
+                        >
+                          <FormControlLabel control={<Radio onChange={() => setFieldValue(values.tipo = 'link')} checked={values.tipo === 'link' ? true: false}/>} label="Link" />
+                          <FormControlLabel control={<Radio onChange={() => setFieldValue(values.tipo = 'arquivo')} checked={values.tipo === 'arquivo' ? true: false}/>} label="Arquivo" />
+                          <FormControlLabel control={<Radio onChange={() => setFieldValue(values.tipo = 'Atividade')} checked={values.tipo === 'Atividade' ? true: false}/>} label="Atividade" />
+                        </RadioGroup>
+                      </FormControl>
+                     
                     )}
 
                     <Input
@@ -270,6 +279,7 @@ function EditarConteudoCurso({_secoes, nomeCurso, courseId, ...props }) {
                     label={"Titulo"}
                     value={values.titulo}
                     type="text"
+                    estilo={{ marginTop: "2.7rem" }}
                     />     
                                    
                     {values.conteudo !== -1 && (
@@ -307,7 +317,9 @@ function EditarConteudoCurso({_secoes, nomeCurso, courseId, ...props }) {
                       type="text"
                       />
                       )}
+
                       
+                 
                   <Button onClick={handleClose}>Cancelar</Button>
                   <Button  type="submit" onClick={handleSubmit}>Confirmar</Button>
                   <Button style={{color:'#ef856b', marginLeft:'12px'}} onClick={() => setOpen2(true)} startIcon={<BiTrash size={20}/>}>

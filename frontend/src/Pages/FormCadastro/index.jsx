@@ -43,11 +43,11 @@ function FormCadastro() {
       descricaoPerfil: "",
       imageAvatar: "",
     };
-    console.log(perfil);
-    console.log(object);
+    // console.log(perfil);
+    // console.log(object);
     try {
       await api.post("/usuarios", object);
-      toast.success("Cadastro Concluido com Sucesso");
+      toast.success("Cadastro Concluído com Sucesso");
       navigate("/login");
     } catch (error) {
       console.log(error);

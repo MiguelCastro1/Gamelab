@@ -247,8 +247,8 @@ exports.getCourseDeliveries = async (req, res) => {
 //atualiza todo content para atividade( content._id) para um aluno( userId) de uma turma( courseId)
 exports.updateDeliverie = async (req, res) => {
   try {
-    let courseId = mongoose.Types.ObjectId( req.params.courseId);
-    let userId = mongoose.Types.ObjectId( req.params.userId);
+    let courseId = new mongoose.Types.ObjectId( req.params.courseId);
+    let userId = new mongoose.Types.ObjectId( req.params.userId);
 
     let content = {
       _id: new mongoose.Types.ObjectId( req.body._id),
@@ -259,18 +259,49 @@ exports.updateDeliverie = async (req, res) => {
     }
     console.log( content);
 
+    await Course.updateOne(
+      { 
+        '_id' : courseId
+      },
+      {
+        '$pull': {
+            'Alunos.$[aluno].atividades': 
+            { 
+              '_id' : content._id
+            }
+          }
+      },
+      {
+        'multi': false,
+        'upsert' : false,
+        arrayFilters : [
+          {
+            'aluno.userId' : {
+              '$eq' : userId
+            }
+          } 
+        ]
+      }
+    );
+    
     let doc = await Course.updateOne(
       { 
         '_id' : courseId
-      }, 
-      {
-        'Alunos' : [
-          {
-            'userId' : userId,
-            'atividades' : [
-              content
-            ]
+      },
+      { 
+        '$push': {
+            'Alunos.$[aluno].atividades': content
           }
+      },
+      {
+        'multi': true,
+        'upsert' : true,
+        arrayFilters : [
+          {
+            'aluno.userId' : {
+              '$eq' : userId
+            }
+          } 
         ]
       }
     );

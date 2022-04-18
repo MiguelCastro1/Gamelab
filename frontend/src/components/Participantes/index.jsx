@@ -13,6 +13,7 @@ function Participantes({ Alunos, ...props }) {
         {" "}
         <FcConferenceCall size={35} /> Participantes
       </h1>
+      {console.log({Alunos})}
       {Alunos.map((aluno) => (
           <Link key={aluno.userId._id} to={`/perfil/${aluno.userId._id}`}>
           <div  className={styles.aluno}>

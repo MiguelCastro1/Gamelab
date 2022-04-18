@@ -22,7 +22,7 @@ function Atividade() {
   const [loaded, setLoaded] = useState(false);
   const [atividades, setAtividades] = useState([]);
   const {courseId, atividadeId} = useParams();
-  let { perfil } = getToken() ? JSON.parse(getToken()) : null;
+  let {id, perfil } = getToken() ? JSON.parse(getToken()) : null;
   const navigate = useNavigate()
 
   useEffect(() =>  {
@@ -44,8 +44,9 @@ function Atividade() {
 
   useEffect(() =>  {
     const f = () => {
-      if(Object.keys(curso).length > 0 && curso.secoes.length > 0) 
-      setAtividades(curso.secoes.map((secao => (secao.conteudos.filter(conteudo => conteudo.tipo === 'Atividade')))).filter(atividade => atividade.length > 0))
+      if(Object.keys(curso).length > 0 && curso.secoes.length > 0){
+        setAtividades([].concat.apply([], curso.secoes.map((secao => (secao.conteudos.filter(conteudo => conteudo.tipo === 'Atividade')))).filter(atividade => atividade.length > 0)))
+      }
     }
     
     f();
@@ -83,12 +84,15 @@ function Atividade() {
           </div>
           
           <div className={styles.feed}>
-            {atividades.length > 0 && console.log(atividades.map(secao_atividade => secao_atividade.filter(atividade => atividade._id === atividadeId)).filter(atividade => atividade.length > 0)[0][0])}
+            
+            {atividades.length > 0 && console.log(atividades.filter(atividade => atividade._id === atividadeId)[0])}
               {atividades.length > 0 &&  
                 <AtividadeCurso 
-                  atividade={atividades.map(secao_atividade => secao_atividade.filter(atividade => atividade._id === atividadeId)).filter(atividade => atividade.length > 0)[0][0]}
+                  atividade={atividades.filter(atividade => atividade._id === atividadeId)[0]}
                   alunos = {curso.Alunos} 
                   courseId={courseId}
+                  monstro={monstros[0]}
+                  atividadeId={atividadeId}
                 />
               }
            </div>
@@ -119,7 +123,7 @@ function Atividade() {
       
                <div className={styles.atividades}>
                 <h3> Atividades </h3>
-                {atividades.map(secao_atividade => secao_atividade.map(atividade  => (
+                {atividades.map((atividade  => (
                   <div key = {atividade.titulo} className={styles.tarefa}>
                   <p style={{fontWeight: 'bolder'}}> {atividade.titulo} </p>
                     <p> Entrega : {new Date(Date.parse(atividade.dataEntrega)).toLocaleDateString()}  </p> 

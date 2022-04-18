@@ -26,8 +26,7 @@ function AvaliarAtividadeCurso({atividade,monstro, alunos, courseId, ...props}) 
   const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)); 
   const diffDays_real = diffTime / (1000 * 60 * 60 * 24);
   const {id, perfil} = localStorage.getItem("gamelab") ? JSON.parse(localStorage.getItem("gamelab")): null;
-  let aluno = alunos.filter(aluno => aluno.userId._id === id)
-  let aluno_found = false;
+
   console.log(diffDays_real)
 
    const handleClickOpen = () => {
@@ -39,20 +38,10 @@ function AvaliarAtividadeCurso({atividade,monstro, alunos, courseId, ...props}) 
    // navigate(`curso/${courseId}`);
   };
 
-  if(aluno.length > 0){
-    aluno = aluno[0];
-    aluno_found = true;
-  }
 
   return (
       <div className={styles.feed}>
         <div className={styles.titulo}>
-      <img
-          src={monstro}  
-          alt="Monstro"  
-          width={115}
-          height={115}
-        />
        <h1>{atividade.titulo}</h1>
        </div>
        <div className={styles.descricao}>
@@ -72,60 +61,11 @@ function AvaliarAtividadeCurso({atividade,monstro, alunos, courseId, ...props}) 
             <h2>Tempo Restante: </h2>
             <p>{diffDays} Dias</p>
           </div>
-        
         </div>
-        {perfil === 'aluno' && (
-          <div className={styles.dados}>           
-            <div>
-              <h2>Status: </h2>
-              <p>{aluno_found && aluno.notas.status ? aluno.notas.status : "Nâo Enviado"}
-              </p>
-            </div>
-            <div>
-              <h2>Nota: </h2>
-              <p>{aluno_found && aluno.notas.nota ? aluno.notas.nota : "Nâo Avaliado"}</p>
-            </div>
-            
-            <div className={styles.anexo} style={{backgroundColor: '#ADD8E6'}}>
-              <h2>Arquivo: </h2>
-              <Button   variant="outlined" startIcon={<FcUpload />}>
-              Anexar Arquivo
-              </Button>
-            </div>
-          </div>
-        )}
 
-      {perfil === 'aluno' && (
-        <div className={styles.enviar}>
-          <img
-              src={status[0]}  
-              alt="Monstro"  
-              width={120}
-              height={110}
-            />
-            <Button  variant="outlined" onClick={handleClickOpen}>
-              Enviar Atividade
-            </Button>
-            <Dialog open={open} onClose={handleClose} aria-labelledby="alert-dialog-title" className="Dialog">
-                <DialogTitle id="alert-dialog-title" fontSize={16} textAlign={'center'} >
-                <p >Você entregou a atividade!</p>
-                </DialogTitle>
-                <DialogContentText variant="outlined" id="alert-dialog-description"  textAlign={'center'} >
-                  <img className="imagem"
-                    src={comemoracao}  
-                    alt="comemoração"  
-                    width={115}
-                    height={115}
-                    >
-                    </img>
-                </DialogContentText>
-    
-                <DialogActions>
-                  <Button onClick={handleClose}>Voltar</Button>
-                </DialogActions>
-              </Dialog>
+        <div className={styles.alunos}>
+         
         </div>
-        )}
       </div>      
   );
 }

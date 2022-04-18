@@ -111,7 +111,8 @@ function Curso() {
     console.log("efect")
     const f = () => {
       if(Object.keys(curso).length > 0 && curso.secoes.length > 0) {
-        setAtividades(curso.secoes.map((secao => (secao.conteudos.filter(conteudo => conteudo.tipo === 'Atividade')))).filter(atividade => atividade.length > 0))
+        console.log({curso})
+        setAtividades([].concat.apply([], curso.secoes.map((secao => (secao.conteudos.filter(conteudo => conteudo.tipo === 'Atividade')))).filter(atividade => atividade.length > 0)))
       }
     }
     f();
@@ -398,7 +399,7 @@ function Curso() {
       
               <div className={styles.atividades}>
                 <h3> Atividades </h3>
-                {atividades.map(secao_atividade => secao_atividade.map(atividade  => (
+                {atividades.map((atividade  => (
                   <div key = {atividade.titulo} className={styles.tarefa}>
                   <p style={{fontWeight: 'bolder'}}> {atividade.titulo} </p>
                     <p> Entrega : {new Date(Date.parse(atividade.dataEntrega)).toLocaleDateString()}  </p> 

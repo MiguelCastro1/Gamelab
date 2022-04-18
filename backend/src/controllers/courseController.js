@@ -55,8 +55,8 @@ exports.update = async (req, res, next) => {
   //console.log(req.body)
   let courseId = req.params.courseId;
   try {
-    let doc = await Course.findOneAndUpdate({ _id: courseId }, req.body);
-    console.log({doc})
+   // let doc = await Course.findOneAndUpdate({ _id: courseId }, req.body);
+   // console.log({doc})
     //res.status(200).json({ doc });
     next();
   } catch (error) {
@@ -65,25 +65,43 @@ exports.update = async (req, res, next) => {
 };
 
 exports.updateCascade = async (req, res) => {
-  let courseId = req.params.courseId;
+  const courseId = req.params.courseId;
+  console.log('begin')
   try {
-    let doc = await Course.findOneAndUpdate({ _id: courseId }, req.body);
+    let doc = await Course.findById(courseId)
    
-    let atividades = doc.secoes.map((secao => (secao.conteudos.filter(conteudo => conteudo.tipo === 'Atividade')))).filter(atividade => atividade.length > 0)
-    console.log({atividades})
-
+    const atividades = [].concat.apply([], doc.secoes.map((secao => (secao.conteudos.filter(conteudo => conteudo.tipo === 'Atividade')))).filter(atividade => atividade.length > 0))
+    // console.log({atividades})
+  
     if(atividades.length > 0 && doc.Alunos.length > 0){
-      let Alunos = doc.Alunos
-
       //Adicionar atividades aos alunos
-      if(atividades.length > Alunos[0].atividade.length){
-        for(let i = 0; i < Alunos.length; i++){
-      
+      if(atividades.length > doc.Alunos[0].atividades.length){
+        //console.log({Alunos})
+        let index = 0;
+        for(index = 0; index < doc.Alunos[0].atividades.length; index++){
+
+            if(doc.Alunos[0].atividades[index].atividadeId !== String(atividades[index]._id)){
+              break;
+            }
         }
-        console.log('adicionar atividades')
+
+          for(let i = 0; i < doc.Alunos.length; i++){
+            const atividade = {
+              status: 'aberto',
+              nota: 0,
+              atividadeId : atividades[index]._id
+            }
+          //console.log({...doc.Alunos[i], atividades: [...doc.Alunos[i].atividades, atividade]})
+            doc.Alunos[i].atividades =  [...doc.Alunos[i].atividades, atividade]
+          }
+        
+        doc = await Course.findOneAndUpdate({ _id: courseId }, doc);
+        console.log('done')
       }else{
-        console.log('Não há novas atividades')
+        console.log('sem atividades')
       }
+    }else{
+      console.log('sem alunos ou atividades')
     }
     res.status(200).json({ doc });
   } catch (error) {
@@ -156,9 +174,13 @@ exports.enroll = async (req, res) => {
     let object = parseJwt(token);
     let userId = object.id;
     let courseId = req.params.courseId;
+
+    let doc = await Course.findById(courseId)
+    const atividades = [].concat.apply([], doc.secoes.map((secao => (secao.conteudos.filter(conteudo => conteudo.tipo === 'Atividade')))).filter(atividade => atividade.length > 0))
+    
     let aluno = {
       userId: new mongoose.Types.ObjectId(userId),
-      notas: [],
+      atividades : atividades.map(atividade => ({status:'aberto', nota:0, atividadeId: atividade._id}))
     };
     let document = await Course.updateOne(
       { _id: courseId },

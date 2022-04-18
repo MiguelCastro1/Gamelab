@@ -51,17 +51,45 @@ exports.delete = async (req, res) => {
   }
 }
 
-exports.update = async (req, res) => {
-  console.log(req.body)
+exports.update = async (req, res, next) => {
+  //console.log(req.body)
   let courseId = req.params.courseId;
   try {
     let doc = await Course.findOneAndUpdate({ _id: courseId }, req.body);
     console.log({doc})
-    res.status(200).json({ doc });
+    //res.status(200).json({ doc });
+    next();
   } catch (error) {
     console.error(error);
   }
 };
+
+exports.updateCascade = async (req, res) => {
+  let courseId = req.params.courseId;
+  try {
+    let doc = await Course.findOneAndUpdate({ _id: courseId }, req.body);
+   
+    let atividades = doc.secoes.map((secao => (secao.conteudos.filter(conteudo => conteudo.tipo === 'Atividade')))).filter(atividade => atividade.length > 0)
+    console.log({atividades})
+
+    if(atividades.length > 0 && doc.Alunos.length > 0){
+      let Alunos = doc.Alunos
+
+      //Adicionar atividades aos alunos
+      if(atividades.length > Alunos[0].atividade.length){
+        for(let i = 0; i < Alunos.length; i++){
+      
+        }
+        console.log('adicionar atividades')
+      }else{
+        console.log('Não há novas atividades')
+      }
+    }
+    res.status(200).json({ doc });
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 //listar cursos para professor, dentre os quais é autor - permite pesquisa por: nome do curso e descrição.
 exports.listCoursesFromTeacher = async (req, res) => {

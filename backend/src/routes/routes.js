@@ -66,7 +66,7 @@ router.get("/cursos/update/:courseId", auth, Curso.getCourseUpdate);
 router.get("/cursos/:courseId", auth, Curso.getCourse);
 router.get("/cursos/:courseId/entregas/:userId", auth, Curso.getCourseDeliveries);
 
-router.patch("/cursos/:courseId", auth, Curso.update);
+router.patch("/cursos/:courseId", auth, Curso.update, Curso.updateCascade);
 router.delete("/cursos/:courseId", auth, Curso.delete);
 router.get(
   "/cursos/:courseId/participantes",

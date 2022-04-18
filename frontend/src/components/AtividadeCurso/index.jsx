@@ -80,12 +80,12 @@ function AtividadeCurso({atividade,monstro, alunos, courseId, ...props}) {
           <div className={styles.dados}>           
             <div>
               <h2>Status: </h2>
-              <p>{aluno_found && aluno.notas.status ? aluno.notas.status : "Nâo Enviado"}
+              <p>{aluno_found &&  "Nâo Enviado"}
               </p>
             </div>
             <div>
               <h2>Nota: </h2>
-              <p>{aluno_found && aluno.notas.nota ? aluno.notas.nota : "Nâo Avaliado"}</p>
+              <p>{aluno_found &&  "Nâo Avaliado"}</p>
             </div>
             
             <div className={styles.anexo} style={{backgroundColor: '#ADD8E6'}}>

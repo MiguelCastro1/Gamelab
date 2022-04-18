@@ -37,10 +37,10 @@ function Curso() {
   const [open, setOpen] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [atividades, setAtividades] = useState([]);
-  const {courseId} = useParams();
-  let {id, perfil } = getToken() ? JSON.parse(getToken()) : null;
-  const navigate = useNavigate()
-  
+  const { courseId } = useParams();
+  let { id, perfil } = getToken() ? JSON.parse(getToken()) : null;
+  const navigate = useNavigate();
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -87,40 +87,50 @@ function Curso() {
     }
   };
 
-
-  useEffect(() =>  {
+  useEffect(() => {
     const f = () => {
       try {
-        api.get(`/cursos/${courseId}`)
-        .then((data) => {
-          setCurso(data.data.doc);
-          setPagina('home');
-          setLoaded(true);
-          console.log('done')
-        })
-        .catch(err => console.log(err))
-      }catch (error) {
+        api
+          .get(`/cursos/${courseId}`)
+          .then((data) => {
+            setCurso(data.data.doc);
+            setPagina("home");
+            setLoaded(true);
+            console.log("done");
+          })
+          .catch((err) => console.log(err));
+      } catch (error) {
         console.log(error);
       }
     };
     f();
   }, []);
 
-
-  useEffect(() =>  {
-    console.log("efect")
+  useEffect(() => {
+    console.log("efect");
     const f = () => {
-      if(Object.keys(curso).length > 0 && curso.secoes.length > 0) {
-        console.log({curso})
-        setAtividades([].concat.apply([], curso.secoes.map((secao => (secao.conteudos.filter(conteudo => conteudo.tipo === 'Atividade')))).filter(atividade => atividade.length > 0)))
+      if (Object.keys(curso).length > 0 && curso.secoes.length > 0) {
+        console.log({ curso });
+        setAtividades(
+          [].concat.apply(
+            [],
+            curso.secoes
+              .map((secao) =>
+                secao.conteudos.filter(
+                  (conteudo) => conteudo.tipo === "Atividade"
+                )
+              )
+              .filter((atividade) => atividade.length > 0)
+          )
+        );
       }
-    }
+    };
     f();
   }, [curso]);
 
-  return ( 
+  return (
     <>
-       <HeaderHome />
+      <HeaderHome />
       <div className={styles.container}>
         <div className={styles.content}>
           <div className={styles.sideBarLeft}>
@@ -133,13 +143,13 @@ function Curso() {
                 Home
               </Button>
               {false && (
-              <Button
-                onClick={() => navigate("/kanban")}
-                variant="outlined"
-                startIcon={<BsKanban />}
-              >
-                Meu Kanban
-              </Button>
+                <Button
+                  onClick={() => navigate("/kanban")}
+                  variant="outlined"
+                  startIcon={<BsKanban />}
+                >
+                  Meu Kanban
+                </Button>
               )}
               {false && perfil === "aluno" && (
                 <Button
@@ -153,10 +163,9 @@ function Curso() {
             </ul>
           </div>
           {console.log(pagina)}
-          {console.log({...curso})}
+          {console.log({ ...curso })}
           <div className={styles.feed}>
             {pagina === "home" && (
-              
               <Secoes
                 secoes={[...curso.secoes]}
                 nomeCurso={curso.nomeCurso}
@@ -167,10 +176,8 @@ function Curso() {
               <Participantes Alunos={curso.Alunos} />
             )}
             {pagina === "notas" && <Notas Alunos={curso.Alunos} />}
-            
-            {pagina === "editar-dados" && (
-              <EditarDados courseId={courseId} />
-            )}
+
+            {pagina === "editar-dados" && <EditarDados courseId={courseId} />}
             {pagina === "criar-aviso" && (
               <CriarAviso courseId={courseId} Alunos={curso.Alunos} />
             )}
@@ -193,12 +200,12 @@ function Curso() {
                     className="content-css"
                     width={400}
                   >
-                    {curso.descricao }
+                    {curso.descricao}
                   </ShowMoreText>
                 </p>
                 <p>
-                  <span className={styles.tit}> Status: </span>{" "}
-                  {"Ativo"} <FcApproval size={20} />{" "}
+                  <span className={styles.tit}> Status: </span> {"Ativo"}{" "}
+                  <FcApproval size={20} />{" "}
                 </p>
               </div>
 
@@ -303,7 +310,9 @@ function Curso() {
                     </Button>
                   ) : (
                     <Button
-                      onClick={() => navigate(`/curso/${courseId}/editar-conteudo`)}
+                      onClick={() =>
+                        navigate(`/curso/${courseId}/editar-conteudo`)
+                      }
                       variant="outlined"
                       startIcon={<FcEditImage />}
                     >
@@ -397,36 +406,45 @@ function Curso() {
                   )}
                 </div>
               )}
-      
+
               <div className={styles.atividades}>
                 <h3> Atividades </h3>
-                {atividades.map((atividade  => (
-                  <div key = {atividade.titulo} className={styles.tarefa}>
-                  <p style={{fontWeight: 'bolder'}}> {atividade.titulo} </p>
-                    <p> Entrega : {new Date(Date.parse(atividade.dataEntrega)).toLocaleDateString()}  </p> 
-                    <Button onClick={() => navigate(`/curso/${courseId}/${atividade._id}`)}  variant="outlined" startIcon={<AiFillPlusSquare />} >
-                     Mais Detalhes
-                     </Button>
-                    {perfil === 'aluno' && ( 
+                {atividades.map((atividade) => (
+                  <div key={atividade.titulo} className={styles.tarefa}>
+                    <p style={{ fontWeight: "bolder" }}> {atividade.titulo} </p>
+                    <p>
+                      {" "}
+                      Entrega :{" "}
+                      {new Date(
+                        Date.parse(atividade.dataEntrega)
+                      ).toLocaleDateString()}{" "}
+                    </p>
+                    <Button
+                      onClick={() =>
+                        navigate(`/curso/${courseId}/${atividade._id}`)
+                      }
+                      variant="outlined"
+                      startIcon={<AiFillPlusSquare />}
+                    >
+                      Mais Detalhes
+                    </Button>
+                    {perfil === "aluno" && (
                       <img
-                        src={monstros[0]}   
-                        alt="Monstro"  
+                        src={monstros[0]}
+                        alt="Monstro"
                         width={115}
                         height={115}
                       />
                     )}
                   </div>
-                )))}
+                ))}
               </div>
             </div>
           </div>
         </div>
       </div>
-   
     </>
-    
   );
-  
 }
 
 export default Curso;

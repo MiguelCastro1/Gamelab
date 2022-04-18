@@ -45,15 +45,18 @@ function AtividadeCurso({
     ? JSON.parse(localStorage.getItem("gamelab"))
     : null;
   let atividade_aluno = [];
+
   if (perfil === "aluno") {
     atividade_aluno = alunos
       .filter((aluno) => aluno.userId._id === id)[0]
       .atividades.filter(
         (atividade) => atividade.atividadeId === atividadeId
       )[0];
-    console.log(atividade_aluno);
+    
+  }else{
+    atividade_aluno = alunos.map(aluno => (aluno.atividades.filter(atividade => atividade.atividadeId === atividadeId)[0]));
   }
-
+  console.log(atividade_aluno);
   const handleClickOpen = async () => {
     // data.append("dataEntrega", new Date());
     console.log(atividade_aluno);
@@ -221,7 +224,7 @@ function AtividadeCurso({
                 <span>
                   Data:{" "}
                   {aluno.dataEntrega
-                    ? new Date(Date.parse(aviso.createdAt)).toLocaleDateString()
+                    ? new Date(Date.parse(aluno.dataEntrega)).toLocaleDateString()
                     : ""}
                 </span>
               </section>

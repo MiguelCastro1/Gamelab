@@ -51,17 +51,63 @@ exports.delete = async (req, res) => {
   }
 }
 
-exports.update = async (req, res) => {
-  console.log(req.body)
+exports.update = async (req, res, next) => {
+  //console.log(req.body)
   let courseId = req.params.courseId;
   try {
-    let doc = await Course.findOneAndUpdate({ _id: courseId }, req.body);
-    console.log({doc})
-    res.status(200).json({ doc });
+   // let doc = await Course.findOneAndUpdate({ _id: courseId }, req.body);
+   // console.log({doc})
+    //res.status(200).json({ doc });
+    next();
   } catch (error) {
     console.error(error);
   }
 };
+
+exports.updateCascade = async (req, res) => {
+  const courseId = req.params.courseId;
+  console.log('begin')
+  try {
+    let doc = await Course.findById(courseId)
+   
+    const atividades = [].concat.apply([], doc.secoes.map((secao => (secao.conteudos.filter(conteudo => conteudo.tipo === 'Atividade')))).filter(atividade => atividade.length > 0))
+    // console.log({atividades})
+  
+    if(atividades.length > 0 && doc.Alunos.length > 0){
+      //Adicionar atividades aos alunos
+      if(atividades.length > doc.Alunos[0].atividades.length){
+        //console.log({Alunos})
+        let index = 0;
+        for(index = 0; index < doc.Alunos[0].atividades.length; index++){
+
+            if(doc.Alunos[0].atividades[index].atividadeId !== String(atividades[index]._id)){
+              break;
+            }
+        }
+
+          for(let i = 0; i < doc.Alunos.length; i++){
+            const atividade = {
+              status: 'aberto',
+              nota: 0,
+              atividadeId : atividades[index]._id
+            }
+          //console.log({...doc.Alunos[i], atividades: [...doc.Alunos[i].atividades, atividade]})
+            doc.Alunos[i].atividades =  [...doc.Alunos[i].atividades, atividade]
+          }
+        
+        doc = await Course.findOneAndUpdate({ _id: courseId }, doc);
+        console.log('done')
+      }else{
+        console.log('sem atividades')
+      }
+    }else{
+      console.log('sem alunos ou atividades')
+    }
+    res.status(200).json({ doc });
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 //listar cursos para professor, dentre os quais é autor - permite pesquisa por: nome do curso e descrição.
 exports.listCoursesFromTeacher = async (req, res) => {
@@ -128,9 +174,13 @@ exports.enroll = async (req, res) => {
     let object = parseJwt(token);
     let userId = object.id;
     let courseId = req.params.courseId;
+
+    let doc = await Course.findById(courseId)
+    const atividades = [].concat.apply([], doc.secoes.map((secao => (secao.conteudos.filter(conteudo => conteudo.tipo === 'Atividade')))).filter(atividade => atividade.length > 0))
+    
     let aluno = {
       userId: new mongoose.Types.ObjectId(userId),
-      notas: [],
+      atividades : atividades.map(atividade => ({status:'aberto', nota:0, atividadeId: atividade._id}))
     };
     let document = await Course.updateOne(
       { _id: courseId },
@@ -238,6 +288,74 @@ exports.getCourseDeliveries = async (req, res) => {
       }, 
       fields1
     );
+    res.status(200).json({ doc });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+//atualiza todo content para atividade( content._id) para um aluno( userId) de uma turma( courseId)
+exports.updateDeliverie = async (req, res) => {
+  try {
+    let courseId = new mongoose.Types.ObjectId( req.params.courseId);
+    let userId = new mongoose.Types.ObjectId( req.params.userId);
+
+    let content = {
+      _id: new mongoose.Types.ObjectId( req.body._id),
+      status: req.body.status,
+      nota: req.body.nota,
+      entregaUri: req.body.entregaUri,
+      dataEntrega: new Date( req.body.dataEntrega)
+    }
+    console.log( content);
+
+    await Course.updateOne(
+      { 
+        '_id' : courseId
+      },
+      {
+        '$pull': {
+            'Alunos.$[aluno].atividades': 
+            { 
+              '_id' : content._id
+            }
+          }
+      },
+      {
+        'multi': false,
+        'upsert' : false,
+        arrayFilters : [
+          {
+            'aluno.userId' : {
+              '$eq' : userId
+            }
+          } 
+        ]
+      }
+    );
+    
+    let doc = await Course.updateOne(
+      { 
+        '_id' : courseId
+      },
+      { 
+        '$push': {
+            'Alunos.$[aluno].atividades': content
+          }
+      },
+      {
+        'multi': true,
+        'upsert' : true,
+        arrayFilters : [
+          {
+            'aluno.userId' : {
+              '$eq' : userId
+            }
+          } 
+        ]
+      }
+    );
+
     res.status(200).json({ doc });
   } catch (error) {
     console.error(error);

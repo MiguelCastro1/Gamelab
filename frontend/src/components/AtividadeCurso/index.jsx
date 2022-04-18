@@ -14,23 +14,23 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
 import api from "../../services/axios";
 
-function AtividadeCurso({atividade,monstro, alunos, courseId, ...props}) {
+function AtividadeCurso({atividade, monstro, alunos, courseId, atividadeId, ...props}) {
   const navigate = useNavigate()
   const [open, setOpen] = useState(false);
   const data = atividade.dataEntrega ? Date.parse(atividade.dataEntrega) : '';
   const status = [samurai,cool,awesome]
   const data_ati = new Date(data);
   const data_curr = new Date();
-
   const diffTime = data_ati >= data_curr ? Math.abs(data_ati - data_curr) : -1 * Math.abs(data_curr - data_ati) ;
   const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)); 
   const diffDays_real = diffTime / (1000 * 60 * 60 * 24);
   const {id, perfil} = localStorage.getItem("gamelab") ? JSON.parse(localStorage.getItem("gamelab")): null;
-  let aluno = alunos.filter(aluno => aluno.userId._id === id)
-  let aluno_found = false;
+  let atividade_aluno = []
+    if(perfil === 'aluno')
+     atividade_aluno = alunos.filter(aluno => aluno.userId._id === id)[0].atividades.filter(atividade => atividade.atividadeId === atividadeId)[0];
 
 
-   const handleClickOpen = () => {
+  const handleClickOpen = () => {
     setOpen(true);
   };
 
@@ -38,11 +38,6 @@ function AtividadeCurso({atividade,monstro, alunos, courseId, ...props}) {
     setOpen(false);
    // navigate(`curso/${courseId}`);
   };
-
-  if(aluno.length > 0){
-    aluno = aluno[0];
-    aluno_found = true;
-  }
 
   return (
       <div className={styles.feed}>
@@ -80,17 +75,22 @@ function AtividadeCurso({atividade,monstro, alunos, courseId, ...props}) {
           <div className={styles.dados}>           
             <div>
               <h2>Status: </h2>
-              <p>{aluno_found && aluno.notas.status ? aluno.notas.status : "Nâo Enviado"}
+              <p>{atividade_aluno.status ? atividade_aluno.status :  ''}
               </p>
             </div>
             <div>
               <h2>Nota: </h2>
-              <p>{aluno_found && aluno.notas.nota ? aluno.notas.nota : "Nâo Avaliado"}</p>
+              <p>{atividade_aluno.status && 
+                  atividade_aluno.status === 'aberto' ?
+                  'Ainda não foi entregue' : aluno_atividade.status === 'entregue' ?
+                  'Ainda não foi avaliado' : aluno_atividade.nota 
+              }
+              </p>
             </div>
             
             <div className={styles.anexo} style={{backgroundColor: '#ADD8E6'}}>
-              <h2>Arquivo: </h2>
-              <Button   variant="outlined" startIcon={<FcUpload />}>
+              <h2> Arquivo: </h2>
+              <Button variant="outlined" startIcon={<FcUpload />}>
               Anexar Arquivo
               </Button>
             </div>
@@ -127,6 +127,12 @@ function AtividadeCurso({atividade,monstro, alunos, courseId, ...props}) {
                 </DialogActions>
               </Dialog>
         </div>
+        )}
+  
+        {perfil === 'professor' && (
+
+          <div> 
+          </div>
         )}
       </div>      
   );

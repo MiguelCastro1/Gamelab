@@ -57,7 +57,7 @@ function BoxTurmaEnroll({
           api
             .post(`/cursos/${course_id}/matricula`)
             .then((data) => {
-              toast("Matriculado com sucesso!");
+              toast.sucess("Matriculado com sucesso!");
               console.log("done");
               navigate(`/curso/${course_id}`);
             })

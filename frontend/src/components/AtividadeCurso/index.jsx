@@ -120,7 +120,7 @@ function AtividadeCurso({
               <p>Rodrigo</p>
               <p>Nome atividade</p>
               <Link
-                to="http://localhost:5000/public/avatar/"
+                to="http://localhost:5000/public/atividades/"
                 target="_blank"
                 download
               >

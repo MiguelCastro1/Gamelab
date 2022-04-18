@@ -1,8 +1,7 @@
-
 .container {
   width: min(95vw, 1390px);
   margin: 0 auto;
-  
+
   .content {
     margin-top: 2rem;
     display: grid;
@@ -15,23 +14,22 @@
       border: 1px solid var(--gray-100);
       background: white;
       position: sticky;
-    //  max-height: 87vh;
+      //  max-height: 87vh;
       border-radius: 4px;
       padding: 1rem 1rem 1rem 1.2rem;
-  //    overflow: auto;
+      //    overflow: auto;
       height: 100%;
-    
-   //   
+
+      //
       h1 {
         margin-bottom: 1rem;
-        color: #131212; 
-        font-family: 'Droid serif', serif; 
-        font-size: 36px; 
-        font-weight: 400; 
-        font-style: italic; 
-        line-height: 44px; 
-        text-align: center; 
-        
+        color: #131212;
+        font-family: "Droid serif", serif;
+        font-size: 36px;
+        font-weight: 400;
+        font-style: italic;
+        line-height: 44px;
+        text-align: center;
       }
 
       .titulo {
@@ -59,22 +57,21 @@
         border-radius: 5px;
       }
     }
-    
+
     .sideBarRight {
-     display: flex;
+      display: flex;
       flex-direction: column;
       align-items: center;
-     // max-height: 87vh;
+      // max-height: 87vh;
       position: sticky;
       top: 70px;
       // max-height: 87vh;
       // z-index: -1;
 
-
       .formating {
         width: 100%;
         border-radius: 4px;
-    
+
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -87,44 +84,43 @@
           text-align: center;
         }
 
-          .dados {
+        .dados {
           background: white;
           text-align: start;
           align-content: flex-start;
           margin-bottom: 1rem;
           padding: 0.4rem;
-          width: 100%;
+          width: 100% !important;
           border: 1px solid var(--gray-100);
           font-weight: normal;
           // margin-bottom: 0.5rem;
           //color: var(--blue-700);
 
-          .tit{
+          .tit {
             color: var(--blue-700);
             font-weight: normal;
           }
-          }
+        }
 
-          .atividades {
-            background: white;
+        .atividades {
+          background: white;
           // border: 1px solid var(--gray-100);
           padding: 0.5rem;
           margin-bottom: 0.5rem;
           width: 100%;
           text-align: center;
 
-          .tarefa{
+          .tarefa {
             border-radius: 10px;
             background: rgb(255, 254, 254);
             margin-bottom: 0.5rem;
             width: 100%;
-            
+
             text-align: center;
             border: 1px solid rgba(102, 92, 92, 0.363);
             padding: 0.3rem;
-            
 
-            Button{
+            Button {
               display: inline-flex;
               margin-top: 1rem;
               font-size: small;
@@ -135,20 +131,18 @@
               color: #111;
 
               &:hover {
-                color:  var(--blue-700);
+                color: var(--blue-700);
               }
             }
           }
         }
 
-          .botoes{
-          
-        
+        .botoes {
           // border: 1px solid var(--gray-100);
-          
+
           margin-bottom: 1rem;
 
-          Button{
+          Button {
             background: white;
             font-size: medium;
             text-transform: initial;
@@ -158,7 +152,7 @@
             color: #111;
 
             &:hover {
-              color:  var(--blue-700);
+              color: var(--blue-700);
             }
           }
         }
@@ -168,70 +162,67 @@
     .sideBarLeft {
       display: flex;
       justify-content: center;
-        padding: 0.8rem;
-        border: 1px solid var(--gray-100);
-        background: white;
-        border-radius: 4px;
-        height: 11rem;
-  
-        ul {
-          list-style: none;
-          // color: var(--blue-700);
-          width: 100%;
-          Button {
-            font-size: medium;
-            text-transform: initial;
-            margin-top: 0.2rem;
-            width: 100%;
-            border: 1px solid var(--gray-100);
-            color: #111;
-  
-            &:hover {
-              color:  var(--blue-700);
-            }
-            
-          }
-        }
-      }
-    }
-  }
+      padding: 0.8rem;
+      border: 1px solid var(--gray-100);
+      background: white;
+      border-radius: 4px;
+      height: 11rem;
 
-  
-  
-  @media (max-width: 1200px) {
-    .container {
-      .content {
-        grid-template-columns: minmax(400px, 2fr) 1.3fr;
-  
-        .feed {
-          header {
-            margin-bottom: 0.9rem;
-            div {
-              display: flex;
-              gap: 1rem;
-            }
+      ul {
+        list-style: none;
+        // color: var(--blue-700);
+        width: 100%;
+        Button {
+          font-size: medium;
+          text-transform: initial;
+          margin-top: 0.2rem;
+          width: 100%;
+          border: 1px solid var(--gray-100);
+          color: #111;
+
+          &:hover {
+            color: var(--blue-700);
           }
-  
-          .areaSearch {
-            display: block;
-            margin-bottom: 1rem;
-  
-            input {
-              width: 100%;
-              padding: 0.5rem;
-              border-radius: 8px;
-              border: 1px solid var(--gray-300);
-  
-              &:focus {
-                border: 1px solid var(--blue-700);
-              }
-            }
-          }
-        }
-  
-        .sideBarLeft {
-          display: none;
         }
       }
     }
   }
+}
+
+@media (max-width: 1200px) {
+  .container {
+    .content {
+      grid-template-columns: minmax(400px, 2fr) 1.3fr;
+
+      .feed {
+        header {
+          margin-bottom: 0.9rem;
+          div {
+            display: flex;
+            gap: 1rem;
+          }
+        }
+
+        .areaSearch {
+          display: block;
+          margin-bottom: 1rem;
+
+          input {
+            width: 100%;
+            padding: 0.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--gray-300);
+
+            &:focus {
+              border: 1px solid var(--blue-700);
+            }
+          }
+        }
+      }
+
+      .sideBarLeft {
+        display: none;
+      }
+    }
+  }
+}

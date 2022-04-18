@@ -1,6 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
 import userPhoto from "../../assets/user_padrao.png"
-import {FcUpload, FcSportsMode} from "react-icons/fc";
+import {GiTeacher} from 'react-icons/gi'
+import { FaChalkboardTeacher} from 'react-icons/fa'
+
+import {FcUpload, FcSportsMode, FcVoicePresentation} from "react-icons/fc";
 import styles from "./styles.module.scss";
 import { useEffect, useState } from "react";
 import DialogContentText from '@mui/material/DialogContentText';
@@ -13,6 +16,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
 import api from "../../services/axios";
+import TextField from '@mui/material/TextField';
 
 function AtividadeCurso({atividade, monstro, alunos, courseId, atividadeId, ...props}) {
   const navigate = useNavigate()
@@ -28,8 +32,9 @@ function AtividadeCurso({atividade, monstro, alunos, courseId, atividadeId, ...p
   let atividade_aluno = []
     if(perfil === 'aluno')
      atividade_aluno = alunos.filter(aluno => aluno.userId._id === id)[0].atividades.filter(atividade => atividade.atividadeId === atividadeId)[0];
-
-
+    else
+    atividade_aluno = alunos.map(aluno => (aluno.atividades.filter(atividade => atividade.atividadeId === atividadeId)[0]));
+    console.log({atividade_aluno})
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -130,8 +135,30 @@ function AtividadeCurso({atividade, monstro, alunos, courseId, atividadeId, ...p
         )}
   
         {perfil === 'professor' && (
-
-          <div> 
+          
+          <div className={styles.entregas}> 
+            <h1> Entregas </h1>
+            {atividade_aluno.map((aluno, index) => (
+              <div className={styles.container}>
+              <section>
+                <h3>{alunos[index].userId.nome}</h3>
+                <GiTeacher size={40}/>
+              </section>
+              <section>
+                <p>
+                  <span>Status:</span> {aluno.status }
+                  
+                </p><span>Data: { aluno.dataEntrega ? new Date(Date.parse(aviso.createdAt)).toLocaleDateString() : ''}</span>
+              </section>
+              <p>
+                  <span>Entrega: </span> {aluno.entregaUri ? aluno.entregaUri : ' '}
+                </p>
+                <Button variant="outlined" startIcon={<FaChalkboardTeacher  size={30}/> }   >
+                    Atribuir nota
+                </Button>
+               
+          </div> 
+            ))}
           </div>
         )}
       </div>      

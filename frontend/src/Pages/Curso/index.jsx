@@ -167,6 +167,7 @@ function Curso() {
               <Participantes Alunos={curso.Alunos} />
             )}
             {pagina === "notas" && <Notas Alunos={curso.Alunos} />}
+            
             {pagina === "editar-dados" && (
               <EditarDados courseId={courseId} />
             )}

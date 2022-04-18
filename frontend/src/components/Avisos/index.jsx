@@ -7,10 +7,13 @@ import api from "../../services/axios";
 import { setNestedObjectValues } from "formik";
 import { getToken } from "../../services/auth";
 import BoxTurmaEnroll from "../../components/BoxTurmaEnroll";
+import {FcVoicePresentation} from "react-icons/fc";
+import TextField from '@mui/material/TextField';
+import { margin } from "@mui/system";
 
 
 
-function Avisos({ Alunos, ...props }) {
+function Avisos() {
   const [searchCurso, setSearchCurso] = useState("");
   const [resultados, setResultados] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
@@ -52,33 +55,51 @@ function Avisos({ Alunos, ...props }) {
 
       <div className={styles.feed}>
         <h1>Avisos</h1>
-        <input
-          onChange={(e) => setSearchCurso(e.target.value)}
-          value={searchCurso}
-          placeholder="Nome da turma"
-        />
+        <div className={styles.barra}>
+          <TextField className={styles.search} id="outlined-basic" label="Filtrar aviso por turma" variant="outlined" onChange={(e) => setSearchCurso(e.target.value) }
+            value={searchCurso} />
+        </div>
        <div>
-          <h2 className={styles.titulo}>  {titulo} </h2>
-          { loaded && searchCurso === '' ? (
+        { loaded && searchCurso === '' ? (
             resultados.map((aviso) => (
-              <div key={aviso._id}>
-                <h1>{aviso.titulo}</h1>
-                <h2>Turma: {aviso.courseId ? aviso.courseId.nomeCurso: ''} 
-                </h2>
-                <p>Conteudo: {aviso.conteudo}</p>
-
-              </div>
+              <div className={styles.container}>
+                <section>
+                  <h3>{aviso.titulo}</h3>
+                  <FcVoicePresentation size={40}/>
+                </section>
+                <section>
+                  <p>
+                    <span>Turma:</span> {aviso.courseId ? aviso.courseId.nomeCurso: ''} 
+                    
+                  </p><span>Data: {new Date(Date.parse(aviso.createdAt)).toLocaleDateString()}</span>
+                </section>
+                <p className={styles.descricao}>
+                    <span>Conteudo: </span> {aviso.conteudo}
+                  </p>
+            </div>
             )))
             :
             (searchResults.map((aviso) => (
-              <div key={aviso._id}>
-                <h1>{aviso.titulo}</h1>
-                <h2>Turma: {aviso.courseId ? aviso.courseId.nomeCurso: ''} </h2>
-
-              </div>
+              <div className={styles.container}>
+              <section>
+                <h3>{aviso.titulo}</h3>
+                <FcVoicePresentation size={40}/>
+              </section>
+              <section>
+                <p>
+                  <span>Turma:</span> {aviso.courseId ? aviso.courseId.nomeCurso: ''} 
+                  
+                </p><span>Data: {new Date(Date.parse(aviso.createdAt)).toLocaleDateString()}</span>
+              </section>
+              <p className={styles.descricao}>
+                  <span>Conteudo: </span> {aviso.conteudo}
+                </p>
+          </div>
                
             )))
           }
+          
+          
         </div>
 
 

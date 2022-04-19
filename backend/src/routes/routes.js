@@ -38,6 +38,9 @@ router.get("/usuarios", auth, Usuario.listAll);
 router.get("/usuarios/:id", auth, Usuario.user);
 router.patch("/usuarios/:id", auth, Usuario.update);
 
+router.get("/usuarios/:id/quadro")
+router.patch("/usuarios/:id/quadro")
+
 router.patch(
   "/usuarios/avatar/:id",
   upload.single("file"),
@@ -66,6 +69,7 @@ router.get("/cursos/update/:courseId", auth, Curso.getCourseUpdate);
 router.get("/cursos/:courseId", auth, Curso.getCourse);
 router.get("/cursos/:courseId/entregas/:userId", auth, Curso.getCourseDeliveries);
 router.patch("/cursos/:courseId/entregas/:userId", auth, Curso.updateDeliverie);
+router.get("/cursos/:courseId/entregas/exercicio/:id", auth, Curso.getDeliveries);
 
 router.patch("/cursos/:courseId", auth, Curso.update, Curso.updateCascade);
 router.delete("/cursos/:courseId", auth, Curso.delete);

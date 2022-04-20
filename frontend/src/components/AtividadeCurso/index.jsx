@@ -52,6 +52,13 @@ function AtividadeCurso({
         (atividade) => atividade.atividadeId === atividadeId
       )[0];
     console.log(atividade_aluno);
+  } else {
+    atividade_aluno = alunos.map(
+      (aluno) =>
+        aluno.atividades.filter(
+          (atividade) => atividade.atividadeId === atividadeId
+        )[0]
+    );
   }
 
   const handleClickOpen = async () => {
@@ -221,7 +228,9 @@ function AtividadeCurso({
                 <span>
                   Data:{" "}
                   {aluno.dataEntrega
-                    ? new Date(Date.parse(aviso.createdAt)).toLocaleDateString()
+                    ? new Date(
+                        Date.parse(aluno.dataEntrega)
+                      ).toLocaleDateString()
                     : ""}
                 </span>
               </section>

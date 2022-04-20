@@ -45,6 +45,7 @@ function AtividadeCurso({
     ? JSON.parse(localStorage.getItem("gamelab"))
     : null;
   let atividade_aluno = [];
+
   if (perfil === "aluno") {
     atividade_aluno = alunos
       .filter((aluno) => aluno.userId._id === id)[0]
@@ -60,7 +61,7 @@ function AtividadeCurso({
         )[0]
     );
   }
-
+  console.log(atividade_aluno);
   const handleClickOpen = async () => {
     // data.append("dataEntrega", new Date());
     console.log(atividade_aluno);

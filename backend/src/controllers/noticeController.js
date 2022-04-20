@@ -50,6 +50,7 @@ exports.createNotice = async (req, res) => {
 
 exports.listNoticesFromUser = async (req, res) => {
     try {
+    
         let userId = req.params.id;
         let courses = await Course.find({ 
             "Alunos.userId": userId},
@@ -58,8 +59,11 @@ exports.listNoticesFromUser = async (req, res) => {
         let query = {
             courses
         }
-        //console.log(query);
-        let document = await Notice.find( query).sort('-createdAt');
+
+        let document = await Notice.find( query)
+        .populate( "courseId", "nomeCurso")
+        .sort('-createdAt')
+    
         res.status(200).json({
             document
         });

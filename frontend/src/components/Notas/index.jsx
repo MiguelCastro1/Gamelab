@@ -1,18 +1,39 @@
 
 import styles from "./styles.module.scss";
 import Chart from "react-apexcharts";
+import { DataGrid } from '@mui/x-data-grid';
 
 function Notas({ Alunos, ...props }) {
+  const {id, perfil} = localStorage.getItem("gamelab") ? JSON.parse(localStorage.getItem("gamelab")): null;
+  let aluno = []
+  let data = []
+  let fields = []
+  if(perfil === 'aluno'){
+    aluno  = Alunos.filter(aluno => aluno.userId._id === id)[0]
+
+    data = aluno.atividades.map(atividade => atividade.nota)
+    console.log({data})
+  }else if(Alunos.lenght > 0){
+    for(let i=0;i<Alunos[0].atividades.lenght;i++){
+      fields.push({ 
+        field: i ,
+        headerName: 'Atividade' + String(i),
+        type: 'number',
+        width: 90,
+      })
+    }
+  }
+  
    const series = [
      {
       name: 'Nota',
       type: 'column',
-      data: [10,8,5,10,6,9]
+      data: data
      },
      {
       name: 'Nota',
       type: 'line',
-      data: [10,8,5,10,6,9]
+      data: data
     }];
     
     const options = {
@@ -30,7 +51,7 @@ function Notas({ Alunos, ...props }) {
         enabled: true,
         enabledOnSeries: [1]
       },
-      labels: ['Atividade 1','Atividade 2','Atividade 3','Atividade 4','Atividade 5','Atividade 6',],
+      labels: data.lenght,
       xaxis: {
         type: 'string'
       },
@@ -42,19 +63,48 @@ function Notas({ Alunos, ...props }) {
         max: 10,
       }
     }
+    const columns = [
+      { field: 'id', headerName: 'Nome', width: 150 },
+      { field: 'um', headerName: 'atividade1', width: 90 },
+      { field: 'dois', headerName: 'atividade2', width: 90 },
+      { field: 'tres', headerName: 'atividade3', width: 90 },
+    ];
+    
+    const rows = [
+      { id: 'Miguel Castro', um: 0, dois: 0, tres: 0 },
+      { id: 'Arthur Aguiar', um: 0, dois: 0, tres: 0 },
+      { id: 'Natalia Freire', um: 0, dois: 0, tres: 0 },
 
+     
+    ];
+
+    
+    
+  
+    
   return (
 
       <div className={styles.feed}>
         <div className={styles.mainContent}>
         <section className={styles.areaGraphic}>
           <h1>Média das parciais</h1>
-          <Chart
+          {perfil === 'aluno' ? (
+            <Chart
             type="area"
             height="400"
             options={options}
             series={series}
           />
+          ):( <div style={{ height: 400, width: '100%' }}>
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            pageSize={5}
+            rowsPerPageOptions={[5]}
+            checkboxSelection
+          />
+        </div>)}
+         
         </section>
         </div>
       </div>   

@@ -3,6 +3,7 @@ const router = express.Router();
 const path = require("path");
 const crypto = require("crypto");
 const wayPath = path.resolve("public/avatar");
+const wayPathAtividades = path.resolve("public/atividades");
 const multer = require("multer");
 
 const multerConfig = multer.diskStorage({
@@ -18,7 +19,21 @@ const multerConfig = multer.diskStorage({
   },
 });
 
+const multerConfigAtividade = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, wayPathAtividades);
+  },
+  filename: (req, file, cb) => {
+    let filename = crypto.randomBytes(4).toString("hex");
+    let extensionFile = file.originalname.slice(
+      file.originalname.lastIndexOf(".")
+    );
+    cb(null, `${filename}-${file.originalname}${extensionFile}`);
+  },
+});
+
 const upload = multer({ storage: multerConfig });
+const uploadAtividade = multer({ storage: multerConfigAtividade });
 
 const Usuario = require("../controllers/userController");
 const Curso = require("../controllers/courseController");
@@ -67,9 +82,17 @@ router.get("/cursos/professor/MeusCursos", auth, Curso.listCoursesFromTeacher);
 router.get("/cursos/aluno/MeusCursos", auth, Curso.listCoursesFromStudent);
 router.get("/cursos/update/:courseId", auth, Curso.getCourseUpdate);
 router.get("/cursos/:courseId", auth, Curso.getCourse);
-router.get("/cursos/:courseId/entregas/:userId", auth, Curso.getCourseDeliveries);
-router.patch("/cursos/:courseId/entregas/:userId", auth, Curso.updateDeliverie);
-router.get("/cursos/:courseId/entregas/exercicio/:id", auth, Curso.getDeliveries);
+router.get(
+  "/cursos/:courseId/entregas/:userId",
+  auth,
+  Curso.getCourseDeliveries
+);
+router.patch(
+  "/cursos/:courseId/entregas/:userId",
+  auth,
+  uploadAtividade.single("file"),
+  Curso.updateDeliverie
+);
 
 router.patch("/cursos/:courseId", auth, Curso.update, Curso.updateCascade);
 router.delete("/cursos/:courseId", auth, Curso.delete);

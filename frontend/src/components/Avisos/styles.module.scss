@@ -1,6 +1,91 @@
+.feed{
+    h1{
+        margin-bottom: 1rem;
+        color: #131212;
+        font-family: "Droid serif", serif;
+        font-size: 40px;
+        font-weight: 400;
+        font-style: italic;
+        line-height: 44px;
+        text-align: center
+    }
+    .barra{
+        margin-top: 10px;
+        margin-bottom: 20px;
+        width: 100%;
 
-.feed {
+        .search{
+            width: 96%;
+        }
+    }
 
-}
+
+.container {
+    max-width: 96%;
+    border-radius: 4px;
+    padding: 0.5rem;
+    // box-shadow: var(--sombra);
+    background: white;
+    border: 1px solid #87a8da;
+    border-radius: 4px;
+    // cursor: pointer;
+    transition: margin-left 0.1s linear;
+    margin-bottom: 0.8rem;
     
+    span {
+        color: var(--blue-700);
+      }
+   
+
+    section {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.3rem;
+  
+      h3 {
+        font-weight: normal;
+        color: var(--blue-700);
+      }
+  
+      p:last-child {
+        width: 60%;
+      }
+  
+      span {
+        color: var(--blue-700);
+      }
+  
+      .descricao {
+        max-height: 100px;
+        -webkit-line-clamp: 2; /** número de linhas que você quer exibir */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        word-break: break-word;
+        display: -webkit-box;
+        
+      }
+    }
+
+    &:hover {
+      margin-left: 0.35rem;
+    }
+  }
+  
+  @media (max-width: 1300px) {
+    .container {
+      max-width: 100%;
+  
+      &:hover {
+        margin-left: 0;
+        section {
+          h3 {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+  
+}
    

@@ -12,25 +12,9 @@ import * as Yup from "yup";
 import "@asseinfo/react-kanban/dist/styles.css";
 import TextArea from "../TextArea";
 
-const formSchema = Yup.object().shape({
-  titulo: Yup.string().required("Campo obrigatório"),
-  descricao: Yup.string().required("Campo obrigatório"),
-});
-
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  borderRadius: "10px",
-  boxShadow: 24,
-};
-
 function kanban() {
-  const board = {
+  const initialBoard = {
+    counter: 9,
     columns: [
       {
         id: 1,
@@ -79,91 +63,32 @@ function kanban() {
   };
 
   const [open, setOpen] = useState(false);
-  const [quadro, setQuadro] = useState(board);
   const handleOpen = () => setOpen(true);
+  const [board, setBoard] = useState(initialBoard);
 
-  const handleClose = () => {
-    setOpen(false);
-    console.log(quadro);
-  };
+  function onCardNew(newCard) {
 
-  const handleSubmit = async (values) => {
-    let newTask = {
-      id: Math.floor(Math.random() * 1000),
-      ...values,
-    };
-    let newBoard = { ...board };
-    newBoard.columns[0].cards = [...newBoard.columns[0].cards, newTask];
-    console.log(newBoard);
-    setQuadro(newBoard);
-    handleClose();
-  };
+    const newCardLocal = { id: initialBoard.counter + 1, ...newCard };
+    initialBoard.counter = initialBoard.counter + 1;
+    console.log(initialBoard)
+    setBoard(initialBoard);
+    return newCardLocal;
+  }
 
   return (
     <div className={styles.feed}>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <Formik
-            initialValues={{
-              titulo: "",
-              descricao: "",
-            }}
-            validationSchema={formSchema}
-            onSubmit={handleSubmit}
-          >
-            {function showForm({ values, handleChange }) {
-              return (
-                <Form className={styles.formContainer}>
-                  <div className={styles.modalContent}>
-                    <header>
-                      <h3>Criar task</h3>
-                    </header>
-                    <main>
-                      <Input
-                        label="Título"
-                        name="titulo"
-                        value={values.titulo}
-                        onChange={handleChange}
-                        type="text"
-                        autoFocus={true}
-                      />
-                      <TextArea
-                        label="Descrição"
-                        name="descricao"
-                        value={values.descricao}
-                        onChange={handleChange}
-                        type="text"
-                      />
-                    </main>
-                    <footer>
-                      <button
-                        onClick={handleClose}
-                        type="button"
-                        className={styles.cancelar}
-                      >
-                        Cancelar
-                      </button>
-                      <button className={styles.salvar} type="submit">
-                        Salvar
-                      </button>
-                    </footer>
-                  </div>
-                </Form>
-              );
-            }}
-          </Formik>
-        </Box>
-      </Modal>
+      
       <h1>Kanban</h1>
-      <button className={styles.button} onClick={handleOpen}>
-        Adicionar atividade <GrFormAdd />
-      </button>
-      <Board initialBoard={quadro} />
+      <Board initialBoard={board}
+            allowRemoveLane
+            allowRenameColumn
+            allowRemoveCard
+            onLaneRemove={console.log}
+            onCardRemove={console.log}
+            onLaneRename={console.log}
+            allowAddCard={{ on: "top" }}
+            onNewCardConfirm={onCardNew}
+            onCardNew={console.log}/>
     </div>
   );
 }

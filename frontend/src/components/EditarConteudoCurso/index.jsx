@@ -258,7 +258,7 @@ function EditarConteudoCurso({_secoes, nomeCurso, courseId, ...props }) {
                     {console.log({values})}
                     {values.conteudo !== -1 && (
                    
-                      <FormControl  value={styles.yipo}>
+                      <FormControl  value={styles.tipo}>
                         <FormLabel id="demo-radio-buttons-group-label">Tipo</FormLabel>
                         <RadioGroup
                         row

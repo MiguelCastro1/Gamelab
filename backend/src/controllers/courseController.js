@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const { parseJwt } = require("../middlewares/decodedToken");
+const fs = require("fs");
 const Course = mongoose.model("Course");
 
 exports.createCourse = async (req, res) => {
@@ -376,5 +377,19 @@ exports.updateDeliverie = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Erro ao enviar atividade" });
+  }
+};
+
+exports.downloadFile = async (req, res) => {
+  let { urifile } = req.params;
+
+  //res.setHeader("Access-Control-Allow-Origin", "*");
+
+  var file = __dirname + `/../../public/atividades/${urifile}`;
+  try {
+    res.download(file);
+  } catch (error) {
+    console.error(error);
+    res.send(error);
   }
 };

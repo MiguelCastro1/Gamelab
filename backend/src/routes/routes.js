@@ -28,7 +28,7 @@ const multerConfigAtividade = multer.diskStorage({
     let extensionFile = file.originalname.slice(
       file.originalname.lastIndexOf(".")
     );
-    cb(null, `${filename}-${file.originalname}${extensionFile}`);
+    cb(null, `${filename}-${file.originalname}`);
   },
 });
 
@@ -84,6 +84,7 @@ router.get(
   auth,
   Curso.getCourseDeliveries
 );
+
 router.patch(
   "/cursos/:courseId/entregas/:userId",
   auth,
@@ -100,5 +101,7 @@ router.get(
 );
 router.post("/cursos/:courseId/matricula", auth, Curso.enroll);
 router.post("/cursos/:courseId/desmatricula", auth, Curso.unroll);
+
+router.get("/download/:urifile", Curso.downloadFile);
 
 module.exports = router;

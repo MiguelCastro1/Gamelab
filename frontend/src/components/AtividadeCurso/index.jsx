@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { GiTeacher } from "react-icons/gi";
 import { FaChalkboardTeacher } from "react-icons/fa";
 import { FcUpload, FcSportsMode, FcVoicePresentation } from "react-icons/fc";
@@ -18,6 +18,8 @@ import DialogTitle from "@mui/material/DialogTitle";
 import api from "../../services/axios";
 import TextField from "@mui/material/TextField";
 import { toast } from "react-toastify";
+import FileDownload from "js-file-download";
+import { MdOutlineFileDownload } from "react-icons/md";
 
 function AtividadeCurso({
   atividade,
@@ -27,7 +29,6 @@ function AtividadeCurso({
   atividadeId,
   ...props
 }) {
-  console.log(alunos);
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [file, setFile] = useState([]);
@@ -52,11 +53,15 @@ function AtividadeCurso({
       .atividades.filter(
         (atividade) => atividade.atividadeId === atividadeId
       )[0];
-    
-  }else{
-    atividade_aluno = alunos.map(aluno => (aluno.atividades.filter(atividade => atividade.atividadeId === atividadeId)[0]));
+  } else {
+    atividade_aluno = alunos.map(
+      (aluno) =>
+        aluno.atividades.filter(
+          (atividade) => atividade.atividadeId === atividadeId
+        )[0]
+    );
   }
-  console.log(atividade_aluno);
+
   const handleClickOpen = async () => {
     // data.append("dataEntrega", new Date());
     console.log(atividade_aluno);
@@ -88,8 +93,19 @@ function AtividadeCurso({
       setFile(updatedList);
     }
   };
+
   const fileRemove = () => {
     setFile([]);
+  };
+
+  const onDownloadFile = async (uri) => {
+    const { data } = await api.get(`/download/${uri}`, {
+      config: {
+        responseType: "blob",
+      },
+    });
+    let filename = uri.slice(9);
+    FileDownload(data, filename);
   };
 
   return (
@@ -118,23 +134,6 @@ function AtividadeCurso({
           <p>{diffDays} Dias</p>
         </div>
       </div>
-      {/* {perfil === "professor" && (
-        <div className={styles.avaliarAtividades}>
-          <ul>
-            <li>
-              <p>Rodrigo</p>
-              <p>Nome atividade</p>
-              <Link
-                to="http://localhost:5000/public/atividades/"
-                target="_blank"
-                download
-              >
-                Download
-              </Link>
-            </li>
-          </ul>
-        </div>
-      )} */}
       {perfil === "aluno" && (
         <div className={styles.dados}>
           <div>
@@ -215,7 +214,6 @@ function AtividadeCurso({
             <div className={styles.container}>
               <section>
                 <h3>{alunos[index].userId.nome}</h3>
-                <GiTeacher size={40} />
               </section>
               <section>
                 <p>
@@ -224,20 +222,26 @@ function AtividadeCurso({
                 <span>
                   Data:{" "}
                   {aluno.dataEntrega
-                    ? new Date(Date.parse(aluno.dataEntrega)).toLocaleDateString()
+                    ? new Date(
+                        Date.parse(aluno.dataEntrega)
+                      ).toLocaleDateString()
                     : ""}
                 </span>
               </section>
               <p>
-                <span>Entrega: </span>{" "}
-                {aluno.entregaUri ? aluno.entregaUri : " "}
+                <span>Entrega: </span> {aluno.entregaUri ?? aluno.entregaUri}
               </p>
-              <Button
-                variant="outlined"
-                startIcon={<FaChalkboardTeacher size={30} />}
-              >
-                Atribuir nota
-              </Button>
+              <section>
+                <Button
+                  variant="outlined"
+                  startIcon={<FaChalkboardTeacher size={30} />}
+                >
+                  Atribuir nota
+                </Button>
+                <p onClick={() => onDownloadFile(aluno.entregaUri)}>
+                  Download <MdOutlineFileDownload />{" "}
+                </p>
+              </section>
             </div>
           ))}
         </div>

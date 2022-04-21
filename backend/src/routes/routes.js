@@ -93,6 +93,7 @@ router.patch(
   uploadAtividade.single("file"),
   Curso.updateDeliverie
 );
+router.get("/cursos/:courseId/entregas/atividade/:id", auth, Curso.getDeliveries);
 
 router.patch("/cursos/:courseId", auth, Curso.update, Curso.updateCascade);
 router.delete("/cursos/:courseId", auth, Curso.delete);

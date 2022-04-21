@@ -28,7 +28,7 @@ const multerConfigAtividade = multer.diskStorage({
     let extensionFile = file.originalname.slice(
       file.originalname.lastIndexOf(".")
     );
-    cb(null, `${filename}-${file.originalname}${extensionFile}`);
+    cb(null, `${filename}-${file.originalname}`);
   },
 });
 
@@ -52,6 +52,9 @@ router.post("/usuarios", Usuario.createUser);
 router.get("/usuarios", auth, Usuario.listAll);
 router.get("/usuarios/:id", auth, Usuario.user);
 router.patch("/usuarios/:id", auth, Usuario.update);
+
+router.get("/usuarios/:id/quadro")
+router.patch("/usuarios/:id/quadro")
 
 router.patch(
   "/usuarios/avatar/:id",
@@ -84,12 +87,14 @@ router.get(
   auth,
   Curso.getCourseDeliveries
 );
+
 router.patch(
   "/cursos/:courseId/entregas/:userId",
   auth,
   uploadAtividade.single("file"),
   Curso.updateDeliverie
 );
+router.get("/cursos/:courseId/entregas/atividade/:id", auth, Curso.getDeliveries);
 
 router.patch("/cursos/:courseId", auth, Curso.update, Curso.updateCascade);
 router.delete("/cursos/:courseId", auth, Curso.delete);
@@ -100,5 +105,7 @@ router.get(
 );
 router.post("/cursos/:courseId/matricula", auth, Curso.enroll);
 router.post("/cursos/:courseId/desmatricula", auth, Curso.unroll);
+
+router.get("/download/:urifile", Curso.downloadFile);
 
 module.exports = router;

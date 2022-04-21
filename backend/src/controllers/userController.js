@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const { parseJwt } = require("../middlewares/decodedToken");
 const User = mongoose.model("User");
+const Board = mongoose.model("Board");
 const { encrypt, compare } = require("../helpers/bcrypt");
 const jwt = require("jsonwebtoken");
 const path = require("path");
@@ -288,3 +289,22 @@ exports.resetSenha = async (req, res) => {
     res.status(500).json({ message: "Link expirado" });
   }
 };
+
+//cria um novo board para usuario
+createBoard = async (req, res) =>{
+}
+
+//modifica um board para usuario
+exports.updateBoard = async (req, res) =>{
+}
+
+//
+exports.getBoard = async (req, res) => {
+  try {
+    let doc = Board.findOne( params.id);
+
+    res.status(200).json( {doc});
+  } catch (error) {
+    
+  }
+}

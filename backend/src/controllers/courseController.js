@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const { parseJwt } = require("../middlewares/decodedToken");
+const fs = require("fs");
 const Course = mongoose.model("Course");
 
 exports.createCourse = async (req, res) => {
@@ -293,6 +294,7 @@ exports.listAll = async (req, res) => {
   }
 };
 
+//pegar entregas para aluno
 exports.getCourseDeliveries = async (req, res) => {
   try {
     let courseId = req.params.courseId;
@@ -310,6 +312,40 @@ exports.getCourseDeliveries = async (req, res) => {
     console.error(error);
   }
 };
+
+//pegar entregas de atividade
+exports.getDeliveries = async (req, res) => {
+  try {
+    let courseId = req.params.courseId;
+    let id = req.params.id;
+
+    let match = { 
+      '_id' : courseId,
+      'Alunos.atividades.atividadeId' : id
+    };
+    let fieldProject = 'Alunos.atividades -_id Alunos.userId';
+    let userFields = 'nome email';
+
+    let doc = await Course.findOne(
+      match,
+      fieldProject
+    ).populate(
+      "Alunos.userId", userFields
+    );
+    doc.Alunos = doc.Alunos.filter( function(aluno){
+        aluno.atividades = aluno.atividades.filter( function( atividade){
+            return atividade.atividadeId == id;
+          }
+        );
+        return aluno.atividades.length > 0;
+      }
+    );
+    res.status(200).json({ doc });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 
 //atualiza todo content para atividade( content._id) para um aluno( userId) de uma turma( courseId)
 exports.updateDeliverie = async (req, res) => {
@@ -376,5 +412,19 @@ exports.updateDeliverie = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Erro ao enviar atividade" });
+  }
+};
+
+exports.downloadFile = async (req, res) => {
+  let { urifile } = req.params;
+
+  //res.setHeader("Access-Control-Allow-Origin", "*");
+
+  var file = __dirname + `/../../public/atividades/${urifile}`;
+  try {
+    res.download(file);
+  } catch (error) {
+    console.error(error);
+    res.send(error);
   }
 };

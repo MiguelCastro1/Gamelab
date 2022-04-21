@@ -28,6 +28,7 @@ mongoose.connection.on("error", (err) => {
 require("./models/user");
 require("./models/course");
 require("./models/notice");
+require("./models/kanbanBoard");
 
 const routes = require("./routes/routes");
 

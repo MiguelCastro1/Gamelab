@@ -40,7 +40,7 @@ function HeaderHome() {
             {nome}
           </p>
           <img
-            src={`http://localhost:5000/public/avatar/${imgUser}`}
+            src={`https://afternoon-tundra-10183.herokuapp.com/public/avatar/${imgUser}`}
             alt="usuário"
           />
           <ul

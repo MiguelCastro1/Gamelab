@@ -77,8 +77,8 @@ function Perfil({courseId, ...props}) {
       } = await api.get(`/usuarios/avatar/${userId}`);
       let nameImage = image.split("avatar/");
       console.log("atualizou");
-      setImgUser(`http://localhost:5000/public/avatar/${nameImage}`);
-      setProfileImage(`http://localhost:5000/public/avatar/${nameImage}`);
+      setImgUser(`https://afternoon-tundra-10183.herokuapp.com/public/avatar/${nameImage}`);
+      setProfileImage(`https://afternoon-tundra-10183.herokuapp.com/public/avatar/${nameImage}`);
     }
     fetchImage();
   }, [flagResetImage]);

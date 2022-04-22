@@ -222,16 +222,14 @@ exports.unroll = async (req, res) => {
     let userId = object.id;
     let courseId = req.params.courseId;
     let aluno = {
-      userId: new mongoose.Types.ObjectId(userId),
-      notas: [],
+      userId: new mongoose.Types.ObjectId(userId)
     };
 
     let document = await Course.updateOne(
       { _id: courseId },
       { $pull: { Alunos: aluno } }
     );
-    //console.log(userId)
-    // console.log(courseId)
+    
     res.status(200).json({
       document,
       message: `Aluno desmatriculado com sucesso`,

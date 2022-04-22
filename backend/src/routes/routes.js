@@ -53,8 +53,8 @@ router.get("/usuarios", auth, Usuario.listAll);
 router.get("/usuarios/:id", auth, Usuario.user);
 router.patch("/usuarios/:id", auth, Usuario.update);
 
-router.get("/usuarios/:id/quadro")
-router.patch("/usuarios/:id/quadro")
+router.get("/usuarios/:id/quadro", auth);
+router.patch("/usuarios/:id/quadro", auth);
 
 router.patch(
   "/usuarios/avatar/:id",

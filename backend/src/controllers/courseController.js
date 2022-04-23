@@ -131,7 +131,7 @@ exports.listCoursesFromTeacher = async (req, res) => {
     const doc = await Course.find({
       $or: [
         { nomeCurso: { $regex: "(?i).*" + busca + ".*(?i)" } },
-        { descricao: { $regex: "(?i).*" + busca + ".*(?i)" } },
+        { descricao: { $regex: "(?i).*" + busca + ".*(?i)"  } },
       ],
       // para o professor enxergar apenas os cursos criados por ele
       autorEmail: autor,

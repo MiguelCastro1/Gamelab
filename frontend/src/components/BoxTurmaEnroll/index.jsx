@@ -34,7 +34,7 @@ function BoxTurmaEnroll({
   };
 
   const enroll = () => {
-    if (senha_curso === undefined && senha_curso !== "") {
+    if (senha_curso === "") {
       try {
         api
           .post(`/cursos/${course_id}/matricula`)

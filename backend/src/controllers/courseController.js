@@ -57,7 +57,7 @@ exports.update = async (req, res, next) => {
   try {
     let doc = await Course.findOneAndUpdate({ _id: courseId }, req.body);
     console.log({ doc });
-    res.status(200).json({ doc });
+   // res.status(200).json({ doc });
     next();
   } catch (error) {
     console.error(error);
@@ -222,8 +222,7 @@ exports.unroll = async (req, res) => {
     let userId = object.id;
     let courseId = req.params.courseId;
     let aluno = {
-      userId: new mongoose.Types.ObjectId(userId),
-      notas: [],
+      userId: new mongoose.Types.ObjectId(userId)
     };
 
     let document = await Course.updateOne(

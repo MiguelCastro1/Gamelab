@@ -19,10 +19,10 @@ import * as Yup from "yup";
 function EditarConteudoCurso({_secoes, nomeCurso, courseId, ...props }) {
   const navigate = useNavigate();
   const [secoes, setSecoes] = useState(_secoes);
+  const [campos, setCampos] = useState({});
   const [reload, setReload] = useState([]);
   const [open, setOpen] = useState(false);
   const [open2, setOpen2] = useState(false);
-  const [campos, setCampos] = useState({});
 
   const fields = [
     'secao',

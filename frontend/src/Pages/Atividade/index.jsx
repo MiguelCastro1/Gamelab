@@ -89,7 +89,7 @@ function Atividade() {
               {atividades.length > 0 &&  
                 <AtividadeCurso 
                   atividade={atividades.filter(atividade => atividade._id === atividadeId)[0]}
-                  alunos = {curso.Alunos} 
+                  _alunos = {curso.Alunos} 
                   courseId={courseId}
                   monstro={monstros[0]}
                   atividadeId={atividadeId}

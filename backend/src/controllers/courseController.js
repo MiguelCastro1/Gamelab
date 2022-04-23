@@ -364,6 +364,7 @@ exports.updateDeliverie = async (req, res) => {
       atividadeId: new mongoose.Types.ObjectId(req.body._id),
       entregaUri: req.file.filename,
       status: "entregue",
+      nota:0,
       ...req.body,
     };
     console.log(content);

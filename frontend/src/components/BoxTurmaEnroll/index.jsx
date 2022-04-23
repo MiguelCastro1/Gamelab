@@ -57,13 +57,13 @@ function BoxTurmaEnroll({
           api
             .post(`/cursos/${course_id}/matricula`)
             .then((data) => {
-              toast.sucess("Matriculado com sucesso!");
+              toast.success("Matriculado com sucesso!");
               console.log("done");
               navigate(`/curso/${course_id}`);
             })
             .catch((erro) => {
               toast.error("Algum Erro ocorreu");
-              console.log(err);
+              console.log(erro);
             });
         } catch (err) {
           toast.error("Algum Erro ocorreu");

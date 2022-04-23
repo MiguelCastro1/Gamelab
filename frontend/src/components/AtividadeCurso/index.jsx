@@ -8,7 +8,7 @@ import styles from "./styles.module.scss";
 import { useEffect, useState } from "react";
 import comemoracao from "../../assets/comemora.gif";
 import {Form, Formik} from 'formik';
-import { Button, Modal, Box, Typography,Dialog, DialogTitle, DialogActions,
+import { DialogContentText, Button, Modal, Box, Typography,Dialog, DialogTitle, DialogActions,
   Radio ,RadioGroup, FormControlLabel , FormControl , FormLabel  } from "@mui/material";
 import cool from "../../assets/cool.gif";
 import awesome from "../../assets/awesome.gif";
@@ -29,17 +29,18 @@ function AtividadeCurso({
   atividadeId,
   ...props
 }) {
-  const { id, perfil } = localStorage.getItem("gamelab") ? JSON.parse(localStorage.getItem("gamelab")): null;
+
   const navigate = useNavigate();
+  const { id, perfil } = localStorage.getItem("gamelab") ? JSON.parse(localStorage.getItem("gamelab")): null;
   const [alunos, setAlunos] = useState(
     perfil === "aluno"? 
-        alunos
-          .filter((aluno) => _aluno.userId._id === id)[0]
+        _alunos
+          .filter((aluno) => aluno.userId._id === id)[0]
           .atividades.filter(
             (atividade) => atividade.atividadeId === atividadeId
           )[0]
      :
-        _alunos.map(
+       _alunos.map(
           (aluno) =>
             aluno.atividades.filter(
               (atividade) => atividade.atividadeId === atividadeId
@@ -58,8 +59,7 @@ function AtividadeCurso({
   const diffTime = data_ati >= data_curr ? Math.abs(data_ati - data_curr) : -1 * Math.abs(data_curr - data_ati);
   const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
   const diffDays_real = diffTime / (1000 * 60 * 60 * 24);
- 
-  let atividade_aluno = []
+
   const style = {
     position: 'absolute',
     top: '50%',
@@ -95,7 +95,12 @@ function AtividadeCurso({
         data.append("dataEntrega", new Date());
         data.append("_id", atividadeId);
         await api.patch(`/cursos/${courseId}/entregas/${id}`, data);
-        setOpen(true);
+        setOpen(false);
+        toast.success("Atividade Entregue");
+
+      }else{
+        toast.error("Nenhum arquivo encontrado");
+        setOpen(false);
       }
     } catch (error) {
       console.log(error);
@@ -106,6 +111,8 @@ function AtividadeCurso({
   const handleClose = () => setOpen(false);
 
   const handleClose2 = () => setOpen2(false);
+
+  const Cancelar = () =>  navigate(`/curso/${courseId}`);
 
   const onFileDrop = (e) => {
     const newFile = e.target.files[0];
@@ -130,9 +137,17 @@ function AtividadeCurso({
   };
 
   const Salvar = async () => {
-
     try {
-      await api.patch(`cursos/${courseId}`, {Alunos: alunos});
+      for(let i = 0; i < _alunos.length; i++){
+        for(let j = 0; j < _alunos[i].atividades.length; j++){
+            if(_alunos[i].atividades[j].atividadeId === atividadeId){
+              _alunos[i].atividades[j] = {...alunos[i]};
+            }
+        }
+        _alunos[i].userId = _alunos[i].userId._id;
+      }
+      console.log({_alunos})
+      await api.patch(`cursos/${courseId}`, {Alunos: _alunos});
       toast.success("Notas salvas com sucesso");
       navigate(`/curso/${courseId}`);
     } catch (error) {
@@ -146,16 +161,15 @@ function AtividadeCurso({
     let object ={
       ...values
     };
-    delete object.aluno;
+
+    delete object.aluno_index;
     object.status = 'avaliado';
-   
-    console.log({object})
+
     try {
-      let s = [...alunos]
-      s[values.aluno] = {...object}      
-      setAlunos(s)
+      let s = [...alunos];
+      s[values.aluno_index] = {...object};
+      setAlunos(s);
       setOpen2(false);
-    
       toast.success("Campos editados com sucesso");
     } catch (error) {
       console.log(error);
@@ -218,6 +232,17 @@ function AtividadeCurso({
           </div>
         </div>
       )}
+
+      {alunos.entregaUri && (
+        <Button
+        variant="outlined"
+        startIcon={<MdOutlineFileDownload size={30} />}
+        onClick={() => onDownloadFile(alunos.entregaUri)}
+        >
+        Download
+        </Button>
+      )}
+      
       {file.length > 0 && (
         <div className={styles.infoFile}>
           <p>{file[0].name}</p>
@@ -230,40 +255,25 @@ function AtividadeCurso({
       {perfil === "aluno" && (
         <div className={styles.enviar}>
           <img src={status[0]} alt="Monstro" width={120} height={110} />
-          <Button variant="outlined" onClick={handleClickOpen}>
-            Enviar Atividade
-          </Button>
-          <Dialog
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="alert-dialog-title"
-            className="Dialog"
-          >
-            <DialogTitle
-              id="alert-dialog-title"
-              fontSize={16}
-              textAlign={"center"}
-            >
-              <p>Você entregou a atividade!</p>
-            </DialogTitle>
-            <DialogContentText
-              variant="outlined"
-              id="alert-dialog-description"
-              textAlign={"center"}
-            >
-              <img
-                className="imagem"
-                src={comemoracao}
-                alt="comemoração"
-                width={115}
-                height={115}
-              ></img>
-            </DialogContentText>
-
-            <DialogActions>
-              <Button onClick={handleClose}>Voltar</Button>
-            </DialogActions>
-          </Dialog>
+          <Button
+          onClick={() => setOpen(true)}
+          variant="outlined"
+        >
+          Enviar Atividade
+        </Button>
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+        >
+          <DialogTitle id="alert-dialog-title">
+            {"Você deseja realmente Enviar?"}
+          </DialogTitle>
+          <DialogActions>
+            <Button onClick={handleClose}>Cancelar</Button>
+            <Button onClick={handleClickOpen}>Confirmar</Button>
+          </DialogActions>
+        </Dialog>
         </div>
       )}
 
@@ -285,11 +295,11 @@ function AtividadeCurso({
                     ? new Date(
                         Date.parse(aluno.dataEntrega)
                       ).toLocaleDateString()
-                    : ""}
+                    : "Não enviado"}
                 </span>
               </section>
               <p>
-                <span>Entrega: </span> {aluno.entregaUri ?? aluno.entregaUri}
+                <span>Entrega: </span> {aluno.status === 'aberto' ? 'Nada enviado' : aluno.entregaUri}
               </p>
               <p>
                 <span>Nota: </span> {aluno.nota ?? aluno.nota}
@@ -315,7 +325,25 @@ function AtividadeCurso({
           ))}
         </div>
       )}
-
+  
+    {perfil === "professor" && _alunos.length > 0 && (
+   
+      <div className={styles.foot}>
+        <Button
+          className={styles.salvar}
+          onClick={Salvar}
+        >
+          Salvar
+        </Button>
+        <Button
+          className={styles.cancelar}
+          onClick={Cancelar}
+        >
+          Cancelar
+        </Button> 
+    
+      </div>
+     )}
         <div className={styles.modal}> 
             <Modal
               open={open2}
@@ -325,9 +353,9 @@ function AtividadeCurso({
               <Box sx={style}>
                       
                 <Formik initialValues={{
-                  aluno: campos.aluno,
+                  aluno_index: campos.aluno_index,
                   atividadeId: campos.atividadeId,
-                  nota: campos.nota,
+                  nota: campos.nota !== undefined ? campos.nota : 0,
                   status: campos.status,
                   entregaUri: campos.entregaUri,
                   dataEntrega: campos.dataEntrega 

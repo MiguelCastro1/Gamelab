@@ -87,12 +87,14 @@ function Curso() {
     }
   };
 
-  useEffect(() => {
+  useEffect( () => {
     const f = () => {
       try {
+
         api
           .get(`/cursos/${courseId}`)
           .then((data) => {
+            console.log(data.data.doc)
             setCurso(data.data.doc);
             setPagina("home");
             setLoaded(true);

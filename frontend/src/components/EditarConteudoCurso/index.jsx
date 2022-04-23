@@ -49,7 +49,7 @@ function EditarConteudoCurso({_secoes, nomeCurso, courseId, ...props }) {
     p: 5,
   };
 
-  const Cancelar = () => {setSecoes([..._secoes]); toast.success("Campos editados resetados");}
+  const Cancelar = () =>  navigate(`/curso/${courseId}`);
 
   const handleOpen = () => setOpen(true);
 
@@ -223,7 +223,7 @@ function EditarConteudoCurso({_secoes, nomeCurso, courseId, ...props }) {
         className={styles.cancelar}
         onClick={Cancelar}
       >
-        Resetar
+        Cancelar
       </Button> 
   
     </div>
@@ -282,7 +282,7 @@ function EditarConteudoCurso({_secoes, nomeCurso, courseId, ...props }) {
                     estilo={{ marginTop: "2.7rem" }}
                     />     
                                    
-                    {values.conteudo !== -1 && (
+                    {values.conteudo !== -1 &&  values.tipo !== 'Atividade' && (
                     <Input
                     name="uri"
                     label={"Arquivo"}

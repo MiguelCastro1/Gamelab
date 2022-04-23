@@ -183,6 +183,7 @@ exports.enroll = async (req, res) => {
     let object = parseJwt(token);
     let userId = object.id;
     let courseId = req.params.courseId;
+    let message = "";
 
     let doc = await Course.findById(courseId);
     const atividades = [].concat.apply(
@@ -203,12 +204,19 @@ exports.enroll = async (req, res) => {
       })),
     };
     let document = await Course.updateOne(
-      { _id: courseId },
+      { _id: courseId, "Alunos.userId" : { "$ne" : userId} },
       { $push: { Alunos: aluno } }
     );
+    
+    if (document.matchedCount != 0){
+      message = "Aluno matriculado com sucesso";
+    }else{
+      message = "Aluno já matriculado";
+    }
+
     res.status(200).json({
       document,
-      message: `Aluno matriculado com sucesso`,
+      message: message,
     });
   } catch (e) {
     res.status(500).json({ message: e.message });
@@ -229,8 +237,7 @@ exports.unroll = async (req, res) => {
       { _id: courseId },
       { $pull: { Alunos: aluno } }
     );
-    //console.log(userId)
-    // console.log(courseId)
+    
     res.status(200).json({
       document,
       message: `Aluno desmatriculado com sucesso`,

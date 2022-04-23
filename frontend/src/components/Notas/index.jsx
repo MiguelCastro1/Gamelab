@@ -12,7 +12,7 @@ function Notas({ Alunos, ...props }) {
 
   if(perfil === 'aluno'){
     aluno = Alunos.filter(aluno => aluno.userId._id === id)[0]
-    data = aluno.atividades.map(atividade => atividade.nota).reverse()
+    data = aluno.atividades.map(atividade => atividade.nota ? atividade.nota : 0).reverse()
 
   }else{
     /*for(let i=0;i<Alunos[0].atividades.lenght;i++){

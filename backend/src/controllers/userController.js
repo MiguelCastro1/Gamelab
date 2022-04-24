@@ -241,7 +241,7 @@ exports.sendmail = async (req, res) => {
               <p class="paragrafo">
                 Este é um email para a recuperação de senha.<br></br>
               </p>
-                Acesse o link: <a href="http://localhost:3000/resetarsenha?_token=${token}">Recuperar senha</a>
+                Acesse o link: <a href="${process.env.FRONT_BASE_URL}/resetarsenha?_token=${token}">Recuperar senha</a>
               <p>
                 <br></br>
                 Messagem automática, favor não responder este e-mail

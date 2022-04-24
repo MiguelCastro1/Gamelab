@@ -105,6 +105,7 @@ exports.updateCascade = async (req, res) => {
 
         doc = await Course.findOneAndUpdate({ _id: courseId }, doc);
         console.log("done");
+        //exluir atividades dos alunos
       } else if(atividades.length < doc.Alunos[0].atividades.length){
         let index = 0;
         for (index = 0; index < doc.Alunos[0].atividades.length; index++) {

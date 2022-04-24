@@ -18,6 +18,7 @@ function BoxTurmaEnroll({
   nomeTurma,
   professor,
   descricao,
+  img,
   senha_curso,
   ...props
 }) {
@@ -88,7 +89,7 @@ function BoxTurmaEnroll({
             <span>Professor: </span>
             {professor}
             <img 
-              src={`https://afternoon-tundra-10183.herokuapp.com/public/avatar/${user_padrao}`}  
+              src={`https://afternoon-tundra-10183.herokuapp.com/public/avatar/${img}`}  
               alt="Perfil"
               width={50}
               height={50}

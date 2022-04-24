@@ -132,8 +132,9 @@ function ProcurarCurso() {
                 <BoxTurmaEnroll 
                   course_id = {turma._id}
                   nomeTurma={turma.nomeCurso}
-                  professor={turma.autorEmail}
+                  professor={turma.autorId.email}
                   descricao={turma.descricao}
+                  img ={turma.userId.imageAvatar}
                   senha_curso={turma.senha}
                 />
               </div>

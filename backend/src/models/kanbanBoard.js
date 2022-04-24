@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const boardSchema = new Schema(
   {
     userId: {
+      unique: true,
       type: mongoose.SchemaTypes.ObjectId,
       ref: "User"
     },
@@ -18,16 +19,18 @@ const boardSchema = new Schema(
           cards: { 
             _id: false, 
             id: {
+              unique: true,
               type: mongoose.SchemaTypes.Number,
               required: true
             },
-            type: Schema.SchemaTypes.Array,
+            type: mongoose.SchemaTypes.Array,
             default: [
               {
                 card:{
                   _id: false,
                   id: {
-                    type: mongoose.SquemaTypes.Number,
+                    unique: true,
+                    type: mongoose.SchemaTypes.Number,
                     required: true
                   },
                 }

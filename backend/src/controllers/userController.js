@@ -16,10 +16,8 @@ exports.createUser = async (req, res) => {
   };
   console.log(entrada);
   try {
-    // let document = await User.create(entrada).then( 
-    //element => {
-      createBoard( entrada.userId);
-    //});
+    let document = await User.create(entrada);
+    createBoard( document._id);
     res.status(200).json({
       document,
       message: `${req.body.tipoUsuario} cadastrado com sucesso`,
@@ -294,7 +292,7 @@ exports.resetSenha = async (req, res) => {
 };
 
 //cria um novo board para usuario
-createBoard = async (userID) =>{
+createBoard = async (userId) =>{
   
   try {
     let entrada = {
@@ -324,19 +322,17 @@ createBoard = async (userID) =>{
       ],
       counter : 0
     };
-    let document = await User.create(entrada);
-    res.status(200).json({
-      document,
-      message: `${req.body.tipoUsuario} cadastrado com sucesso`,
-    });
+    let document = await Board.create(entrada);
+    console.log( document);
+    return document;
   } catch (e) {
-    res.status(500).json({ message: e.message });
+    return e.message;
   }
 };
 
 //modifica um board para usuario
 exports.updateBoard = async (req, res) => {
-  let userId = req.params.userId;
+  let userId = req.params.id;
   try {
     let doc = await Board.findOneAndUpdate({ userId: userId }, req.body);
     res.status(200).json({ doc });
@@ -349,10 +345,17 @@ exports.updateBoard = async (req, res) => {
 //pega um board para usuario
 exports.getBoard = async (req, res) => {
   try {
-    let doc = Board.findOne( req.params.userId);
+    let doc = await Board.findOne( 
+      {
+        userId: req.params.id
+      }
+    );
 
+    console.log( doc);
     res.status(200).json( {doc});
   } catch (error) {
     
+    console.error(error);
+    res.status(500).json({ message: "Quadro não encontrado!" });
   }
 };

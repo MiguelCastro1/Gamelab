@@ -126,15 +126,15 @@ function ProcurarCurso() {
 
         <div>
           <h2 className={styles.titulo}>  {titulo} </h2>
-          {false  && searchString === '' ? (
+          {searchString === '' ? (
             filterResults.map((turma) => (
               <div key={turma._id}>
                 <BoxTurmaEnroll 
                   course_id = {turma._id}
                   nomeTurma={turma.nomeCurso}
-                  professor={turma.autorId.email}
+                  professor={turma.autorId.nome}
                   descricao={turma.descricao}
-                  img ={turma.userId.imageAvatar}
+                  img ={turma.autorId.imageAvatar}
                   senha_curso={turma.senha}
                 />
               </div>

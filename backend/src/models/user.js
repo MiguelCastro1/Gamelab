@@ -34,6 +34,7 @@ const userSchema = new Schema(
     senha: {
       type: String,
       required: true,
+      minlength: 8
     },
     cidade: {
       type: String,

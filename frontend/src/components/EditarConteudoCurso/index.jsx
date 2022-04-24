@@ -60,7 +60,7 @@ function EditarConteudoCurso({_secoes, nomeCurso, courseId, ...props }) {
   const handleClose2 = () => setOpen2(false);
 
   const Salvar = async () => {
-
+    console.log('salvando')
     try {
       await api.patch(`cursos/${courseId}`, {secoes: secoes});
       toast.success("Campos editados salvos com sucesso");

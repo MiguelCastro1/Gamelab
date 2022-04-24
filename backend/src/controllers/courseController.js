@@ -56,7 +56,6 @@ exports.update = async (req, res, next) => {
   let courseId = req.params.courseId;
   try {
     let doc = await Course.findOneAndUpdate({ _id: courseId }, req.body);
-    console.log({ doc });
    // res.status(200).json({ doc });
     next();
   } catch (error) {
@@ -66,7 +65,7 @@ exports.update = async (req, res, next) => {
 
 exports.updateCascade = async (req, res) => {
   const courseId = req.params.courseId;
-  console.log("begin");
+  console.log('update_cascade')
   try {
     let doc = await Course.findById(courseId);
 
@@ -106,8 +105,25 @@ exports.updateCascade = async (req, res) => {
 
         doc = await Course.findOneAndUpdate({ _id: courseId }, doc);
         console.log("done");
-      } else {
-        console.log("sem atividades");
+      } else if(atividades.length < doc.Alunos[0].atividades.length){
+        let index = 0;
+        for (index = 0; index < doc.Alunos[0].atividades.length; index++) {
+          if (
+            doc.Alunos[0].atividades[index].atividadeId !==
+            String(atividades[index]._id)
+          ) {
+            break;
+          }
+        }
+
+        for (let i = 0; i < doc.Alunos.length; i++) {
+          doc.Alunos[i].atividades = doc.Alunos[i].atividades.slice(0, index);
+        }
+
+        doc = await Course.findOneAndUpdate({ _id: courseId }, doc);
+        console.log("done");
+      }else {
+        console.log("sem nova atividades");
       }
     } else {
       console.log("sem alunos ou atividades");
@@ -265,10 +281,12 @@ exports.listCourseParticipants = async (req, res) => {
 };
 
 exports.listCoursesEnroll = async (req, res) => {
+  console.log('enroll')
   try {
     let token = req.headers.authorization.split(" ")[1];
     let studentId = parseJwt(token).id;
-    const doc = await Course.find({});
+    let fields = "nome _id email imageAvatar";
+    const doc = await Course.find({}).populate("autorId", fields);
 
     //carregar cursos que aluno nao esteja matriculado
     let results = [];

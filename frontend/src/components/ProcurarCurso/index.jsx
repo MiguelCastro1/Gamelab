@@ -15,6 +15,7 @@ function ProcurarCurso() {
     try {
       api.get("/cursos/procurar-curso")
       .then((data) => {
+        console.log(data.data.results)
         setResultados(data.data.results);
         console.log('done')
       })
@@ -125,7 +126,7 @@ function ProcurarCurso() {
 
         <div>
           <h2 className={styles.titulo}>  {titulo} </h2>
-          {searchString === '' ? (
+          {false  && searchString === '' ? (
             filterResults.map((turma) => (
               <div key={turma._id}>
                 <BoxTurmaEnroll 

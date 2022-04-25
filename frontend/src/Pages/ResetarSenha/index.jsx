@@ -59,7 +59,7 @@ function ResetarSenha() {
                   autoFocus={true}
                 />
                 <Input
-                  label="Confirmar nova sneha"
+                  label="Confirmar nova senha"
                   name="confirmar"
                   value={values.confirmar}
                   onChange={handleChange}

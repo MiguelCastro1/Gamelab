@@ -25,16 +25,6 @@ function kanban() {
             title: "Fazer testes",
             description: "Fazer testes de usabilidade no site Gamelab",
           },
-          {
-            id: 4,
-            title: "Fazer testes",
-            description: "Fazer testes de usabilidade no site Gamelab",
-          },
-          {
-            id: 7,
-            title: "Fazer testes",
-            description: "Fazer testes de usabilidade no site Gamelab",
-          },
         ],
       },
       {

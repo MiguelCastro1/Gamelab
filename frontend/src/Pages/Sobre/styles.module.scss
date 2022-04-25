@@ -1,5 +1,54 @@
 .container {
-    width: min(90vw, 1120px);
-    margin: 2.2rem auto 0;
-    text-align: center;
+  width: min(90vw, 1120px);
+  margin: 4rem auto 0;
+
+  p {
+    font-size: 1.3rem;
+  }
+
+  p:not(:first-child) {
+    margin-top: 2rem;
+  }
+
+  footer {
+    margin-top: 9rem;
+
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 2.3rem;
+
+    ul {
+      list-style: none;
+      display: flex;
+      gap: 2.5rem;
+
+      li {
+        height: 7rem;
+        width: 7rem;
+        border-radius: 50%;
+        background: linear-gradient(-0.2deg, #005c97, #363795 60%);
+        display: grid;
+        place-items: center;
+        position: relative;
+
+        img {
+          width: 6.5rem;
+          border-radius: 50%;
+          object-fit: cover;
+        }
+
+        small {
+          position: absolute;
+          bottom: -25%;
+          left: 50%;
+          transform: translateX(-50%);
+          z-index: 10;
+          min-width: 112px;
+
+          text-align: center;
+        }
+      }
+    }
+  }
 }

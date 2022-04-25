@@ -18,7 +18,10 @@ const formSchema = Yup.object().shape({
     .required("Campo obrigatório"),
   dataNascimento: Yup.string().required("Campo obrigatório"),
   nome: Yup.string().max(100, "Limite atingido").required("Campo obrigatório"),
-  matricula: Yup.number("Matricula invalida").required("Campo obrigatório"),
+  matricula: Yup.number()
+    .typeError("Somente números")
+    .positive("Números maiores que zero")
+    .required("Campo obrigatório"),
   instituicao: Yup.string()
     .max(100, "Limite atingido")
     .required("Campo obrigatório"),

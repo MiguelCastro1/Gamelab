@@ -92,7 +92,12 @@ router.patch(
   "/cursos/:courseId/entregas/:userId",
   auth,
   uploadAtividade.single("file"),
-  Curso.updateDeliverie
+  Curso.updateDeliverieStudent
+);
+router.patch(
+  "/cursos/:courseId/entregas/:userId/avaliar",
+  auth,
+  Curso.updateDeliverieTeacher
 );
 router.get("/cursos/:courseId/entregas/atividade/:id", auth, Curso.getDeliveries);
 

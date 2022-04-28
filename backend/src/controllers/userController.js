@@ -128,7 +128,7 @@ exports.uploadAvatar = async (req, res) => {
   }
 };
 
-exports.getImageAvatar = async (req, res) => {
+exports.getUserImage = async (req, res) => {
   try {
     let userId = req.params.id;
     const { imageAvatar } = await User.findOne({ _id: userId });
@@ -158,7 +158,7 @@ exports.scriptUpdate = async (req, res) => {
   }
 };
 
-exports.sendmail = async (req, res) => {
+exports.sendRecoverEmail = async (req, res) => {
   try {
     let user = await User.findOne({ email: req.body.email });
     if (user) {
@@ -264,7 +264,7 @@ exports.sendmail = async (req, res) => {
   }
 };
 
-exports.resetSenha = async (req, res) => {
+exports.resetPassword = async (req, res) => {
   let { novasenha, token } = req.body;
   console.log(req.body);
 

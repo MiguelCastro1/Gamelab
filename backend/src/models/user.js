@@ -51,9 +51,6 @@ const userSchema = new Schema(
     imageAvatar: {
       type: String,
     },
-    pathImageAvatar: {
-      type: String,
-    },
     tokenRecuperarSenha: {
       type: String,
     },

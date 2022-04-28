@@ -61,11 +61,11 @@ router.patch(
   upload.single("file"),
   Usuario.uploadAvatar
 );
-router.get("/usuarios/avatar/:id", auth, Usuario.getImageAvatar);
+router.get("/usuarios/avatar/:id", auth, Usuario.getUserImage);
 
 //Recuperar senha
-router.post("/envioemail", Usuario.sendmail);
-router.patch("/resetarsenha", Usuario.resetSenha);
+router.post("/envioemail", Usuario.sendRecoverEmail);
+router.patch("/resetarsenha", Usuario.resetPassword);
 
 router.get("/script", Usuario.scriptUpdate);
 

@@ -27,8 +27,7 @@ function Sobre() {
         <p>
           O GameLab tem como filosofia ser uma plataforma intuitiva e atrativa
           para qualquer tipo de usuário. Com seu design baseado em SPA, o
-          GameLab espera ser uma opção viável às ferramentas já existentes como
-          o Moodle e google Classroom.
+          GameLab espera ser uma opção viável para os alunos e professores
         </p>
         <footer>
           <p>Criadores</p>
@@ -39,7 +38,7 @@ function Sobre() {
             </li>
             <li>
               <img src={natalia} alt="natalia" />
-              <small>Natália Freire</small>
+              <small>Natalia Freire</small>
             </li>
             <li>
               <img src={pedro} alt="pedro" />

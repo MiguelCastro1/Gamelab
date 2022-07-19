@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const routes = require("./routes/routes");
 const path = require("path");
 const app = express();
 
@@ -29,8 +30,6 @@ require("./models/user");
 require("./models/course");
 require("./models/notice");
 require("./models/kanbanBoard");
-
-const routes = require("./routes/routes");
 
 app.use("/", routes);
 

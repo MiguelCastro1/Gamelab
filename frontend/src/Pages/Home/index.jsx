@@ -18,6 +18,9 @@ import ProcurarCurso from "../../components/ProcurarCurso";
 import CriarCurso from "../../components/CriarCurso";
 import Avisos from "../../components/Avisos";
 
+
+
+
 function Home() {
   const [date, setDate] = useState(new Date());
   const [pagina, setPagina] = useState("home");
@@ -147,10 +150,10 @@ function Home() {
                   />
                   <div>
                     <span>Level: </span>
-                    <span>2</span>
+                    <span>1</span>
                   </div>
                 </div>
-                <ProgressBar progressBar={23} />
+                <ProgressBar progressBar={2} />
               </div>
             )}
             <div className={styles.calendario}>

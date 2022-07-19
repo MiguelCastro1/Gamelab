@@ -14,15 +14,15 @@ exports.createUser = async (req, res) => {
     senha: encrypt(req.body.senha),
     imageAvatar: "user_padrao.png",
   };
-  console.log(entrada);
+
   try {
-    let document = await User.create(entrada);
+    let usuario = await User.create(entrada);
     res.status(200).json({
-      document,
+      usuario,
       message: `${req.body.tipoUsuario} cadastrado com sucesso`,
     });
   } catch (e) {
-    res.status(500).json({ message: e.message });
+    res.status(500).json({ message: e });
   }
 };
 
@@ -62,8 +62,8 @@ exports.login = async (req, res) => {
 exports.update = async (req, res) => {
   let userId = req.params.id;
   try {
-    let doc = await User.findOneAndUpdate({ _id: userId }, req.body);
-    res.status(200).json({ doc });
+    let usuario = await User.findOneAndUpdate({ _id: userId }, req.body);
+    res.status(200).json({ usuario });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Erro ao deletar usuários" });
@@ -73,18 +73,18 @@ exports.update = async (req, res) => {
 exports.user = async (req, res) => {
   try {
     let userId = req.params.id;
-    let token = req.headers.authorization.split(" ")[1];
-    let doc = await User.findById(userId);
-    res.status(200).json({ doc });
+    let usuario = await User.findById(userId);
+    res.status(200).json({ usuario });
   } catch (error) {
     console.error(error);
+    res.status(500).json({ message: error });
   }
 };
 
 exports.listAll = async (req, res) => {
   try {
-    const doc = await User.find({});
-    res.status(200).json({ doc });
+    const usuarios = await User.find({});
+    res.status(200).json({ usuarios });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Erro ao listar usuários" });
@@ -120,7 +120,7 @@ exports.uploadAvatar = async (req, res) => {
         }
       );
     }
-    res.send("imagem alterada com sucesso");
+    res.status(200).res.send("imagem alterada com sucesso");
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Erro ao alterar a imagem" });
@@ -140,7 +140,6 @@ exports.getImageAvatar = async (req, res) => {
 };
 
 // Método para alterar o schema geral de usuários
-
 exports.scriptUpdate = async (req, res) => {
   try {
     let usuarios = await User.find({}, { _id: 1, nome: 1 });
@@ -301,7 +300,7 @@ exports.updateBoard = async (req, res) =>{
 //
 exports.getBoard = async (req, res) => {
   try {
-    let doc = Board.findOne( params.id);
+    let doc = Board.findOne( req.params.id);
 
     res.status(200).json( {doc});
   } catch (error) {

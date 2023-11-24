@@ -11,24 +11,15 @@ function Sobre() {
       <HeaderAuth />
       <div className={styles.container}>
         <p>
-          O GameLab é uma plataforma simples de apoio à aprendizagem, que
-          auxilia no gerenciamento de conteúdo para professores e alunos que
-          procuram simplificar a criação, a distribuição, envio e a avaliação de
-          trabalhos.
+          Bem-vindo ao GameLab, sua plataforma intuitiva e atrativa para transformar a educação. Aqui, professores e alunos descobrem uma forma simplificada e engajante de criar, compartilhar e avaliar conteúdos educacionais.
         </p>
         <p>
-          O diferencial do sistema é a adição de elementos gráficos e de
-          gamificação cujo objetivo é aumentar o engajamento dos alunos nos
-          cursos matriculados. Além disso, o GameLab também implementa no seu
-          sistema a funcionalidade do Kanban, com intuito de auxiliar no
-          gerenciamento de atividades tanto para os professores quanto para os
-          alunos.
+          Combinamos elementos gráficos e de gamificação para elevar o envolvimento dos alunos, tornando o aprendizado mais dinâmico e divertido. Além disso, a integração da metodologia Kanban ajuda na organização e no gerenciamento eficaz das atividades, tanto para educadores quanto para estudantes.
         </p>
         <p>
-          O GameLab tem como filosofia ser uma plataforma intuitiva e atrativa
-          para qualquer tipo de usuário. Com seu design baseado em SPA, o
-          GameLab espera ser uma opção viável para os alunos e professores
+          No GameLab, cada detalhe é pensado para garantir uma experiência de usuário fluída e eficiente, seja você professor ou aluno. Nosso design SPA (Single Page Application) assegura uma navegação rápida e responsiva, adequada para a educação moderna.
         </p>
+
         <footer>
           <p>Criadores</p>
           <ul>

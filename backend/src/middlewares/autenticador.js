@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 
-auth = (req, res, next) => {
+const auth = (req, res, next) => {
   if (req.headers.authorization === undefined) {
     return res.status(401).send("Acesso negado, Verifique Token");
   }
@@ -20,4 +20,5 @@ auth = (req, res, next) => {
   }
 };
 
-module.exports;
+module.exports = {auth}
+

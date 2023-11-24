@@ -53,6 +53,7 @@ function FormCadastro() {
       toast.success("Cadastro Concluído com Sucesso");
       navigate("/login");
     } catch (error) {
+      toast.error("Erro no Servidor");
       console.log(error);
 
       setErro("Email já cadastrado");

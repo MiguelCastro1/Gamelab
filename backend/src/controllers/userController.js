@@ -9,6 +9,7 @@ const User = mongoose.model("User");
 const Board = mongoose.model("Board");
 
 const createUser = async (req, res) => {
+  console.log("in")
   let entrada = {
     ...req.body,
     senha: encrypt(req.body.senha),

@@ -27,7 +27,14 @@ mongoose.connection.on("error", (err) => {
 import routes from "./routes/routes";
 
 app.use("/", routes);
-app.use(cors());
+// CORS configuration
+// To allow requests from your frontend
+const corsOptions = {
+  origin: 'http://localhost:3000', // or '*' for all origins
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

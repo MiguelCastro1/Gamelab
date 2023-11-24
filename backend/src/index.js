@@ -33,6 +33,8 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/public", express.static(path.join(__dirname, "..", "public")));
 
-app.listen(process.env.PORT, () => {
+
+const PORT = process.env.PORT || 3333;
+app.listen(PORT, () => {
   console.log(`Servidor rodando porta: ${process.env.PORT}`);
 });

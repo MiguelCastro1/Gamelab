@@ -6,6 +6,10 @@ import Usuario from "../controllers/userController"
 
 const router = express.Router();
 
+router.get("/", (req, res) => {
+    res.send('Hello World');
+});
+
 router.post("/login", Usuario.login);
 router.post("/envioemail", Usuario.sendmail);
 router.patch("/resetarsenha", Usuario.resetSenha);

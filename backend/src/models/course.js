@@ -32,9 +32,10 @@ const courseSchema = new Schema(
     codigo: {
       type: String,
       default: ""
-    //  unique: true,
+      //unique: true,
      // required: true,
     },
+    
     Alunos: [{
       userId: { type: Schema.Types.ObjectId, ref: "User"},
       atividades: [{

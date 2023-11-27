@@ -1,4 +1,10 @@
 # GameLab: Plataforma de Aprendizado Gamificado
+
+
+![Login](./frontend/src/assets/login.png)
+![Home](./frontend/src/assets/home.png)
+
+
 ## Visão Geral
 Bem-vindo ao repositório do GameLab, uma plataforma inovadora de apoio à aprendizagem que combina gerenciamento eficiente de conteúdo educacional com os princípios de gamificação. Projetado tanto para professores quanto para alunos, o GameLab facilita a criação, distribuição, submissão e avaliação de trabalhos, tornando o processo de ensino-aprendizagem mais envolvente e eficaz.
 
@@ -20,5 +26,3 @@ Este projeto está aberto a contribuições da comunidade. Se você tem ideias p
 
 Disponivel em: https://aesthetic-biscotti-6531ca.netlify.app/
 
-![Login](./frontend/src/assets/login.png)
-![Home](./frontend/src/assets/home.png)

@@ -5,8 +5,12 @@ import {FcConferenceCall} from 'react-icons/fc'
 import { useEffect, useState } from "react";
 import api from "../../services/axios";
 import { setNestedObjectValues } from "formik";
+import { getLocal } from "../../services/auth";
 
 function Participantes({ Alunos, ...props }) {
+
+  let local = getLocal() ? "http://localhost:3333": null;
+
   return (
     <div className={styles.feed}>
       <h1>
@@ -18,7 +22,7 @@ function Participantes({ Alunos, ...props }) {
           <Link key={aluno.userId._id} to={`/perfil/${aluno.userId._id}`}>
           <div  className={styles.aluno}>
             <img 
-              src={`https://afternoon-tundra-10183.herokuapp.com/public/avatar/${aluno.userId.imageAvatar}`}  
+              src={`${local}/public/avatar/${aluno.userId.imageAvatar}`}  
               alt="Perfil"
               width={50}
               height={50}

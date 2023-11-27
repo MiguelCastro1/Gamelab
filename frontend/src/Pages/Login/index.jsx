@@ -39,6 +39,7 @@ export default function Login() {
         token,
       };
       localStorage.setItem("gamelab", JSON.stringify(dados));
+      localStorage.setItem("local", "http://localhost:3333");
       navigate("/home");
     } catch (error) {
       setErro(true);

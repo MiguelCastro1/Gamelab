@@ -26,20 +26,35 @@ mongoose.connection.on("error", (err) => {
 
 import routes from "./routes/routes";
 
-app.use("/", routes);
-// CORS configuration
-// To allow requests from your frontend
-const corsOptions = {
-  origin: 'http://localhost:3000', // or '*' for all origins
-  optionsSuccessStatus: 200
-};
+const corsOptions ={
+  origin:'http://localhost:3000', 
+  credentials:true,           
+  optionSuccessStatus:200
+}
 
 app.use(cors(corsOptions));
+
 app.use(express.json());
+
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/public", express.static(path.join(__dirname, "..", "public")));
 
+app.use((req, res, next) => {
+  //res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+
+  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,PATCH,OPTIONS");
+  //res.header("Access-Control-Allow-Headers", "");
+
+  res.header("Access-Control-Allow-Headers", "Content-Type, X-Requested-With");
+
+  //app.use(cors(corsOptions));
+
+  next();
+});
+
+app.use("/", routes);
 
 const PORT = process.env.PORT || 3333;
 app.listen(PORT, () => {

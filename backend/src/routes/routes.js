@@ -7,11 +7,7 @@ import Usuario from "../controllers/userController"
 const router = express.Router();
 
 router.get("/", (req, res) => {
-    res.send('Hello World 2');
-});
-
-router.get("/api", (req, res) => {
-    res.send({"Teste": "testeeee"});
+    res.send('Hello World');
 });
 
 router.post("/login", Usuario.login);

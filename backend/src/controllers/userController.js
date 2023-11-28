@@ -5,27 +5,9 @@ import jwt from "jsonwebtoken";
 import path from "path";
 import fs from "fs";
 import nodemailer from "nodemailer";
+
 const User = mongoose.model("User");
 const Board = mongoose.model("Board");
-
-const createUser = async (req, res) => {
-  console.log("in")
-  let entrada = {
-    ...req.body,
-    senha: encrypt(req.body.senha),
-    imageAvatar: "user_padrao.png",
-  };
-
-  try {
-    let usuario = await User.create(entrada);
-    res.status(200).json({
-      usuario,
-      message: `${req.body.tipoUsuario} cadastrado com sucesso`,
-    });
-  } catch (e) {
-    res.status(500).json({ message: e });
-  }
-};
 
 const login = async (req, res) => {
   const { email, senha } = req.body;
@@ -47,7 +29,7 @@ const login = async (req, res) => {
         };
         res.status(200).json({
           user: payload,
-          token: jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: "7d" }),
+          token: jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: "1d" }),
         });
       } else {
         res.status(401).send("email e/ou senha inválidos");
@@ -56,9 +38,31 @@ const login = async (req, res) => {
       res.status(401).send("email e/ou senha inválidos");
     }
   } catch (error) {
-    res.status(500).send("email e/ou senha inválidos");
+    res.status(500).send("Erro no Servidor");
   }
 };
+
+
+const createUser = async (req, res) => {
+  console.log("in")
+  let entrada = {
+    ...req.body,
+    senha: encrypt(req.body.senha),
+    imageAvatar: "user_padrao.png",
+  };
+
+  try {
+    let usuario = await User.create(entrada);
+    res.status(200).json({
+      usuario,
+      message: `${req.body.tipoUsuario} cadastrado com sucesso`,
+    });
+  } catch (e) {
+    res.status(500).json({ message: e });
+  }
+};
+
+
 
 const update = async (req, res) => {
   let userId = req.params.id;
@@ -291,23 +295,23 @@ const resetSenha = async (req, res) => {
 };
 
 //cria um novo board para usuario
-const createBoard = async (req, res) =>{
+const createBoard = async (req, res) => {
 
 }
 
 //modifica um board para usuario
-const updateBoard = async (req, res) =>{
+const updateBoard = async (req, res) => {
 
 }
 
 const getBoard = async (req, res) => {
   try {
-    let doc = Board.findOne( req.params.id);
+    let doc = Board.findOne(req.params.id);
 
-    res.status(200).json( {doc});
+    res.status(200).json({ doc });
   } catch (error) {
-    
+
   }
 }
 
-export default {createUser, login, update, user, listAll, uploadAvatar, getImageAvatar, scriptUpdate, sendmail, resetSenha, getBoard }
+export default { createUser, login, update, user, listAll, uploadAvatar, getImageAvatar, scriptUpdate, sendmail, resetSenha, getBoard }

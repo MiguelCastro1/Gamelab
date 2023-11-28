@@ -53,7 +53,7 @@ export default function Login() {
       <div className={styles.container}>
         <section className={styles.title}>
           <h1>GameLab</h1>
-          <p>Crie sua turma e faça seus alunos se divertirem.</p>
+          <p>Desenvolva uma turma dinâmica e interativa, onde cada aluno encontra alegria e inspiração no processo de aprendizagem.</p>
         </section>
         <div
           style={{ height: erro ? "25rem" : "22rem" }}

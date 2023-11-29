@@ -75,12 +75,10 @@ exports.updateCascade = async (req, res) => {
         )
         .filter((atividade) => atividade.length > 0)
     );
-    // console.log({atividades})
 
     if (atividades.length > 0 && doc.Alunos.length > 0) {
       //Adicionar atividades aos alunos
       if (atividades.length > doc.Alunos[0].atividades.length) {
-        //console.log({Alunos})
         let index = 0;
         for (index = 0; index < doc.Alunos[0].atividades.length; index++) {
           if (
@@ -97,7 +95,6 @@ exports.updateCascade = async (req, res) => {
             nota: 0,
             atividadeId: atividades[index]._id,
           };
-          //console.log({...doc.Alunos[i], atividades: [...doc.Alunos[i].atividades, atividade]})
           doc.Alunos[i].atividades = [...doc.Alunos[i].atividades, atividade];
         }
 
@@ -147,7 +144,7 @@ exports.listCoursesFromTeacher = async (req, res) => {
     const doc = await Course.find({
       $or: [
         { nomeCurso: { $regex: "(?i).*" + busca + ".*(?i)" } },
-        { descricao: { $regex: "(?i).*" + busca + ".*(?i)" } },
+        { descricao: { $regex: "(?i).*" + busca + ".*(?i)"  } },
       ],
       // para o professor enxergar apenas os cursos criados por ele
       autorEmail: autor,
@@ -370,9 +367,8 @@ exports.getDeliveries = async (req, res) => {
   }
 };
 
-
-//atualiza todo content para atividade( content._id) para um aluno( userId) de uma turma( courseId)
-exports.updateDeliverie = async (req, res) => {
+//enviar entrega de atividade( content._id) para um aluno( userId) de uma turma( courseId)
+exports.updateDeliverieStudent = async (req, res) => {
   try {
     console.log(req.file);
     let courseId = new mongoose.Types.ObjectId(req.params.courseId);
@@ -382,12 +378,12 @@ exports.updateDeliverie = async (req, res) => {
       atividadeId: new mongoose.Types.ObjectId(req.body._id),
       entregaUri: req.file.filename,
       status: "entregue",
-      nota: 0,
-      dataEntrega: req.body.dataEntrega
+      nota: 0.0,
+      dataEntrega: Date.now()
     };
     console.log(content);
 
-    await Course.updateOne(
+    let pulled = await Course.findOneAndUpdate(
       {
         _id: courseId,
       },
@@ -410,6 +406,11 @@ exports.updateDeliverie = async (req, res) => {
         ],
       }
     );
+
+    if( typeof pulled !== "undefined"){
+      content.status = pulled.status;
+      content.nota = pulled.nota;
+    }
 
     let doc = await Course.updateOne(
       {
@@ -436,7 +437,83 @@ exports.updateDeliverie = async (req, res) => {
     res.status(200).json({ doc });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Erro ao enviar atividade" });
+    res.status(500).json({ message: "Erro ao enviar entrega" });
+  }
+};
+
+//avaliar entrega de atividade( content._id) para um aluno( userId) de uma turma( courseId)
+exports.updateDeliverieTeacher = async (req, res) => {
+  try {
+    console.log(req.file);
+    let courseId = new mongoose.Types.ObjectId(req.params.courseId);
+    let userId = new mongoose.Types.ObjectId(req.params.userId);
+
+    let content = {
+      atividadeId: new mongoose.Types.ObjectId(req.body._id),
+      //entregaUri: null,
+      status: "avaliado",
+      nota: req.file.nota,
+      //dataEntrega: null
+    };
+    console.log(content);
+
+    let pulled = await Course.findOneAndUpdate(
+      {
+        _id: courseId,
+      },
+      {
+        $pull: {
+          "Alunos.$[aluno].atividades": {
+            atividadeId: content.atividadeId,
+          },
+        },
+      },
+      {
+        multi: false,
+        upsert: false,
+        arrayFilters: [
+          {
+            "aluno.userId": {
+              $eq: userId,
+            },
+          },
+        ],
+      }
+    );
+
+    let doc = {}
+
+    if( typeof pulled !== "undefined"){
+      content.entregaUri = pulled.entregaUri;
+      content.dataEntrega = pulled.dataEntrega;
+
+      doc = await Course.updateOne(
+        {
+          _id: courseId,
+        },
+        {
+          $push: {
+            "Alunos.$[aluno].atividades": content,
+          },
+        },
+        {
+          multi: true,
+          upsert: true,
+          arrayFilters: [
+            {
+              "aluno.userId": {
+                $eq: userId,
+              },
+            },
+          ],
+        }
+      );
+    }
+
+    res.status(200).json({ doc });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Erro ao avaliar entrega" });
   }
 };
 

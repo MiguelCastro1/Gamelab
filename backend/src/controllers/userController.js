@@ -10,6 +10,7 @@ const User = mongoose.model("User");
 const Board = mongoose.model("Board");
 
 const login = async (req, res) => {
+
   const { email, senha } = req.body;
 
   if (!email || !senha) {
@@ -162,6 +163,7 @@ const scriptUpdate = async (req, res) => {
 };
 
 const sendmail = async (req, res) => {
+
   try {
     let user = await User.findOne({ email: req.body.email });
     if (user) {
@@ -268,6 +270,7 @@ const sendmail = async (req, res) => {
 };
 
 const resetSenha = async (req, res) => {
+
   let { novasenha, token } = req.body;
   console.log(req.body);
 
@@ -294,24 +297,73 @@ const resetSenha = async (req, res) => {
   }
 };
 
-//cria um novo board para usuario
-const createBoard = async (req, res) => {
-
-}
+const createBoard = async (userId) =>{
+  
+  try {
+    let entrada = {
+      userId : userId,
+      columns : [
+        {
+          id: 1,
+          title: "To Do",
+          cards: [
+            
+          ],
+        },
+        {
+          id: 2,
+          title: "Doing",
+          cards: [
+            
+          ],
+        },
+        {
+          id: 3,
+          title: "Done",
+          cards: [
+            
+          ]
+        }
+      ],
+      counter : 0
+    };
+    let document = await Board.create(entrada);
+    console.log( document);
+    return document;
+  } catch (e) {
+    return e.message;
+  }
+};
 
 //modifica um board para usuario
 const updateBoard = async (req, res) => {
-
-}
-
-const getBoard = async (req, res) => {
+  let userId = req.params.id;
   try {
-    let doc = Board.findOne(req.params.id);
-
+    let doc = await Board.findOneAndUpdate({ userId: userId }, req.body);
     res.status(200).json({ doc });
   } catch (error) {
-
+    console.error(error);
+    res.status(500).json({ message: "Algo de errado ocorreu ao tentar atualizar seu quadro!" });
   }
-}
+};
 
-export default { createUser, login, update, user, listAll, uploadAvatar, getImageAvatar, scriptUpdate, sendmail, resetSenha, getBoard }
+//pega um board para usuario
+const getBoard = async (req, res) => {
+  try {
+    let doc = await Board.findOne( 
+      {
+        userId: req.params.id
+      }
+    );
+
+    console.log( doc);
+    res.status(200).json( {doc});
+  } catch (error) {
+    
+    console.error(error);
+    res.status(500).json({ message: "Quadro não encontrado!" });
+  }
+};
+
+export default { createUser, login, update, user,createBoard, updateBoard,   listAll, uploadAvatar, getImageAvatar, scriptUpdate, sendmail, resetSenha, getBoard }
+

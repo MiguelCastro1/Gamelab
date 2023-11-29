@@ -34,6 +34,7 @@ const userSchema = new Schema(
     senha: {
       type: String,
       required: true,
+      minlength: 8
     },
     cidade: {
       type: String,
@@ -48,9 +49,6 @@ const userSchema = new Schema(
       type: String,
     },
     imageAvatar: {
-      type: String,
-    },
-    pathImageAvatar: {
       type: String,
     },
     tokenRecuperarSenha: {

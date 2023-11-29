@@ -1,7 +1,6 @@
-import { useState, useContext, useEffect } from "react";
+import { useState } from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
 import Header from "../../components/Header";
 import gamelabLogin from "../../assets/image-gamelab.svg";
 import styles from "./styles.module.scss";
@@ -18,19 +17,19 @@ const formSchema = Yup.object().shape({
 
 export default function Login() {
   let navigate = useNavigate();
-
   const [erro, setErro] = useState(false);
   const [isPass, setIsPass] = useState(false);
 
   const handleSubmit = async (values, actions) => {
     try {
-      console.log("in");
+
       let {
         data: {
           user: { id, perfil, nome, email },
           token,
         },
       } = await api.post("/login", values);
+
       let dados = {
         id,
         perfil,
@@ -38,6 +37,8 @@ export default function Login() {
         email,
         token,
       };
+
+      //Usa o LocalStorage para guardar informações de Login (Mudar para Redux)
       localStorage.setItem("gamelab", JSON.stringify(dados));
       localStorage.setItem("local", "http://localhost:3333");
       navigate("/home");
@@ -53,7 +54,7 @@ export default function Login() {
       <div className={styles.container}>
         <section className={styles.title}>
           <h1>GameLab</h1>
-          <p>Desenvolva uma turma dinâmica e interativa, onde cada aluno encontra alegria e inspiração no processo de aprendizagem.</p>
+          <p>Desenvolva uma turma dinâmica e interativa.</p>
         </section>
         <div
           style={{ height: erro ? "25rem" : "22rem" }}

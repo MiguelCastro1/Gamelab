@@ -3,7 +3,7 @@ const { parseJwt } = require("../middlewares/decodedToken");
 const fs = require("fs");
 const Course = mongoose.model("Course");
 
-exports.createCourse = async (req, res) => {
+const createCourse = async (req, res) => {
   try {
     console.log(req.body);
     let document = await Course.create(req.body);
@@ -16,7 +16,7 @@ exports.createCourse = async (req, res) => {
   }
 };
 
-exports.getCourse = async (req, res) => {
+const getCourse = async (req, res) => {
   try {
     let courseId = req.params.courseId;
     let fields1 = "nome _id";
@@ -30,7 +30,7 @@ exports.getCourse = async (req, res) => {
   }
 };
 
-exports.getCourseUpdate = async (req, res) => {
+const getCourseUpdate = async (req, res) => {
   try {
     let courseId = req.params.courseId;
     let doc = await Course.findById(courseId);
@@ -40,7 +40,7 @@ exports.getCourseUpdate = async (req, res) => {
   }
 };
 
-exports.delete = async (req, res) => {
+const deletar = async (req, res) => {
   let courseId = req.params.courseId;
   try {
     let doc = await Course.findByIdAndDelete({ _id: courseId });
@@ -50,7 +50,7 @@ exports.delete = async (req, res) => {
   }
 };
 
-exports.update = async (req, res, next) => {
+const update = async (req, res, next) => {
   //console.log(req.body)
   let courseId = req.params.courseId;
   try {
@@ -62,7 +62,7 @@ exports.update = async (req, res, next) => {
   }
 };
 
-exports.updateCascade = async (req, res) => {
+const updateCascade = async (req, res) => {
   const courseId = req.params.courseId;
   try {
     let doc = await Course.findById(courseId);
@@ -132,7 +132,7 @@ exports.updateCascade = async (req, res) => {
 };
 
 //listar cursos para professor, dentre os quais é autor - permite pesquisa por: nome do curso e descrição.
-exports.listCoursesFromTeacher = async (req, res) => {
+const listCoursesFromTeacher = async (req, res) => {
   let token = req.headers.authorization.split(" ")[1];
   let autor = parseJwt(token).email;
   let fields1 = "nome _id";
@@ -163,7 +163,7 @@ exports.listCoursesFromTeacher = async (req, res) => {
 };
 
 //listar cursos para estudante, dentre os quais está matriculado - permite pesquisa por nome do curso, e descrição.
-exports.listCoursesFromStudent = async (req, res) => {
+const listCoursesFromStudent = async (req, res) => {
   try {
     let fields1 = "nome _id";
     let token = req.headers.authorization.split(" ")[1];
@@ -189,8 +189,7 @@ exports.listCoursesFromStudent = async (req, res) => {
     console.error(error);
   }
 };
-
-exports.enroll = async (req, res) => {
+const enroll = async (req, res) => {
   try {
     let token = req.headers.authorization.split(" ")[1];
     let object = parseJwt(token);
@@ -236,7 +235,7 @@ exports.enroll = async (req, res) => {
   }
 };
 
-exports.unroll = async (req, res) => {
+const unroll = async (req, res) => {
   try {
     let token = req.headers.authorization.split(" ")[1];
     let object = parseJwt(token);
@@ -260,7 +259,7 @@ exports.unroll = async (req, res) => {
   }
 };
 
-exports.listCourseParticipants = async (req, res) => {
+const listCourseParticipants = async (req, res) => {
   try {
     let courseId = req.params.courseId;
     let fields = {
@@ -277,7 +276,7 @@ exports.listCourseParticipants = async (req, res) => {
   }
 };
 
-exports.listCoursesEnroll = async (req, res) => {
+const listCoursesEnroll = async (req, res) => {
   console.log('enroll')
   try {
     let token = req.headers.authorization.split(" ")[1];
@@ -306,7 +305,7 @@ exports.listCoursesEnroll = async (req, res) => {
   }
 };
 
-exports.listAll = async (req, res) => {
+const listAll = async (req, res) => {
   try {
     const doc = await Course.find({});
     res.status(200).json({ doc });
@@ -316,7 +315,7 @@ exports.listAll = async (req, res) => {
 };
 
 //pegar entregas para aluno
-exports.getCourseDeliveries = async (req, res) => {
+const getCourseDeliveries = async (req, res) => {
   try {
     let courseId = req.params.courseId;
     let userId = req.params.userId;
@@ -335,7 +334,7 @@ exports.getCourseDeliveries = async (req, res) => {
 };
 
 //pegar entregas de atividade
-exports.getDeliveries = async (req, res) => {
+const getDeliveries = async (req, res) => {
   try {
     let courseId = req.params.courseId;
     let id = req.params.id;
@@ -368,7 +367,7 @@ exports.getDeliveries = async (req, res) => {
 };
 
 //enviar entrega de atividade( content._id) para um aluno( userId) de uma turma( courseId)
-exports.updateDeliverieStudent = async (req, res) => {
+const updateDeliverieStudent = async (req, res) => {
   try {
     console.log(req.file);
     let courseId = new mongoose.Types.ObjectId(req.params.courseId);
@@ -442,7 +441,7 @@ exports.updateDeliverieStudent = async (req, res) => {
 };
 
 //avaliar entrega de atividade( content._id) para um aluno( userId) de uma turma( courseId)
-exports.updateDeliverieTeacher = async (req, res) => {
+const updateDeliverieTeacher = async (req, res) => {
   try {
     console.log(req.file);
     let courseId = new mongoose.Types.ObjectId(req.params.courseId);
@@ -517,7 +516,7 @@ exports.updateDeliverieTeacher = async (req, res) => {
   }
 };
 
-exports.downloadFile = async (req, res) => {
+const  downloadFile = async (req, res) => {
   let { urifile } = req.params;
 
   //res.setHeader("Access-Control-Allow-Origin", "*");
@@ -530,3 +529,4 @@ exports.downloadFile = async (req, res) => {
     res.send(error);
   }
 };
+export default {createCourse, getCourse, getCourseUpdate, deletar, update, updateCascade, listCoursesFromTeacher, listCoursesFromStudent,enroll, unroll, listCourseParticipants, listCoursesEnroll, listAll, getCourseDeliveries, getDeliveries, updateDeliverieStudent, updateDeliverieTeacher, downloadFile   }

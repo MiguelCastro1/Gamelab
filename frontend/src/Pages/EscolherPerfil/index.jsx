@@ -17,17 +17,19 @@ function EscolherPerfil() {
   return (
     <>
       <HeaderAuth />
-      <div className={styles.container}>
-        <p>Você é aluno ou professor?</p>
-        <div className={styles.switchPerfil}>
-          <section onClick={() => setPerfilUsuario("aluno")}>
-            <img src={aluno} alt="aluno" />
-            <p>Aluno</p>
-          </section>
-          <section onClick={() => setPerfilUsuario("professor")}>
-            <img src={professor} alt="professor" />
-            <p>Professor</p>
-          </section>
+      <div className={styles.containerWrapper}>
+        <div className={styles.container}>
+          <p>Você é um aluno ou professor?</p>
+          <div className={styles.switchPerfil}>
+            <section onClick={() => setPerfilUsuario("aluno")}>
+              <img src={aluno} alt="aluno" />
+              <p>Aluno</p>
+            </section>
+            <section onClick={() => setPerfilUsuario("professor")}>
+              <img src={professor} alt="professor" />
+              <p>Professor</p>
+            </section>
+          </div>
         </div>
       </div>
     </>

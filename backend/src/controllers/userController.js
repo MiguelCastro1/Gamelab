@@ -43,9 +43,8 @@ const login = async (req, res) => {
   }
 };
 
-
 const createUser = async (req, res) => {
-  console.log("in")
+
   let entrada = {
     ...req.body,
     senha: encrypt(req.body.senha),
@@ -62,8 +61,6 @@ const createUser = async (req, res) => {
     res.status(500).json({ message: e });
   }
 };
-
-
 
 const update = async (req, res) => {
   let userId = req.params.id;

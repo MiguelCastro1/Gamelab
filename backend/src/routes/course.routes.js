@@ -34,21 +34,22 @@ router.get("/aluno/MeusCursos", Auth.auth, Curso.listCoursesFromStudent);
 router.get("/update/:courseId", Auth.auth, Curso.getCourseUpdate);
 router.get("/:courseId", Auth.auth, Curso.getCourse);
 router.get("/:courseId/entregas/:userId",
-Auth.auth,
+  Auth.auth,
   Curso.getCourseDeliveries
 );
 
+//verificar
 router.patch("/:courseId/entregas/:userId",
-Auth.auth,
+  Auth.auth,
   uploadAtividade.single("file"),
-  Curso.updateDeliverie
+  Curso.updateDeliverieStudent
 );
 
 router.get("/:courseId/entregas/atividade/:id", Auth.auth, Curso.getDeliveries);
 router.patch("/:courseId", Auth.auth, Curso.update, Curso.updateCascade);
-router.delete("/:courseId", Auth.auth, Curso.delete);
+router.delete("/:courseId", Auth.auth, Curso.deletar);
 router.get("/:courseId/participantes",
-Auth.auth,
+  Auth.auth,
   Curso.listCourseParticipants
 );
 

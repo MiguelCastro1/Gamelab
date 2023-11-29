@@ -33,7 +33,6 @@ const formSchema = Yup.object().shape({
 function FormCadastro() {
   let navigate = useNavigate();
   const { perfil } = useTypePerfil();
-
   const [erro, setErro] = useState("");
 
   const handleSubmit = async (values, actions) => {
@@ -46,8 +45,7 @@ function FormCadastro() {
       descricaoPerfil: "",
       imageAvatar: "",
     };
-    // console.log(perfil);
-    // console.log(object);
+
     try {
       await api.post("/usuarios", object);
       toast.success("Cadastro Concluído com Sucesso");
@@ -55,7 +53,6 @@ function FormCadastro() {
     } catch (error) {
       toast.error("Erro no Servidor");
       console.log(error);
-
       setErro("Email já cadastrado");
     }
   };
@@ -63,99 +60,101 @@ function FormCadastro() {
   return (
     <>
       <HeaderAuth />
-      <div className={styles.container}>
-        <Formik
-          initialValues={{
-            nome: "",
-            email: "",
-            dataNascimento: "",
-            senha: "",
-            matricula: "",
-            instituicao: "",
-            confirmacao_senha: "",
-          }}
-          onSubmit={handleSubmit}
-          validationSchema={formSchema}
-        >
-          {({ handleChange, values }) => (
-            <Form>
-              <main className={styles.content}>
-                <section>
-                  <h3>Sou {perfil === "aluno" ? "aluno" : "professor"}</h3>
-                  <img
-                    src={perfil === "aluno" ? aluno : professor}
-                    alt={perfil === "aluno" ? "aluno" : "professor"}
-                  />
-                </section>
-                <div className={styles.formContent}>
-                  <Input
-                    label="Nome de usuário"
-                    name="nome"
-                    value={values.nome}
-                    onChange={handleChange}
-                    type="text"
-                    autoFocus={true}
-                    estilo={{ marginBottom: "2.7rem" }}
-                  />
-                  <div className={styles.lineForm}>
+      <div className={styles.containerWrapper}>
+        <div className={styles.container}>
+          <Formik
+            initialValues={{
+              nome: "",
+              email: "",
+              dataNascimento: "",
+              senha: "",
+              matricula: "",
+              instituicao: "",
+              confirmacao_senha: "",
+            }}
+            onSubmit={handleSubmit}
+            validationSchema={formSchema}
+          >
+            {({ handleChange, values }) => (
+              <Form>
+                <main className={styles.content}>
+                  <section>
+                    <h3>Sou {perfil === "aluno" ? "aluno" : "professor"}</h3>
+                    <img
+                      src={perfil === "aluno" ? aluno : professor}
+                      alt={perfil === "aluno" ? "aluno" : "professor"}
+                    />
+                  </section>
+                  <div className={styles.formContent}>
                     <Input
-                      label="Número de Matrícula"
-                      name="matricula"
-                      value={values.matricula}
+                      label="Nome de usuário"
+                      name="nome"
+                      value={values.nome}
+                      onChange={handleChange}
+                      type="text"
+                      autoFocus={true}
+                      estilo={{ marginBottom: "2.7rem" }}
+                    />
+                    <div className={styles.lineForm}>
+                      <Input
+                        label="Número de Matrícula"
+                        name="matricula"
+                        value={values.matricula}
+                        type="text"
+                        onChange={handleChange}
+                      />
+                      <Input
+                        label="Data de nascimento"
+                        name="dataNascimento"
+                        value={values.dataNascimento}
+                        type="date"
+                        onChange={handleChange}
+                        estilo={{ marginTop: "0" }}
+                      />
+                    </div>
+                    <Input
+                      label="Nome da instituição"
+                      name="instituicao"
+                      value={values.instituicao}
                       type="text"
                       onChange={handleChange}
                     />
                     <Input
-                      label="Data de nascimento"
-                      name="dataNascimento"
-                      value={values.dataNascimento}
-                      type="date"
+                      label="Endereço de E-mail"
+                      name="email"
+                      value={values.email}
+                      type="text"
                       onChange={handleChange}
-                      estilo={{ marginTop: "0" }}
+                      estilo={{ marginBottom: "2.7rem" }}
                     />
+                    <div className={styles.lineForm}>
+                      <Input
+                        label="Senha"
+                        name="senha"
+                        type="password"
+                        onChange={handleChange}
+                      />
+                      <Input
+                        label="Confirmação de senha"
+                        name="confirmacao_senha"
+                        type="password"
+                        onChange={handleChange}
+                        estilo={{ marginTop: "0" }}
+                      />
+                    </div>
+                    <div className={styles.footerCadastro}>
+                      <span><b>Todos os campos são obrigatórios</b></span>
+                      <button type="submit">Cadastrar</button>
+                    </div>
                   </div>
-                  <Input
-                    label="Nome da instituição"
-                    name="instituicao"
-                    value={values.instituicao}
-                    type="text"
-                    onChange={handleChange}
-                  />
-                  <Input
-                    label="Endereço de E-mail"
-                    name="email"
-                    value={values.email}
-                    type="text"
-                    onChange={handleChange}
-                    estilo={{ marginBottom: "2.7rem" }}
-                  />
-                  <div className={styles.lineForm}>
-                    <Input
-                      label="Senha"
-                      name="senha"
-                      type="password"
-                      onChange={handleChange}
-                    />
-                    <Input
-                      label="Confirmação de senha"
-                      name="confirmacao_senha"
-                      type="password"
-                      onChange={handleChange}
-                      estilo={{ marginTop: "0" }}
-                    />
-                  </div>
-                  <div className={styles.footerCadastro}>
-                    <span>Todos os campos são obrigatórios</span>
-                    <button type="submit">Cadastrar</button>
-                  </div>
-                </div>
-              </main>
-            </Form>
-          )}
-        </Formik>
-      </div>
-    </>
-  );
+                </main>
+              </Form>
+            )}
+          </Formik>
+        </div>
+        </div>
+      </>
+      );
 }
 
-export default FormCadastro;
+      export default FormCadastro;

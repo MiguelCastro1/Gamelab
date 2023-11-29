@@ -13,7 +13,7 @@
   .title {
     display: flex;
     justify-content: space-between;
-    //font-size: medium;
+    font-size: medium;
     align-items: baseline;
 
     h1 {
@@ -28,6 +28,7 @@
     }
 
     p {
+      text-align: left;
       font-size: 1.2rem;
     }
   }
@@ -39,7 +40,7 @@
 
     .boxForm {
       // max-height: 22rem;
-      width: 24rem;
+      width: 35rem;
       background: white;
       padding: 1rem;
       box-shadow: var(--sombra);
@@ -95,7 +96,7 @@
     }
 
     img {
-      width: 40rem;
+      width: 60rem;
     }
   }
 

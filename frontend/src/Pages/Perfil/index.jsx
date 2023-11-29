@@ -17,6 +17,7 @@ import imagePadrao from "../../assets/user_padrao.png";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useTypePerfil } from "../../Context/PerfilContext";
+import { getLocal } from "../../services/auth";
 
 const fields = [
   "nome",
@@ -69,7 +70,8 @@ function Perfil({courseId, ...props}) {
   const [profileImage, setProfileImage] = useState("");
   const [updatedImage, setUpdatedImage] = useState("");
   const { flagResetImage, setFlagResetImage } = useTypePerfil();
-
+  let local = getLocal() ? "http://localhost:3333": null;
+  
   useEffect(() => {
     async function fetchImage() {
       let {
@@ -77,8 +79,8 @@ function Perfil({courseId, ...props}) {
       } = await api.get(`/usuarios/avatar/${userId}`);
       let nameImage = image.split("avatar/");
       console.log("atualizou");
-      setImgUser(`https://afternoon-tundra-10183.herokuapp.com/public/avatar/${nameImage}`);
-      setProfileImage(`https://afternoon-tundra-10183.herokuapp.com/public/avatar/${nameImage}`);
+      setImgUser(`${local}/public/avatar/${nameImage}`);
+      setProfileImage(`${local}/public/avatar/${nameImage}`);
     }
     fetchImage();
   }, [flagResetImage]);

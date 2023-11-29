@@ -10,8 +10,8 @@ import comemoracao from "../../assets/comemora.gif";
 import {Form, Formik} from 'formik';
 import { DialogContentText, Button, Modal, Box, Typography,Dialog, DialogTitle, DialogActions,
   Radio ,RadioGroup, FormControlLabel , FormControl , FormLabel  } from "@mui/material";
-import cool from "../../assets/cool.gif";
-import awesome from "../../assets/awesome.gif";
+//import cool from "../../assets/will.gif";
+//import awesome from "../../assets/awesome.gif";
 import samurai from "../../assets/samurai.gif";
 import api from "../../services/axios";
 import TextField from "@mui/material/TextField";
@@ -53,7 +53,7 @@ function AtividadeCurso({
   const [open2, setOpen2] = useState(false);
   const [file, setFile] = useState([]);
   const data = atividade.dataEntrega ? Date.parse(atividade.dataEntrega) : "";
-  const status = [samurai, cool, awesome];
+  const status = [samurai];
   const data_ati = new Date(data);
   const data_curr = new Date();
   const diffTime = data_ati >= data_curr ? Math.abs(data_ati - data_curr) : -1 * Math.abs(data_curr - data_ati);

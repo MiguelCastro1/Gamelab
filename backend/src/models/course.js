@@ -1,5 +1,4 @@
-const mongoose = require("mongoose");
-
+import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const courseSchema = new Schema(
@@ -33,9 +32,10 @@ const courseSchema = new Schema(
     codigo: {
       type: String,
       default: ""
-    //  unique: true,
+      //unique: true,
      // required: true,
     },
+    
     Alunos: [{
       userId: { type: Schema.Types.ObjectId, ref: "User"},
       atividades: [{
@@ -78,4 +78,4 @@ const courseSchema = new Schema(
   }
 );
 
-module.exports = mongoose.model("Course", courseSchema);
+export default mongoose.model("Course", courseSchema);

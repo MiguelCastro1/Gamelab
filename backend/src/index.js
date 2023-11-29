@@ -1,17 +1,15 @@
-const express = require("express");
-const cors = require("cors");
-const mongoose = require("mongoose");
-const routes = require("./routes/routes");
-const path = require("path");
-const app = express();
+import express from "express";
+import cors from "cors";
+import mongoose from "mongoose";
+import path from "path";
+import user from "./models/user";
+import course from "./models/course";
+import notice from "./models/notice";
+import kanbanBoard from "./models/kanbanBoard";
 
 require("dotenv/config");
 
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-app.use("/public", express.static(path.join(__dirname, "..", "public")));
+const app = express();
 
 mongoose.connect(process.env.ATLAS_URI, {
   useNewUrlParser: true,
@@ -26,13 +24,39 @@ mongoose.connection.on("error", (err) => {
   console.error(`❌ Erro na conexão ao banco de dados: ${err.message}`);
 });
 
-require("./models/user");
-require("./models/course");
-require("./models/notice");
-require("./models/kanbanBoard");
+import routes from "./routes/routes";
+
+const corsOptions ={
+  origin:'http://localhost:3000', 
+  credentials:true,           
+  optionSuccessStatus:200
+}
+
+app.use(cors(corsOptions));
+
+app.use(express.json());
+
+app.use(express.urlencoded({ extended: true }));
+
+app.use("/public", express.static(path.join(__dirname, "..", "public")));
+
+app.use((req, res, next) => {
+  //res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+
+  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,PATCH,OPTIONS");
+  //res.header("Access-Control-Allow-Headers", "");
+
+  res.header("Access-Control-Allow-Headers", "Content-Type, X-Requested-With");
+
+  //app.use(cors(corsOptions));
+
+  next();
+});
 
 app.use("/", routes);
 
-app.listen(process.env.PORT, () => {
+const PORT = process.env.PORT || 3333;
+app.listen(PORT, () => {
   console.log(`Servidor rodando porta: ${process.env.PORT}`);
 });

@@ -1,32 +1,16 @@
-const mongoose = require("mongoose");
-const { parseJwt } = require("../middlewares/decodedToken");
+import mongoose from "mongoose";
+import { parseJwt } from "../middlewares/decodedToken";
+import { encrypt, compare } from "../helpers/bcrypt";
+import jwt from "jsonwebtoken";
+import path from "path";
+import fs from "fs";
+import nodemailer from "nodemailer";
+
 const User = mongoose.model("User");
 const Board = mongoose.model("Board");
-const { encrypt, compare } = require("../helpers/bcrypt");
-const jwt = require("jsonwebtoken");
-const path = require("path");
-const fs = require("fs");
-const nodemailer = require("nodemailer");
 
-exports.createUser = async (req, res) => {
-  let entrada = {
-    ...req.body,
-    senha: encrypt(req.body.senha),
-    imageAvatar: "user_padrao.png",
-  };
+const login = async (req, res) => {
 
-  try {
-    let usuario = await User.create(entrada);
-    res.status(200).json({
-      usuario,
-      message: `${req.body.tipoUsuario} cadastrado com sucesso`,
-    });
-  } catch (e) {
-    res.status(500).json({ message: e });
-  }
-};
-
-exports.login = async (req, res) => {
   const { email, senha } = req.body;
 
   if (!email || !senha) {
@@ -46,7 +30,7 @@ exports.login = async (req, res) => {
         };
         res.status(200).json({
           user: payload,
-          token: jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: "7d" }),
+          token: jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: "1d" }),
         });
       } else {
         res.status(401).send("email e/ou senha inválidos");
@@ -55,11 +39,33 @@ exports.login = async (req, res) => {
       res.status(401).send("email e/ou senha inválidos");
     }
   } catch (error) {
-    res.status(500).send("email e/ou senha inválidos");
+    res.status(500).send("Erro no Servidor");
   }
 };
 
-exports.update = async (req, res) => {
+
+const createUser = async (req, res) => {
+  console.log("in")
+  let entrada = {
+    ...req.body,
+    senha: encrypt(req.body.senha),
+    imageAvatar: "user_padrao.png",
+  };
+
+  try {
+    let usuario = await User.create(entrada);
+    res.status(200).json({
+      usuario,
+      message: `${req.body.tipoUsuario} cadastrado com sucesso`,
+    });
+  } catch (e) {
+    res.status(500).json({ message: e });
+  }
+};
+
+
+
+const update = async (req, res) => {
   let userId = req.params.id;
   try {
     let usuario = await User.findOneAndUpdate({ _id: userId }, req.body);
@@ -70,7 +76,7 @@ exports.update = async (req, res) => {
   }
 };
 
-exports.user = async (req, res) => {
+const user = async (req, res) => {
   try {
     let userId = req.params.id;
     let usuario = await User.findById(userId);
@@ -81,7 +87,7 @@ exports.user = async (req, res) => {
   }
 };
 
-exports.listAll = async (req, res) => {
+const listAll = async (req, res) => {
   try {
     const usuarios = await User.find({});
     res.status(200).json({ usuarios });
@@ -91,7 +97,7 @@ exports.listAll = async (req, res) => {
   }
 };
 
-exports.uploadAvatar = async (req, res) => {
+const uploadAvatar = async (req, res) => {
   let userId = req.params.id;
 
   try {
@@ -127,7 +133,7 @@ exports.uploadAvatar = async (req, res) => {
   }
 };
 
-exports.getImageAvatar = async (req, res) => {
+const getImageAvatar = async (req, res) => {
   try {
     let userId = req.params.id;
     const { imageAvatar } = await User.findOne({ _id: userId });
@@ -140,7 +146,7 @@ exports.getImageAvatar = async (req, res) => {
 };
 
 // Método para alterar o schema geral de usuários
-exports.scriptUpdate = async (req, res) => {
+const scriptUpdate = async (req, res) => {
   try {
     let usuarios = await User.find({}, { _id: 1, nome: 1 });
     for await (let user of usuarios) {
@@ -156,7 +162,8 @@ exports.scriptUpdate = async (req, res) => {
   }
 };
 
-exports.sendmail = async (req, res) => {
+const sendmail = async (req, res) => {
+
   try {
     let user = await User.findOne({ email: req.body.email });
     if (user) {
@@ -226,7 +233,7 @@ exports.sendmail = async (req, res) => {
                 .container p {
                     padding-bottom: 10px;
                 }
-                .paragrafo {
+                .paragrafo 
                     padding-bottom: 15px;
                 }
                 
@@ -262,7 +269,8 @@ exports.sendmail = async (req, res) => {
   }
 };
 
-exports.resetSenha = async (req, res) => {
+const resetSenha = async (req, res) => {
+
   let { novasenha, token } = req.body;
   console.log(req.body);
 
@@ -289,21 +297,73 @@ exports.resetSenha = async (req, res) => {
   }
 };
 
-//cria um novo board para usuario
-createBoard = async (req, res) =>{
-}
+const createBoard = async (userId) =>{
+  
+  try {
+    let entrada = {
+      userId : userId,
+      columns : [
+        {
+          id: 1,
+          title: "To Do",
+          cards: [
+            
+          ],
+        },
+        {
+          id: 2,
+          title: "Doing",
+          cards: [
+            
+          ],
+        },
+        {
+          id: 3,
+          title: "Done",
+          cards: [
+            
+          ]
+        }
+      ],
+      counter : 0
+    };
+    let document = await Board.create(entrada);
+    console.log( document);
+    return document;
+  } catch (e) {
+    return e.message;
+  }
+};
 
 //modifica um board para usuario
-exports.updateBoard = async (req, res) =>{
-}
-
-//
-exports.getBoard = async (req, res) => {
+const updateBoard = async (req, res) => {
+  let userId = req.params.id;
   try {
-    let doc = Board.findOne( req.params.id);
+    let doc = await Board.findOneAndUpdate({ userId: userId }, req.body);
+    res.status(200).json({ doc });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Algo de errado ocorreu ao tentar atualizar seu quadro!" });
+  }
+};
 
+//pega um board para usuario
+const getBoard = async (req, res) => {
+  try {
+    let doc = await Board.findOne( 
+      {
+        userId: req.params.id
+      }
+    );
+
+    console.log( doc);
     res.status(200).json( {doc});
   } catch (error) {
     
+    console.error(error);
+    res.status(500).json({ message: "Quadro não encontrado!" });
   }
-}
+};
+
+export default { createUser, login, update, user,createBoard, updateBoard,   listAll, uploadAvatar, getImageAvatar, scriptUpdate, sendmail, resetSenha, getBoard }
+

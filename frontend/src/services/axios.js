@@ -2,8 +2,9 @@ import axios from "axios";
 import { getToken } from "./auth";
 
 const api = axios.create({
-  baseURL: "https://afternoon-tundra-10183.herokuapp.com",
-  //withCredentials: true,
+  baseURL: "http://localhost:3333",
+  //baseURL: "https://afternoon-tundra-10183.herokuapp.com",
+  withCredentials: true,
   //credentials: "include",
 });
 

@@ -5,7 +5,7 @@ import { useTypePerfil } from "../../Context/PerfilContext";
 import { FiUser, FiLogOut } from "react-icons/fi";
 import { BiLogOut } from "react-icons/bi";
 import { VscBellDot } from "react-icons/vsc";
-import { getToken } from "../../services/auth";
+import { getToken, getLocal } from "../../services/auth";
 import api from "../../services/axios";
 
 function HeaderHome() {
@@ -13,7 +13,8 @@ function HeaderHome() {
   let { id, nome, perfil } = getToken() ? JSON.parse(getToken()) : null;
   const [imgUser, setImgUser] = useState("");
   const { flagResetImage } = useTypePerfil();
-
+  let local = getLocal() ? "http://localhost:3333": null;
+  
   useEffect(() => {
     async function fetchImage() {
       let {
@@ -40,7 +41,7 @@ function HeaderHome() {
             {nome}
           </p>
           <img
-            src={`https://afternoon-tundra-10183.herokuapp.com/public/avatar/${imgUser}`}
+            src={`${local}/public/avatar/${imgUser}`}
             alt="usuário"
           />
           <ul

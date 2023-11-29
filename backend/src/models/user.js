@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema(
@@ -34,6 +34,7 @@ const userSchema = new Schema(
     senha: {
       type: String,
       required: true,
+      minlength: 8
     },
     cidade: {
       type: String,
@@ -50,9 +51,6 @@ const userSchema = new Schema(
     imageAvatar: {
       type: String,
     },
-    pathImageAvatar: {
-      type: String,
-    },
     tokenRecuperarSenha: {
       type: String,
     },
@@ -67,4 +65,5 @@ const userSchema = new Schema(
   }
 );
 
-module.exports = mongoose.model("User", userSchema);
+
+export default mongoose.model("User", userSchema);

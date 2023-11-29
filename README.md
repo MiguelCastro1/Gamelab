@@ -1,5 +1,6 @@
 # GameLab: Plataforma de Aprendizado Gamificado
 
+Disponivel em: https://aesthetic-biscotti-6531ca.netlify.app/
 
 ![Login](./frontend/src/assets/login.png)
 ![Home](./frontend/src/assets/home.png)
@@ -24,5 +25,5 @@ O GameLab é ideal para professores que buscam uma plataforma versátil para ger
 ## Contribua
 Este projeto está aberto a contribuições da comunidade. Se você tem ideias para novas funcionalidades, melhorias ou correções, sinta-se à vontade para colaborar.
 
-Disponivel em: https://aesthetic-biscotti-6531ca.netlify.app/
+
 

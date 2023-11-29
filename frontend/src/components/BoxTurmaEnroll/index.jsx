@@ -91,8 +91,8 @@ function BoxTurmaEnroll({
             <img 
               src={`https://afternoon-tundra-10183.herokuapp.com/public/avatar/${img}`}  
               alt="Perfil"
-              width={50}
-              height={50}
+              width={100}
+              height={100}
               />
           </p>
           <p>

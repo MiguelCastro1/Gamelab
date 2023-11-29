@@ -7,7 +7,6 @@ exports.createCourse = async (req, res) => {
   try {
     console.log(req.body);
     let document = await Course.create(req.body);
-    console.log("done");
     res.status(200).json({
       document,
       message: `Curso ${req.body.nomeCurso} cadastrado com sucesso`,
@@ -65,7 +64,6 @@ exports.update = async (req, res, next) => {
 
 exports.updateCascade = async (req, res) => {
   const courseId = req.params.courseId;
-  console.log('update_cascade')
   try {
     let doc = await Course.findById(courseId);
 
@@ -101,11 +99,12 @@ exports.updateCascade = async (req, res) => {
         }
 
         doc = await Course.findOneAndUpdate({ _id: courseId }, doc);
-        console.log("done");
+
         //exluir atividades dos alunos
       } else if(atividades.length < doc.Alunos[0].atividades.length){
+
         let index = 0;
-        for (index = 0; index < doc.Alunos[0].atividades.length; index++) {
+        for (index = 0; index < atividades.length; index++) {
           if (
             doc.Alunos[0].atividades[index].atividadeId !==
             String(atividades[index]._id)
@@ -119,13 +118,13 @@ exports.updateCascade = async (req, res) => {
         }
 
         doc = await Course.findOneAndUpdate({ _id: courseId }, doc);
-        console.log("done");
       }else {
         console.log("sem nova atividades");
       }
     } else {
       console.log("sem alunos ou atividades");
     }
+    
     res.status(200).json({ doc });
   } catch (error) {
     console.error(error);

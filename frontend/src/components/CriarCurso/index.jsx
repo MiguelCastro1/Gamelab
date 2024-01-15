@@ -15,7 +15,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 const formSchema = Yup.object().shape({
   nomeCurso: Yup.string().required("Campo obrigatório"),
   descricao: Yup.string().required("Campo obrigatório"),
- // codigo: Yup.string().max(10, "Limite atingido").required("Campo obrigatório"),
+  //codigo: Yup.string().max(10, "Limite atingido"),
   confirmacao_senha: Yup.string()
     .oneOf([Yup.ref("senha"), null], "As senhas não são iguais"),
 });
@@ -34,19 +34,21 @@ function CriarCurso() {
   };
   
   let { id, email } = getToken() ? JSON.parse(getToken()) : null;
+
   const handleSubmit = async (values, actions) => {
+    console.log("in")
       let object = {
         ...values,
         autorEmail: email,
         autorId: id
       };
-      console.log(object);
-    
+
+      console.log({object});
+     
       try {
        const { data} =  await api.post("/cursos", object);
-        console.log('done')
         toast.success("Curso criado com Sucesso")
-        console.log(data.document._id)
+
         navigate(`/curso/${data.document._id}`)
       } catch (error) {
         toast.error("Algum erro ocorreu")
@@ -104,10 +106,10 @@ function CriarCurso() {
           </Button>
             <Dialog open={open} onClose={handleClose} aria-labelledby="alert-dialog-title">
               <DialogTitle id="alert-dialog-title">
-                {"Você deseja realmente adicionar um curso?"}
+                {"Você deseja realmente adicionar esse curso?"}
               </DialogTitle>
               <DialogActions>
-                <Button onClick={handleClose}  >Cancelar</Button>
+                <Button onClick={handleClose} >Cancelar</Button>
                 <Button onClick={handleSubmit}>Confirmar</Button>
               </DialogActions>
           </Dialog>

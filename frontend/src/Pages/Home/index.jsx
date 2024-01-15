@@ -25,7 +25,6 @@ function Home() {
   const { perfil } = localStorage.getItem("gamelab") ? JSON.parse(localStorage.getItem("gamelab")) : null;
   const [resultados, setResultados] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
-  const { url } = useParams();
 
   useEffect(() => {
     try {
@@ -72,7 +71,7 @@ function Home() {
                   <input
                     onChange={(e) => setSearchString(e.target.value)}
                     value={searchString}
-                    placeholder="Buscar turma"
+                    placeholder="Buscar Turma"
                   />
                   <BiSearch
                     style={{
@@ -92,7 +91,7 @@ function Home() {
               )}
               {pagina !== 'kanban' && (
                 <Button onClick={() => setPagina('kanban')} variant="outlined" startIcon={<BsKanban />}>
-                  Meu Kanban
+                  Kanban
                 </Button>
               )}
               {pagina !== 'avisos' && perfil === 'aluno' && (
@@ -102,7 +101,7 @@ function Home() {
               )}
               {pagina !== 'procurar-curso' && perfil === 'aluno' && (
                 <Button onClick={() => setPagina('procurar-curso')} variant="outlined" startIcon={<IoSchoolOutline />}>
-                  Procurar Curso
+                  Procurar
                 </Button>
               )}
               {pagina !== 'cadastrar-curso' && perfil === 'professor' && (

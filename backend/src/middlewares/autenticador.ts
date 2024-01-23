@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction} from "express";
-//import jwt from "jsonwebtoken"
-const jwt = require("jsonwebtoken");
+import jwt from "jsonwebtoken";
 
 const Auth = (req: Request, res: Response, next:NextFunction ) => {
   if (req.headers.authorization === undefined) {
@@ -11,7 +10,7 @@ const Auth = (req: Request, res: Response, next:NextFunction ) => {
 
   if (token) {
     //console.log(token)
-    jwt.verify(token, process.env.SECRET_KEY, (err:any) => {
+    jwt.verify(token, process.env.SECRET_KEY ?? 'SECRET', (err:any) => {
       if (err) {
         return res.status(401).send("Acesso negado!");
       }

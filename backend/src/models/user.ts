@@ -1,13 +1,24 @@
-import mongoose from "mongoose";
-const Schema = mongoose.Schema;
+import {Schema, model, Document} from "mongoose";
 
-const userSchema = new Schema(
+export interface IUser extends Document {
+  nome: string,
+  email: string,
+  instituicao?: string,
+  tipoUsuario: string,
+  dataNascimento: string,
+  matricula: string,
+  senha: string,
+  cidade?: string,
+  paisOrigem?: string,
+  dataIngresso?: string,
+  descricaoPerfil?: string,
+  imageAvatar?: string,
+  tokenRecuperarSenha?: string,
+  experiencia?: number,
+}
+
+const userSchema = new Schema<IUser>(
   {
-    tipoUsuario: {
-      type: String,
-      enum: ["professor", "aluno"],
-      required: true,
-    },
     nome: {
       type: String,
       required: true,
@@ -22,6 +33,11 @@ const userSchema = new Schema(
       type: String,
       default: "",
       trim: true,
+    },
+    tipoUsuario: {
+      type: String,
+      enum: ["professor", "aluno"],
+      required: true,
     },
     dataNascimento: {
       type: String,
@@ -54,16 +70,15 @@ const userSchema = new Schema(
     tokenRecuperarSenha: {
       type: String,
     },
-    exp: {
+    experiencia: {
       type: Number,
       default: 0,
       min: 0
     }
   },
   {
-    timestamps: true,
+    timestamps: true
   }
 );
 
-
-export default mongoose.model("User", userSchema);
+export default model<IUser>("User", userSchema);

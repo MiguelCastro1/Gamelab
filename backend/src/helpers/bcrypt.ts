@@ -1,13 +1,15 @@
-const bcrypt = require("bcryptjs");
+import bcrypt from "bcryptjs";
 
-module.exports = {
-  encrypt(text) {
-    const salt = bcrypt.genSaltSync(10);
-    const hash = bcrypt.hashSync(text, salt);
-    return hash;
-  },
-  compare(text, hash) {
-    const compare = bcrypt.compareSync(text, hash);
-    return compare;
-  },
-};
+const encrypt = (text:string):string => {
+  const salt = bcrypt.genSaltSync(10);
+  const hash = bcrypt.hashSync(text, salt);
+  return hash;
+}
+
+const compare = (text:string, hash:string):boolean => {
+  const compare = bcrypt.compareSync(text, hash);
+  return compare;
+}
+
+export {encrypt, compare};
+

@@ -1,15 +1,17 @@
-import mongoose from "mongoose";
+import {model} from "mongoose";
+import { Request, Response } from "express";
 import { parseJwt } from "../middlewares/decodedToken";
 import { encrypt, compare } from "../helpers/bcrypt";
 import jwt from "jsonwebtoken";
 import path from "path";
 import fs from "fs";
 import nodemailer from "nodemailer";
+import User, { IUser } from "../models/user"
 
-const User = mongoose.model("User");
-const Board = mongoose.model("Board");
+console.log(User)
+const Board = model("Board");
 
-const login = async (req, res) => {
+const login = async (req: Request, res: Response) => {
 
   const { email, senha } = req.body;
 

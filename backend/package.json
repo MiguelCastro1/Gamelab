@@ -9,7 +9,6 @@
     "build": "./node_modules/.bin/netlify-lambda build src"
   },
   "dependencies": {
-    "@types/multer": "^1.4.11",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
@@ -29,9 +28,13 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.5",
+    "@types/multer": "^1.4.11",
     "@types/node": "^20.11.2",
+    "@types/nodemailer": "^6.4.14",
     "eslint": "^8.56.0",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.3.3"

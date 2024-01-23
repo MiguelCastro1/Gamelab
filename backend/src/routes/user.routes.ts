@@ -3,7 +3,7 @@ import path from "path";
 import crypto from "crypto";
 import multer from "multer"
 import Usuario from "../controllers/userController"
-import Auth from "../middlewares/autenticador";
+import { Auth } from "../middlewares/autenticador";
 
 const router = express.Router();
 const wayPath = path.resolve("public/avatar");
@@ -24,9 +24,9 @@ const multerConfig = multer.diskStorage({
 const upload = multer({ storage: multerConfig });
 
 router.post("/", Usuario.createUser);
-router.get("/",Auth.auth, Usuario.listAll);
-router.get("/:id", Auth.auth, Usuario.user);
-router.patch("/:id", Auth.auth, Usuario.update);
+router.get("/",Auth, Usuario.listAll);
+router.get("/:id", Auth, Usuario.user);
+router.patch("/:id", Auth, Usuario.update);
 
 //router.get("/:id/quadro")
 //router.patch("/:id/quadro")
@@ -36,6 +36,6 @@ router.patch("/avatar/:id",
   Usuario.uploadAvatar
 );
 
-router.get("/avatar/:id", Auth.auth, Usuario.getImageAvatar);
+router.get("/avatar/:id", Auth, Usuario.getImageAvatar);
 
 export default router;

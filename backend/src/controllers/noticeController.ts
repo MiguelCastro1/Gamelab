@@ -12,7 +12,7 @@ const transporter = nodemailer.createTransport({
     },
 });
 
-exports.createNotice = async (req, res) => {
+const createNotice = async (req, res) => {
 
     const mailOptions = {
     from: 'gamelabicomp@gmail.com',
@@ -45,10 +45,7 @@ exports.createNotice = async (req, res) => {
     }
 };
 
-
-
-
-exports.listNoticesFromUser = async (req, res) => {
+const listNoticesFromUser = async (req, res) => {
     try {
     
         let userId = req.params.id;
@@ -75,3 +72,4 @@ exports.listNoticesFromUser = async (req, res) => {
     }
 };
 
+export default {createNotice, listNoticesFromUser}

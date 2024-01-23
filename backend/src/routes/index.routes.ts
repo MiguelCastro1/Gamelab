@@ -1,10 +1,10 @@
-import express from "express";
+import { Router } from "express";
 import User from "./user.routes"
 import Course from "./course.routes"
 import Notice from "./notice.routes"
 import Usuario from "../controllers/userController"
 
-const router = express.Router();
+const router = Router();
 
 router.get("/", (req, res) => {
     res.send('Hello World');

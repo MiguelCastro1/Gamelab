@@ -1,15 +1,20 @@
 import {Schema, model, Document} from "mongoose";
+
+export enum Perfil {
+  aluno = "aluno",
+  professor = "professor"
+}
 export interface IUser {
   nome: string,
   email: string,
   instituicao?: string,
-  perfil: string,
-  dataNascimento: string,
+  perfil: Perfil,
+  dataNascimento: Schema.Types.Date,
   matricula: string,
   senha: string,
   cidade?: string,
   paisOrigem?: string,
-  dataIngresso?: string,
+  dataIngresso?: Schema.Types.Date,
   descricaoPerfil?: string,
   imageAvatar?: string,
   pathImageAvatar?: string,
@@ -40,11 +45,11 @@ const userSchema = new Schema<IUser>(
     },
     perfil: {
       type: String,
-      enum: ["professor", "aluno"],
+      enum: Object.values(Perfil),
       required: true,
     },
     dataNascimento: {
-      type: String,
+      type: Schema.Types.Date,
       required: true,
     },
     matricula: {
@@ -63,7 +68,7 @@ const userSchema = new Schema<IUser>(
       type: String,
     },
     dataIngresso: {
-      type: String,
+      type: Schema.Types.Date,
     },
     descricaoPerfil: {
       type: String,

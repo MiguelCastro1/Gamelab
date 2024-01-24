@@ -1,13 +1,9 @@
-import {model} from "mongoose";
 import { Request, Response } from "express";
-import { parseJwt } from "../middlewares/decodedToken";
 import { encrypt, compare } from "../helpers/bcrypt";
 import jwt from "jsonwebtoken";
-import path from "path";
 import fs from "fs";
 import nodemailer from "nodemailer";
-import User, { IUser, IUserObj } from "../models/user"
-import Board, { IBoard } from "../models/board"
+import User, { IUser } from "../models/user"
 
 const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
@@ -63,13 +59,9 @@ const create = async (req: Request, res: Response) => {
   }
 };
 
-interface IQuery {
-  id: string
-}
-
-const update = async (req: Request<IQuery, {}, IUser>, res: Response) => {
+const update = async (req: Request, res: Response) => {
   let userId = req.params.id
-  let user_dados = req.body;
+  let user_dados: IUser = req.body;
   
   try {
     let user = await User.findOneAndUpdate({ _id: userId }, user_dados);
@@ -118,6 +110,7 @@ const upload_avatar = async (req: Request, res: Response) => {
       let user = await User.findOne({ _id: userId });
 
       if(user){
+        // Verificar Funcionamento
         if (user.pathImageAvatar) {
           fs.unlink(user.pathImageAvatar, (err) => {
             if (err) {
@@ -167,27 +160,10 @@ const get_image_avatar = async (req: Request, res: Response) => {
   }
 };
 
-// Método para alterar o schema geral de usuários
-const scriptUpdate = async (req, res) => {
+const send_mail = async (req: Request, res: Response) => {
   try {
-    let usuarios = await User.find({}, { _id: 1, nome: 1 });
-    for await (let user of usuarios) {
-      await User.findOneAndUpdate(
-        { _id: user._id },
-        { imageAvatar: "user_padrao.png" }
-      );
-    }
-    res.send("atualização concluída");
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Erro ao executar script" });
-  }
-};
-
-const sendmail = async (req, res) => {
-
-  try {
-    let user = await User.findOne({ email: req.body.email });
+    let email = req.body.email ?? ''
+    let user = await User.findOne({ email });
     if (user) {
       let payload = {
         id: user._id,
@@ -195,16 +171,16 @@ const sendmail = async (req, res) => {
         email: user.email,
       };
 
-      let token = jwt.sign(payload, process.env.SECRET_KEY);
+      let token = jwt.sign(payload, process.env.SECRET_KEY ?? "SECRET");
 
       await User.findOneAndUpdate(
-        { email: req.body.email },
+        { email },
         { tokenRecuperarSenha: token }
       );
 
       const transporter = nodemailer.createTransport({
         host: process.env.EMAIL_HOST,
-        port: process.env.EMAIL_PORT,
+        port: Number(process.env.EMAIL_PORT),
         secure: false,
         auth: {
           user: process.env.EMAIL_USER,
@@ -212,77 +188,80 @@ const sendmail = async (req, res) => {
         },
       });
 
-      transporter
-        .sendMail({
-          from: process.env.EMAIL_USER,
-          to: req.body.email,
-          subject: "Recuperação de senha - GameLab",
-          html: `<html lang="pt-br">
-        <head>
-            <meta charset="UTF-8">
-            <meta http-equiv="X-UA-Compatible" content="IE=edge">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Document</title>
-            <style>
-                * {
-                    margin: 0;
-                    padding: 0;
-                    box-sizing: border-box;
-                }
-                p {
-                    color: #000;
-                }
-        
-                header {
-                    padding: 2rem 4rem;
-                    background: #00a7af
-                }
-        
-                .image {
-                }
+      const mailOptions = {
+        from: process.env.EMAIL_USER,
+        to: req.body.email,
+        subject: "Recuperação de senha - GameLab",
+        html: `<html lang="pt-br">
+              <head>
+                  <meta charset="UTF-8">
+                  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                  <title>Document</title>
+                  <style>
+                      * {
+                          margin: 0;
+                          padding: 0;
+                          box-sizing: border-box;
+                      }
+                      p {
+                          color: #000;
+                      }
+              
+                      header {
+                          padding: 2rem 4rem;
+                          background: #00a7af
+                      }
+              
+                      .image {
+                      }
 
-                .image img {
-                  width: 300px;
-                  pointer-events:none;
-                }                
-        
-                h2 {
-                  font-size: 3rem;
-                  font-weight: 700;
-                  color: #363795
-                }
-        
-                .container p {
-                    padding-bottom: 10px;
-                }
-                .paragrafo 
-                    padding-bottom: 15px;
-                }
-                
-            </style>
-        </head>
-        <body>
-            <div class="container">
-              <p class="image">
-                <img src="https://i.ibb.co/0ZCCPVL/Reset-password-cuate.png" alt="Reset-password-cuate" border="0" />
-              </p>  
-              <p>Caro(a) ${user.nome}</p>
-              <p class="paragrafo">
-                Este é um email para a recuperação de senha.<br></br>
-              </p>
-                Acesse o link: <a href="${process.env.FRONT_BASE_URL}/resetarsenha?_token=${token}">Recuperar senha</a>
-              <p>
-                <br></br>
-                Messagem automática, favor não responder este e-mail
-                <br></br>
-              </p>
-              <h2>GameLab</h2>
-            </div>
-        </body>
-        </html>`,
-        })
+                      .image img {
+                        width: 300px;
+                        pointer-events:none;
+                      }                
+              
+                      h2 {
+                        font-size: 3rem;
+                        font-weight: 700;
+                        color: #363795
+                      }
+              
+                      .container p {
+                          padding-bottom: 10px;
+                      }
+                      .paragrafo 
+                          padding-bottom: 15px;
+                      }
+                      
+                  </style>
+              </head>
+              <body>
+                  <div class="container">
+                    <p class="image">
+                      <img src="https://i.ibb.co/0ZCCPVL/Reset-password-cuate.png" alt="Reset-password-cuate" border="0" />
+                    </p>  
+                    <p>Caro(a) ${user.nome}</p>
+                    <p class="paragrafo">
+                      Este é um email para a recuperação de senha.<br></br>
+                    </p>
+                      Acesse o link: <a href="${process.env.FRONT_BASE_URL}/resetarsenha?_token=${token}">Recuperar senha</a>
+                    <p>
+                      <br></br>
+                      Messagem automática, favor não responder este e-mail
+                      <br></br>
+                    </p>
+                    <h2>GameLab</h2>
+                  </div>
+              </body>
+              </html>`
+      }
+  
+      transporter
+        .sendMail(mailOptions)
         .then((info) => res.send(info))
         .catch((err) => res.send(err));
+
     } else {
       res.status(500).json({ message: "Email não encontrado" });
     }
@@ -291,14 +270,12 @@ const sendmail = async (req, res) => {
   }
 };
 
-const resetSenha = async (req, res) => {
-
+const reset_password = async (req: Request, res: Response) => {
   let { novasenha, token } = req.body;
-  console.log(req.body);
 
   try {
     let user = await User.findOne({ tokenRecuperarSenha: token });
-    console.log(user);
+    
     if (user) {
       await User.findOneAndUpdate(
         { tokenRecuperarSenha: token },
@@ -309,7 +286,7 @@ const resetSenha = async (req, res) => {
         { tokenRecuperarSenha: "" }
       );
 
-      res.json({ message: "Senha alterada com sucesso" });
+      res.status(200).json({ message: "Senha alterada com sucesso" });
     } else {
       res.status(401).json({ message: "Link expirado" });
     }
@@ -319,73 +296,14 @@ const resetSenha = async (req, res) => {
   }
 };
 
-const createBoard = async (userId) =>{
-  
-  try {
-    let entrada = {
-      userId : userId,
-      columns : [
-        {
-          id: 1,
-          title: "To Do",
-          cards: [
-            
-          ],
-        },
-        {
-          id: 2,
-          title: "Doing",
-          cards: [
-            
-          ],
-        },
-        {
-          id: 3,
-          title: "Done",
-          cards: [
-            
-          ]
-        }
-      ],
-      counter : 0
-    };
-    let document = await Board.create(entrada);
-    console.log( document);
-    return document;
-  } catch (e) {
-    return e.message;
-  }
-};
-
-//modifica um board para usuario
-const updateBoard = async (req, res) => {
-  let userId = req.params.id;
-  try {
-    let doc = await Board.findOneAndUpdate({ userId: userId }, req.body);
-    res.status(200).json({ doc });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Algo de errado ocorreu ao tentar atualizar seu quadro!" });
-  }
-};
-
-//pega um board para usuario
-const getBoard = async (req, res) => {
-  try {
-    let doc = await Board.findOne( 
-      {
-        userId: req.params.id
-      }
-    );
-
-    console.log( doc);
-    res.status(200).json( {doc});
-  } catch (error) {
-    
-    console.error(error);
-    res.status(500).json({ message: "Quadro não encontrado!" });
-  }
-};
-
-export default { create, login, update, get_one,createBoard, updateBoard,   get_all, upload_avatar, get_image_avatar, scriptUpdate, sendmail, resetSenha, getBoard }
+export default {  create, 
+                  login, 
+                  update, 
+                  get_one, 
+                  get_all, 
+                  upload_avatar, 
+                  get_image_avatar, 
+                  send_mail, 
+                  reset_password 
+              };
 

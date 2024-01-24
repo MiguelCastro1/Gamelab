@@ -5,6 +5,7 @@ import multer from "multer"
 import Usuario from "../controllers/userController"
 import { Auth } from "../middlewares/autenticador";
 
+
 const router = express.Router();
 const wayPath = path.resolve("public/avatar");
 
@@ -23,9 +24,9 @@ const multerConfig = multer.diskStorage({
 
 const upload = multer({ storage: multerConfig });
 
-router.post("/", Usuario.createUser);
-router.get("/",Auth, Usuario.listAll);
-router.get("/:id", Auth, Usuario.user);
+router.post("/", Usuario.create);
+router.get("/",Auth, Usuario.get_all);
+router.get("/:id", Auth, Usuario.login);
 router.patch("/:id", Auth, Usuario.update);
 
 //router.get("/:id/quadro")
@@ -33,9 +34,9 @@ router.patch("/:id", Auth, Usuario.update);
 
 router.patch("/avatar/:id",
   upload.single("file"),
-  Usuario.uploadAvatar
+  Usuario.upload_avatar
 );
 
-router.get("/avatar/:id", Auth, Usuario.getImageAvatar);
+router.get("/avatar/:id", Auth, Usuario.get_image_avatar);
 
 export default router;

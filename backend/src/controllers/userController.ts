@@ -6,33 +6,33 @@ import jwt from "jsonwebtoken";
 import path from "path";
 import fs from "fs";
 import nodemailer from "nodemailer";
-import User, { IUser } from "../models/user"
-
-console.log(User)
-const Board = model("Board");
+import User, { IUser, IUserObj } from "../models/user"
+import Board, { IBoard } from "../models/board"
 
 const login = async (req: Request, res: Response) => {
+  const { email, password } = req.body;
 
-  const { email, senha } = req.body;
-
-  if (!email || !senha) {
-    return res.status(500).send("Dados incompletos");
+  if (!email || !password) {
+    return res.status(400).send("Dados incompletos");
   }
 
   try {
-    let usuario = await User.findOne({ email });
-    if (usuario) {
-      let pass = compare(senha, usuario.senha);
+    let user = await User.findOne({ email });
+    
+    if (user) {
+      let pass = compare(password, user.senha);
+
       if (pass) {
         let payload = {
-          id: usuario._id,
-          perfil: usuario.tipoUsuario,
-          nome: usuario.nome,
-          email: usuario.email,
+          id: user._id,
+          perfil: user.perfil,
+          nome: user.nome,
+          email: user.email,
         };
+
         res.status(200).json({
           user: payload,
-          token: jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: "1d" }),
+          token: jwt.sign(payload, process.env.SECRET_KEY ?? "SECRET", { expiresIn: "1d" }),
         });
       } else {
         res.status(401).send("email e/ou senha inválidos");
@@ -45,99 +45,122 @@ const login = async (req: Request, res: Response) => {
   }
 };
 
-const createUser = async (req, res) => {
-
-  let entrada = {
+const create = async (req: Request, res: Response) => {
+  let user_dados: IUser = {
     ...req.body,
     senha: encrypt(req.body.senha),
     imageAvatar: "user_padrao.png",
   };
 
   try {
-    let usuario = await User.create(entrada);
-    res.status(200).json({
-      usuario,
-      message: `${req.body.tipoUsuario} cadastrado com sucesso`,
+    let user = await User.create(user_dados);
+    res.status(201).json({
+      user,
+      message: `${req.body.perfil} cadastrado com sucesso`,
     });
-  } catch (e) {
-    res.status(500).json({ message: e });
+  } catch (error) {
+    res.status(500).json({ message: error });
   }
 };
 
-const update = async (req, res) => {
-  let userId = req.params.id;
+interface IQuery {
+  id: string
+}
+
+const update = async (req: Request<IQuery, {}, IUser>, res: Response) => {
+  let userId = req.params.id
+  let user_dados = req.body;
+  
   try {
-    let usuario = await User.findOneAndUpdate({ _id: userId }, req.body);
-    res.status(200).json({ usuario });
+    let user = await User.findOneAndUpdate({ _id: userId }, user_dados);
+    res.status(201).json({ user });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Erro ao deletar usuários" });
+    res.status(500).json({ message: "Erro ao atualizar usuários" });
   }
 };
 
-const user = async (req, res) => {
+const get_one = async (req: Request, res: Response) => {
   try {
-    let userId = req.params.id;
-    let usuario = await User.findById(userId);
-    res.status(200).json({ usuario });
+    let userId = req.params.id
+    let user = await User.findById(userId);
+
+    if(user){
+      res.status(200).json({ user });
+    }else{
+      res.status(401).send("Usuario não encontrado");
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: error });
   }
 };
 
-const listAll = async (req, res) => {
+const get_all = async (req: Request, res: Response) => {
   try {
-    const usuarios = await User.find({});
-    res.status(200).json({ usuarios });
+    const users = await User.find({});
+    if(users){
+      res.status(200).json({ users });
+    }else{
+      res.status(200).send("Nenhum usuario Encontrado");
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Erro ao listar usuários" });
   }
 };
 
-const uploadAvatar = async (req, res) => {
+const upload_avatar = async (req: Request, res: Response) => {
   let userId = req.params.id;
 
   try {
     if (req.file) {
-      let userAvatar = await User.findOne({ _id: userId });
-      if (userAvatar.pathImageAvatar) {
-        fs.unlink(userAvatar.pathImageAvatar, (err) => {
-          if (err) {
-            // res.status(500).json({ message: "Erro ao alterar a imagem" });
-            return;
+      let user = await User.findOne({ _id: userId });
+
+      if(user){
+        if (user.pathImageAvatar) {
+          fs.unlink(user.pathImageAvatar, (err) => {
+            if (err) {
+                res.status(500).json({ message: "Erro ao alterar a imagem" });
+              return;
+            }
+          });
+        }
+        let new_user = await User.findOneAndUpdate(
+          { _id: userId },
+          {
+            imageAvatar: req.file.filename,
+            pathImageAvatar: req.file.path,
           }
-        });
+        );
+      } else {
+        let new_user = await User.findOneAndUpdate(
+          { _id: userId },
+          {
+            imageAvatar: "user_padrao.png",
+          }
+        );
       }
-      await User.findOneAndUpdate(
-        { _id: userId },
-        {
-          imageAvatar: req.file.filename,
-          pathImageAvatar: req.file.path,
-        }
-      );
-    } else {
-      await User.findOneAndUpdate(
-        { _id: userId },
-        {
-          imageAvatar: "user_padrao.png",
-        }
-      );
+      res.status(200).send("imagem alterada com sucesso");
+    }else{
+      res.status(400).send("Usuario não encontrado");
     }
-    res.status(200).res.send("imagem alterada com sucesso");
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Erro ao alterar a imagem" });
   }
 };
 
-const getImageAvatar = async (req, res) => {
+const get_image_avatar = async (req: Request, res: Response) => {
   try {
     let userId = req.params.id;
-    const { imageAvatar } = await User.findOne({ _id: userId });
-    // console.log(path.resolve(imageAvatar));
-    res.json({ image: imageAvatar });
+    let user = await User.findOne({ _id: userId });
+    
+    if(user){
+      res.status(200).json({ image: user.imageAvatar });
+    }else{
+      res.status(400).send("Usuario não encontrado");
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Erro ao buscar  imagem" });
@@ -364,5 +387,5 @@ const getBoard = async (req, res) => {
   }
 };
 
-export default { createUser, login, update, user,createBoard, updateBoard,   listAll, uploadAvatar, getImageAvatar, scriptUpdate, sendmail, resetSenha, getBoard }
+export default { create, login, update, get_one,createBoard, updateBoard,   get_all, upload_avatar, get_image_avatar, scriptUpdate, sendmail, resetSenha, getBoard }
 

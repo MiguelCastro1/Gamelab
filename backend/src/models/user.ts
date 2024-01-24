@@ -1,10 +1,9 @@
 import {Schema, model, Document} from "mongoose";
-
-export interface IUser extends Document {
+export interface IUser {
   nome: string,
   email: string,
   instituicao?: string,
-  tipoUsuario: string,
+  perfil: string,
   dataNascimento: string,
   matricula: string,
   senha: string,
@@ -13,8 +12,13 @@ export interface IUser extends Document {
   dataIngresso?: string,
   descricaoPerfil?: string,
   imageAvatar?: string,
+  pathImageAvatar?: string,
   tokenRecuperarSenha?: string,
   experiencia?: number,
+}
+
+export interface IUserObj extends IUser, Document {
+
 }
 
 const userSchema = new Schema<IUser>(
@@ -34,7 +38,7 @@ const userSchema = new Schema<IUser>(
       default: "",
       trim: true,
     },
-    tipoUsuario: {
+    perfil: {
       type: String,
       enum: ["professor", "aluno"],
       required: true,
@@ -67,6 +71,9 @@ const userSchema = new Schema<IUser>(
     imageAvatar: {
       type: String,
     },
+    pathImageAvatar: {
+      type: String,
+    },
     tokenRecuperarSenha: {
       type: String,
     },
@@ -81,4 +88,4 @@ const userSchema = new Schema<IUser>(
   }
 );
 
-export default model<IUser>("User", userSchema);
+export default model<IUserObj>("User", userSchema);
